@@ -14,4 +14,7 @@ Gem::Specification.new do |gem|
   gem.name          = "codeqa"
   gem.require_paths = ["lib"]
   gem.version       = Codeqa::VERSION
+
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec",">=2.0.0"
 end

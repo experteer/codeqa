@@ -1,0 +1,107 @@
+module Codeqa
+  class EnsureUtf8 < Checker
+
+  end
+#!/usr/bin/env ruby
+require 'iconv'
+require 'erb'
+
+BINARY=/\.swf$|\.jpg$|\.png$|\.gif$|\.pdf$|\.xls$|\.zip$|\.eot$|\.woff$|\.ttf$/
+
+@exit_code = 0
+@failed_check = {:encoding =>[], :erb =>[],:ruby_syntax=> [],:conflict => [],:yard => []}
+
+def main
+  check_files get_filenames
+  @failed_check.each_pair do |check, files|
+    next if files.empty?
+    puts "!!!!!! #{check.to_s.capitalize} check fails !!!!!!"
+    files.each{|f| puts " * #{f.keys}"}
+  end
+  @exit_code
+end
+
+def exists?(filename)
+  File.exist?(filename)
+end
+
+def add_errors(filename, errors, check)
+  @failed_check[check] << {filename => errors}
+  @exit_code = 1
+end
+
+def get_filenames
+  `git diff --cached --name-only`.split("\n")
+end
+
+
+def check_files(filenames)
+  filenames.each do |filename|
+    if exists?(filename)
+      check_ruby_syntax(filename)
+      check_encoding(filename)
+      check_erb(filename)
+      check_conflict(filename)
+      check_yard(filename)
+    end
+  end
+end
+
+def check_encoding(filename)
+  return if filename =~ BINARY
+  begin
+    out = Iconv.iconv('ucs-2', 'utf-8', File.read(filename))
+  rescue Errno::EINVAL, Errno::EISDIR
+    # filename is a softlink directory
+  rescue Errno::ENOENT
+    #no file? we're not interested
+  rescue  => err
+    add_errors(filename, ["encoding error"], :encoding)
+  end
+end
+
+def check_erb(filename)
+  return unless filename =~ /.*(erb|html|text\.html|text\.plain)$/
+  begin
+    ERB.new(File.read(filename), nil, '-').result
+  rescue SyntaxError
+    puts $!.message
+    puts $!.backtrace.join("\n")
+    add_errors(filename, ["ERB error"], :erb)
+    return
+  rescue Exception
+  end
+end
+
+def check_ruby_syntax(filename)
+  return unless filename =~ /\.rb$/
+  unless system("ruby -c '#{filename}' 1>/dev/null 2>/dev/null")
+    add_errors(filename,["Ruby syntax error"],:ruby_syntax)
+  end
+end
+
+def check_conflict(filename)
+  return if filename =~ BINARY
+  content=File.read(filename)
+  leftovers=content.grep(/\A<<<<<<<|\A>>>>>>>|\A=======\Z/)
+  unless leftovers.empty?
+    add_errors(filename,["#{leftovers.size} lines of conflict leftovers"],:conflict)
+  end
+end
+
+def check_yard(filename)
+  return unless filename =~ /\.rb$/
+  IO.popen("yardoc '#{filename}' --no-save --no-output") do |io| 
+      message=io.read; 
+#      syntax_warnings=message.grep(/\A\[warn\]: [^\Z]*syntax[^\Z]*\Z/i)
+      warnings=message.grep(/\A\[warn\]: /)
+      unless warnings.empty?
+        add_errors(filename,["#{warnings.size} lines of yard warnings"],:yard)
+      else
+        puts "yard check ...........ok"
+      end
+  end
+end
+
+end
+
