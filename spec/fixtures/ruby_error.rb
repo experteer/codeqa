@@ -1,0 +1,2 @@
+class Ok Ok
+end

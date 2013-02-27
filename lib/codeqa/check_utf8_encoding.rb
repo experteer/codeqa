@@ -5,9 +5,17 @@ module Codeqa
       sourcefile.attributes['text']==true
     end
 
+    def name
+      "utf8 encoding"
+    end
+
+    def hint
+      "The file contains non utf8 characters. Find and remove them."
+    end
+
     def check
       begin
-        out = Iconv.iconv('ucs-2', 'utf-8', source.content)
+        out = Iconv.iconv('ucs-2', 'utf-8', sourcefile.content)
       rescue Errno::EINVAL, Errno::EISDIR
         # filename is a softlink directory
       rescue Errno::ENOENT

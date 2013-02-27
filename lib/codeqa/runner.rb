@@ -41,7 +41,15 @@ module Codeqa
 
     def failures
       #return @failures if @failures
-      @failures ||= @result.reject do |checker| checker.success? end
+      @failures ||= @results.reject do |checker| checker.success? end
+    end
+
+    def success?
+      failures.empty?
+    end
+
+    def display_result(options={})
+      RunnerDecorator.new(self,options)
     end
   end
 end

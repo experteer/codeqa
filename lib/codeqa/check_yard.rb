@@ -4,6 +4,14 @@ module Codeqa
       sourcefile.attributes['language']=='ruby'
     end
 
+    def name
+      "yard"
+    end
+
+    def hint
+      "Yard gives us some warnings on the file you can run 'yardoc filename' to check yourself."
+    end
+
     def check
       IO.popen("yardoc '#{source.filename}' --no-save --no-output") do |io|
         message=io.read;

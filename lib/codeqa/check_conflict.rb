@@ -2,6 +2,15 @@ require 'erb'
 module Codeqa
   class CheckConflict < Checker
     LEFTOVER_PATTERN=/\A<<<<<<<|\A>>>>>>>|\A=======\Z/
+
+    def name
+      "conflict"
+    end
+
+    def hint
+      "Remove the lines which are beginning with '<<<<<<<' or '>>>>>>>' or '======='."
+    end
+
     def self.check?(sourcefile)
       sourcefile.attributes['text']==true
     end

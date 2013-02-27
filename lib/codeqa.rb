@@ -3,6 +3,7 @@ require 'codeqa/sourcefile'
 require 'codeqa/checker'
 require 'codeqa/check_errors'
 require 'codeqa/runner'
+require 'codeqa/runner_decorator'
 
 require 'codeqa/check_conflict'
 require 'codeqa/check_erb'

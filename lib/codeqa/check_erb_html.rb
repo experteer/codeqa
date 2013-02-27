@@ -1,10 +1,18 @@
 require 'codeqa/fake_erb'
+require 'open3'
 module Codeqa
   class CheckErbHtml < Checker
     def self.check?(sourcefile)
-      sourcefile.attributes['eruby']==true && sourcefile.attributes['language']=='html'
+      sourcefile.attributes['language']=='html'
     end
 
+    def name
+      "erb html"
+    end
+
+    def hint
+      "The html I see after removing the erb stuff is not valid (find the unclosed tags and attributes)."
+    end
     def check
       html=FakeERB.new(sourcefile.content).result
       result = nil
