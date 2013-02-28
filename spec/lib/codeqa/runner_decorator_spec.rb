@@ -6,6 +6,6 @@ describe Codeqa::RunnerDecorator do
     runner=Codeqa::Runner.run(source)
     runner.should_not be_success
     decorator=Codeqa::RunnerDecorator.new(runner)
-    decorator.to_s.should == "Codeqa on :'ruby.rb'\n\e[31mFailed tests: ruby syntax, utf8 encoding\n\e[0m"
+    decorator.to_s.should match(/ruby syntax/)
   end
 end

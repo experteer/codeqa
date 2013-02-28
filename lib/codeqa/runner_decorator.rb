@@ -1,19 +1,31 @@
 module Codeqa
   class RunnerDecorator
     def initialize(runner, options={})
+      @options={:colors => true}.merge(options)
       @runner=runner
-      @options=options
       @msg=""
     end
 
-    def to_s
-      @msg << info("Codeqa on :'#{@runner.sourcefile.filename}'\n")
+    def sourcefile_to_s
+      info("Codeqa on :'#{@runner.sourcefile.filename}'\n")
+    end
+
+    def success_to_s
       if @runner.success?
-        @msg << success("Passed tests: #{@runner.results.map(&:name).join(', ')}\n")
+        success("Passed tests: #{@runner.results.map(&:name).join(', ')}\n")
       else
-        @msg << error("Failed tests: #{@runner.failures.map(&:name).join(', ')}\n")
-        @msg << error_details
+        error("Failed tests: #{@runner.failures.map(&:name).join(', ')}\n")
       end
+    end
+
+    def details_to_s
+      error_details
+    end
+
+    def to_s
+      @msg << sourcefile_to_s
+      @msg << success_to_s
+      @msg << details_to_s unless @runner.success?
 
       @msg
     end
@@ -46,28 +58,29 @@ module Codeqa
     end
 
 
-    def colorize(color_code,txt)
-      "\e[#{color_code}m#{txt}\e[0m"
+    def colorize(color_code, txt)
+      if @options[:colors]
+        "\e[#{color_code}m#{txt}\e[0m"
+      else
+        txt
+      end
     end
 
     def red(txt)
-      colorize(31,txt)
+      colorize(31, txt)
     end
 
     def green(txt)
-      colorize(32,txt)
+      colorize(32, txt)
     end
 
     def yellow(txt)
-      colorize(33,txt)
+      colorize(33, txt)
     end
 
     def pink(txt)
-      colorize(35,txt)
+      colorize(35, txt)
     end
 
-    def reset
-      "\033[0m"
-    end
   end
 end

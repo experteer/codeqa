@@ -9,7 +9,7 @@ module Codeqa
     end
 
     def hint
-      "Yard gives us some warnings on the file you can run 'yardoc filename' to check yourself."
+      "Yard gives us some warnings on the file you can run <yardoc filename> to check yourself."
     end
 
     def check

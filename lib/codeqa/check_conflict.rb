@@ -8,7 +8,7 @@ module Codeqa
     end
 
     def hint
-      "Remove the lines which are beginning with '<<<<<<<' or '>>>>>>>' or '======='."
+      "Remove the lines which are beginning with <<<<<<< or >>>>>>> or =======."
     end
 
     def self.check?(sourcefile)
