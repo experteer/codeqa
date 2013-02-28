@@ -13,14 +13,15 @@ module Codeqa
     end
 
     def check
-      IO.popen("yardoc '#{source.filename}' --no-save --no-output") do |io|
-        message=io.read;
-        #      syntax_warnings=message.grep(/\A\[warn\]: [^\Z]*syntax[^\Z]*\Z/i)
-        warnings=message.grep(/\A\[warn\]: /)
-        unless warnings.empty?
-          errors.add(nil, "#{warnings.size} lines of yard warnings")
-        else
-          #puts "yard check ...........ok"
+      with_existing_file do |filename|
+        IO.popen("/usr/bin/env yardoc '#{filename}' --no-stats --no-save --no-output") do |io|
+
+          message=io.read;
+          #      syntax_warnings=message.grep(/\A\[warn\]: [^\Z]*syntax[^\Z]*\Z/i)
+          warnings=message.grep(/\A\[warn\]: /)
+          unless warnings.empty?
+            errors.add(nil, message)
+          end
         end
       end
     end
