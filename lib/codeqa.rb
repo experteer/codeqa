@@ -11,6 +11,7 @@ require 'codeqa/check_erb'
 require 'codeqa/check_erb_html'
 require 'codeqa/check_ruby_syntax'
 require 'codeqa/check_utf8_encoding'
+require 'codeqa/check_strange_chars'
 
 module Codeqa
   def self.check(filename, options={})
