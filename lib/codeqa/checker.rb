@@ -32,7 +32,7 @@ module Codeqa
     private
     def with_existing_file(content=sourcefile.content)
 
-      if sourcefile.exist?
+      if sourcefile.exist? && sourcefile.content==content
         yield sourcefile.filename
       else
         Tempfile.open("codeqa") do |tmpfile|
