@@ -11,7 +11,7 @@ module Codeqa
     end
 
     def hint
-      "The file contains a tabs or form feeds. Remove them."
+      "The file contains a tab or form feed. Remove them."
     end
 
     def check
