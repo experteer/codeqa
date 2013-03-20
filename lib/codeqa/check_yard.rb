@@ -1,7 +1,7 @@
 module Codeqa
   class CheckYard < Checker
     def self.check?(sourcefile)
-      sourcefile.attributes['language']=='ruby'
+      sourcefile.attributes['language']=='ruby' and !(sourcefile.filename =~ /^(test|spec)/)
     end
 
     def name
