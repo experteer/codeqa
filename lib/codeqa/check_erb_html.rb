@@ -16,7 +16,7 @@ module Codeqa
     def check
       html=FakeERB.new(sourcefile.content).result
       result = nil
-      html=html.gsub(/<script[ >].*?<\/script>|<style[ >].*?<\/style>/,"<!--removed script/style tag-->")
+      html=html.gsub(/<script[ >].*?<\/script>|<style[ >].*?<\/style>/m,"<!--removed script/style tag-->")
       with_existing_file(html) do |filename|
         Open3.popen3("tidy -q -e -xml '#{filename}'") do |in_stream, out_stream, err_stream|
           message=err_stream.read;

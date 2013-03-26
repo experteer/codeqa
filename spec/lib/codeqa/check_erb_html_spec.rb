@@ -55,6 +55,9 @@ describe Codeqa::CheckErbHtml do
     source=source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
     checker=check_with(Codeqa::CheckErbHtml, source)
     checker.should be_success
+    source=source_with("<div><script>multiline\n</ul></script></div>")
+    checker=check_with(Codeqa::CheckErbHtml, source)
+    checker.should be_success
   end
   it "should ignore javascript" do
     source=source_with("<div><style></ul></style></div>")
