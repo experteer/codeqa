@@ -29,4 +29,4 @@ module Codeqa
   end
 end
 
-Codeqa::Runner.register_checker(Codeqa::CheckErb)
+#Codeqa::Runner.register_checker(Codeqa::CheckErb)

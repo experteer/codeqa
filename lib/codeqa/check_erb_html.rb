@@ -33,4 +33,4 @@ module Codeqa
   end
 end
 
-Codeqa::Runner.register_checker(Codeqa::CheckErbHtml)
+#Codeqa::Runner.register_checker(Codeqa::CheckErbHtml)
