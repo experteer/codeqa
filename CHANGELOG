@@ -1,0 +1,2 @@
+0.1.0 
+  * checking for old style link_to blocks (without equal signs)
