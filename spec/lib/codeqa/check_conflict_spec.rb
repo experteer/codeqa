@@ -12,7 +12,7 @@ describe Codeqa::CheckConflict do
     source=source_with("first line\n<<<<<<<\n=======\nthirdline\n>>>>>>>")
     checker=check_with(Codeqa::CheckConflict, source)
     checker.should be_error
-    checker.errors.details.should == [[nil, "3 line(s) of conflict leftovers"]]
+    checker.errors.details.should == [[nil, "conflict leftovers, please merge properly"]]
   end
 
   it "should find not find if not there " do

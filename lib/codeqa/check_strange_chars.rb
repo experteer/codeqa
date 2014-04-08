@@ -1,4 +1,4 @@
-require 'iconv'
+require 'iconv' unless Codeqa.new_ruby_version
 require 'stringio'
 module Codeqa
   class CheckStrangeChars < Checker

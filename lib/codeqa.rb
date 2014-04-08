@@ -1,18 +1,3 @@
-require "codeqa/version"
-require 'codeqa/sourcefile'
-require 'codeqa/checker'
-require 'codeqa/check_errors'
-require 'codeqa/runner'
-require 'codeqa/runner_decorator'
-
-require 'codeqa/check_conflict'
-require 'codeqa/check_yard'
-require 'codeqa/check_erb'
-require 'codeqa/check_erb_html'
-require 'codeqa/check_ruby_syntax'
-require 'codeqa/check_utf8_encoding'
-require 'codeqa/check_strange_chars'
-require 'codeqa/check_linkto'
 
 module Codeqa
   def self.check(filename, options={})
@@ -30,4 +15,24 @@ module Codeqa
     sourcefile=Codeqa::Sourcefile.new(filename)
     Codeqa::Runner.run(sourcefile)
   end
+  
+  def self.new_ruby_version
+    @new_ruby_version ||= Gem::Version.new(RUBY_VERSION)>=Gem::Version.new("1.9.0")
+  end
 end
+
+require "codeqa/version"
+require 'codeqa/sourcefile'
+require 'codeqa/checker'
+require 'codeqa/check_errors'
+require 'codeqa/runner'
+require 'codeqa/runner_decorator'
+
+require 'codeqa/check_conflict'
+require 'codeqa/check_yard'
+require 'codeqa/check_erb'
+require 'codeqa/check_erb_html'
+require 'codeqa/check_ruby_syntax'
+require 'codeqa/check_utf8_encoding'
+require 'codeqa/check_strange_chars'
+require 'codeqa/check_linkto'

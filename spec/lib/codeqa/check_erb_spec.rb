@@ -16,7 +16,9 @@ describe Codeqa::CheckErb do
     source=source_with("blub<%= def syntax %> ok")
     checker=check_with(Codeqa::CheckErb, source)
     checker.should be_error
-    checker.errors.details.should == [[nil, "compile error\n(erb):1: syntax error, unexpected ')', expecting '\\n' or ';'\n... _erbout.concat(( def syntax ).to_s); _erbout.concat \" ok\"; ...\n                              ^\n(erb):1"]]
+    str=checker.errors.details[0][1]
+
+    str.should =~ Regexp.new(Regexp.escape("(erb):1: syntax error, unexpected ')', expect"))
   end
 
 

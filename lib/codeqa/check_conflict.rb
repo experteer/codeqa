@@ -1,7 +1,7 @@
 require 'erb'
 module Codeqa
   class CheckConflict < Checker
-    LEFTOVER_PATTERN=/\A<<<<<<<|\A>>>>>>>|\A=======\Z/
+    LEFTOVER_PATTERN=/^<<<<<<<|^>>>>>>>|^=======$/m
 
     def name
       "conflict"
@@ -16,9 +16,9 @@ module Codeqa
     end
 
     def check
-      leftovers=sourcefile.content.grep(LEFTOVER_PATTERN)
-      unless leftovers.empty?
-        errors.add(nil, "#{leftovers.size} line(s) of conflict leftovers")
+      leftovers=sourcefile.content.match(LEFTOVER_PATTERN)
+      if leftovers
+        errors.add(nil, "conflict leftovers, please merge properly")
       end
     end
   end

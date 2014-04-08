@@ -15,6 +15,7 @@ module Codeqa
 
     def check
       with_existing_file do |filename|
+
         command="/usr/bin/env ruby -c '#{filename}' 1>/dev/null 2>/dev/null"
         unless system(command)
           errors.add(nil, "Ruby syntax error")

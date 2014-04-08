@@ -18,8 +18,8 @@ module Codeqa
 
           message=io.read;
           #      syntax_warnings=message.grep(/\A\[warn\]: [^\Z]*syntax[^\Z]*\Z/i)
-          warnings=message.grep(/\A\[warn\]: /)
-          unless warnings.empty?
+          warnings=message.match(/\A\[warn\]: /)
+          if warnings
             errors.add(nil, message)
           end
         end
