@@ -16,8 +16,8 @@ module Codeqa
     end
 
     def check
-      leftovers=sourcefile.content.grep(OLD_STYLE_LINKTO_PATTERN)
-      unless leftovers.empty?
+      leftovers=sourcefile.content.match(OLD_STYLE_LINKTO_PATTERN)
+      if leftovers
         errors.add(nil, "#{leftovers.size} line(s) of old style block link_to")
       end
     end
