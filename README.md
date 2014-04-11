@@ -1,6 +1,7 @@
 # Codeqa
 
-TODO: Write a gem description
+With codeqa you can check your code to comply to certain coding rules (utf8 only chars, indenting) or to avoid typical errors or
+enforce deprecations. You might even put it into a pre commit hook.
 
 ## Installation
 
@@ -18,7 +19,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+codeqa filename
 
 ## Contributing
 
