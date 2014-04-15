@@ -1,4 +1,8 @@
-require 'erb'
+begin
+  require 'action_view'
+rescue LoadError
+  require 'erb'
+end
 module Codeqa
   module Checkers
     class CheckErb < Checker
@@ -16,7 +20,12 @@ module Codeqa
 
       def check
         begin
-          ERB.new(sourcefile.content, nil, '-').result
+          if defined?(ActionView)
+            ActionView::Template::Handlers::Erubis.new(erb).result
+          else
+            ERB.new(sourcefile.content.gsub('<%=','<%'), nil, '-').result
+            # ERB.new(sourcefile.content, nil, '-').result
+          end
         rescue SyntaxError
           msg= $!.message
           msg << "\n"
@@ -24,7 +33,7 @@ module Codeqa
           errors.add(nil, msg)
           return
         rescue Exception
-
+          # valid syntax - just to proper setup for the template/rendering is missing
         end
       end
     end

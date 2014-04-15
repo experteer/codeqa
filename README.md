@@ -24,7 +24,6 @@ codeqa filename
 ## Todo
 
 * load a config to set checkers, and global setting (silence)
-* rails3 erb/html parser
 * load config from filesystem (global down, /etc/codeqa/config)
 * config to skip codeqa on special files
 * rake task to check all checked in files of a repo

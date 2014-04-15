@@ -21,7 +21,7 @@ describe Codeqa::Checkers::CheckErb do
     checker.should be_error
     str=checker.errors.details[0][1]
 
-    str.should =~ Regexp.new(Regexp.escape("(erb):1: syntax error, unexpected ')', expect"))
+    str.should =~ Regexp.new(Regexp.escape("(erb):1: syntax error, unexpected end-of-input, expect"))
   end
 
 

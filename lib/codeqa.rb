@@ -37,8 +37,8 @@ require 'codeqa/checkers/check_utf8_encoding'
 require 'codeqa/checkers/check_strange_chars'
 require 'codeqa/checkers/check_linkto'
 
-#Codeqa::Runner.register_checker(Codeqa::Checkers::CheckErb)
-#Codeqa::Runner.register_checker(Codeqa::Checkers::CheckErbHtml)
+Codeqa::Runner.register_checker(Codeqa::Checkers::CheckErb)
+Codeqa::Runner.register_checker(Codeqa::Checkers::CheckErbHtml)
 Codeqa::Runner.register_checker(Codeqa::Checkers::CheckLinkto)
 Codeqa::Runner.register_checker(Codeqa::Checkers::CheckRubySyntax)
 Codeqa::Runner.register_checker(Codeqa::Checkers::CheckStrangeChars)
