@@ -1,0 +1,28 @@
+Include:
+  - 'Rakefile'
+  - 'Guardfile'
+
+Exclude:
+  - 'vendor/**/*'
+
+CheckErb:
+  Enabled: true
+  Pattern: '*.erb'
+CheckErbHtml:
+  Enabled: true
+  Pattern: '*.hmtl.erb'
+CheckLinkto:
+  Enabled: true
+  Pattern: '*.hmtl.erb'
+CheckRubySyntax:
+  Enabled: true
+  Pattern: '*.rb'
+CheckStrangeChars:
+  Enabled: true
+CheckUtf8Encoding:
+  Enabled: true
+CheckYard:
+  Enabled: true
+  Pattern: '*.rb'
+CheckConflict:
+  Enabled: true
