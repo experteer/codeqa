@@ -28,4 +28,3 @@ def source_with(content='#ruby file', filename='prog.rb')
   Codeqa::Sourcefile.new(filename, content)
 end
 
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
