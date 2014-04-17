@@ -1,3 +1,5 @@
+# vim: ft=ruby
+
 module Codeqa
   class EnsureUtf8 < Checker
 

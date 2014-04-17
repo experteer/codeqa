@@ -3,19 +3,21 @@
 require 'rubygems'
 require 'codeqa'
 
-file_to_test=ARGV[0]
-if file_to_test && File.exist?(file_to_test)
-  sourcefile=Codeqa::Sourcefile.new(file_to_test)
-  runner=Codeqa::Runner.run(sourcefile)
-  if runner.success?
-    $stdout.puts runner.display_result
-    exitcode=0
+errors = ARGV.map do |file_to_test|
+  if file_to_test && File.exist?(file_to_test)
+    sourcefile=Codeqa::Sourcefile.new(file_to_test)
+    runner=Codeqa::Runner.run(sourcefile)
+    if runner.success?
+      $stdout.puts runner.display_result
+      false
+    else
+      $stderr.puts runner.display_result
+      true
+    end
   else
-    $stderr.puts runner.display_result
-    exitcode=1
+    $stderr.puts "no file given or file doesn't exist"
+    false
   end
-  exit exitcode
-else
-  $stderr.puts "no file given or file doesn't exist"
-  exit 1
-end
+end.any?{|e| e }
+
+exit 1 if errors
