@@ -88,6 +88,6 @@ module Codeqa
           return nil if dir_pathname.to_s == home_dir
         end
       end
-   end
+    end
   end
 end
