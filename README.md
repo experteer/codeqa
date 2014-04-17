@@ -21,6 +21,22 @@ Or install it yourself as:
 
 codeqa filename
 
+
+## Config
+
+The behavior of Codeqa can be controlled via the `.codeqa.yml` configuration
+file. It makes it possible to enable/disable checker.
+The configuration will be loaded in three steps:
+
+1. Initialize with default settings (see `config/default.yml`)
+2. load `.codeqa.yml` from your home directory and merge it with the defaults.
+3. load `.codeqa.yml` placed in the project root, which is determined by finding
+  the closest `.git` folder.
+
+Both the config in your home directory and the project config file are optional
+and will be automatically skiped if they do not exist.
+
+
 ## Todo
 
 * load a config to set checkers, and global setting (silence)

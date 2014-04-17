@@ -41,9 +41,9 @@ module Codeqa
         result = base_hash.merge(derived_hash)
         keys_appearing_in_both = base_hash.keys & derived_hash.keys
         keys_appearing_in_both.each do |key|
-          if base_hash[key].is_a?(Hash)
+          if base_hash[key].is_a?(Hash) && derived_hash[key]
             result[key] = deep_merge(base_hash[key], derived_hash[key])
-          elsif base_hash[key].is_a?(Array)
+          elsif base_hash[key].is_a?(Array) && derived_hash[key]
             result[key] = base_hash[key] | derived_hash[key]
           end
         end
@@ -56,11 +56,19 @@ module Codeqa
                                    end
       end
       def home_configuration
-        load_file(File.join(home_dir, DOTFILE))
+        home_dir_config = File.join(home_dir, DOTFILE)
+        if File.exist? home_dir_config
+          load_file(home_dir_config)
+        else
+          {}
+        end
       end
       def project_configuration
-        if project_root
-          load_file(File.join(project_root, DOTFILE))
+        project_root_config = File.join(project_root, DOTFILE)
+        if File.exist? project_root_config
+          load_file(File.join(project_root_config, DOTFILE))
+        else
+          {}
         end
       end
       def home_dir
@@ -75,8 +83,8 @@ module Codeqa
       end
       # ascend from the current dir till I find a .git folder or reach home_dir
       def git_root_till_home
-        Pathname.new(File.expand_path(target_dir)).ascend do |dir_pathname|
-          return dir_pathname.to_s if File.directory?("#{e}/.git")
+        Pathname.new(Dir.pwd).ascend do |dir_pathname|
+          return dir_pathname.to_s if File.directory?("#{dir_pathname.to_s}/.git")
           return nil if dir_pathname.to_s == home_dir
         end
       end
