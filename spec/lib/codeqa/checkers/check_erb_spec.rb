@@ -6,13 +6,13 @@ describe Codeqa::Checkers::CheckErb do
   end
   it "should check erb files" do
     source = source_with("", "file.html.erb")
-    checker_class.check?(source).should == true
+    checker_class.check?(source).should be == true
     source = source_with("", "test.rhtml")
-    checker_class.check?(source).should == true
+    checker_class.check?(source).should be == true
     source = source_with("", "test.text.html")
-    checker_class.check?(source).should == true
+    checker_class.check?(source).should be == true
     source = source_with('', 'zipped.zip')
-    checker_class.check?(source).should == false
+    checker_class.check?(source).should be == false
   end
 
   it "should detect syntax errors in the erb" do

@@ -6,9 +6,9 @@ describe Codeqa::Checkers::CheckYard do
   end
   it "should check rb files" do
     source = source_with("", "file.rb")
-    checker_class.check?(source).should == true
+    checker_class.check?(source).should be == true
     source = source_with("", "test.rhtml")
-    checker_class.check?(source).should == false
+    checker_class.check?(source).should be == false
   end
 
   it "should detect yard errors" do
