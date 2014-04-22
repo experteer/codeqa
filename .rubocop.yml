@@ -41,13 +41,16 @@ SignalException:
     EnforcedStyle: only_raise
 
 
-# Disabled cops ------------------------------
+CollectionMethods:
+  Enabled: true
 
 MethodLength:
-  Enabled: false
+  Enabled: true
   CountComments: false # count full line comments?
   Max: 10
   Severity: refactor
+ 
+# Disabled cops ------------------------------
 
 ClassLength:
   Enabled: false
@@ -69,9 +72,6 @@ PerlBackrefs:
 StringLiterals:
   Enabled: false
   EnforcedStyle: double_quotes
-
-CollectionMethods:
-  Enabled: false
 
 SpecialGlobalVars:
   Enabled: false
