@@ -18,6 +18,7 @@ module Codeqa
         "There is a syntax error in the ruby code of the erb parsed file."
       end
 
+      # rubocop:disable RescueException,HandleExceptions
       def check
         if defined?(ActionView)
           ActionView::Template::Handlers::Erubis.new(erb).result
@@ -34,6 +35,7 @@ module Codeqa
       rescue Exception
         # valid syntax - just the proper setup for the template/rendering is missing
       end
+      # rubocop:enable RescueException,HandleExceptions
     end
   end
 end

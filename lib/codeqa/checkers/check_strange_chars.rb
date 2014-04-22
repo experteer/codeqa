@@ -20,7 +20,8 @@ module Codeqa
         lineno = 1
         StringIO.open(sourcefile.content) do |fd|
           fd.readlines.each do |line|
-            if pos = (line =~ strange)
+            pos = (line =~ strange)
+            if pos
               strangeness = ($1 == "\x09" ? 'TAB x09' : 'FORM FEED x0C')
               errors.add("#{lineno},#{pos + 1}", "#{strangeness} at line #{lineno} column #{pos + 1}")
             end

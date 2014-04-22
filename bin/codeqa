@@ -47,4 +47,3 @@ if options[:failfast]
 else
   exit 1 unless files_to_check.map{|e| Codeqa.check(e, options)}.all?
 end
-

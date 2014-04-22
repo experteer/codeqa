@@ -1,6 +1,7 @@
 module Codeqa
   # copied from ERB
   # throws away all the erb stuff so only html remains
+  # rubocop:disable LineLength, CyclomaticComplexity, BlockNesting
   class FakeERB < ERB
     def initialize(str, safe_level=nil, trim_mode=nil, eoutvar='_erbout', compiler_class=FakeERB::Compiler)
       @safe_level = safe_level
@@ -74,4 +75,5 @@ module Codeqa
       end
     end
   end
+  # rubocop:enable LineLength, CyclomaticComplexity, BlockNesting
 end

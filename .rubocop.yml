@@ -1,8 +1,7 @@
-# inherit_from: rubocop-todo.yml
 
-FileName:
+AllCops:
   Exclude:
-    - Guardfile
+    - spec/fixtures/ruby_error.rb
 
 # changed config ---------------------------
 

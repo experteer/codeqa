@@ -25,9 +25,9 @@ module Codeqa
     end
 
     attr_reader :errors
-    # private
 
   private
+
     def with_existing_file(content=sourcefile.content)
       if sourcefile.exist? && sourcefile.content == content
         yield sourcefile.filename

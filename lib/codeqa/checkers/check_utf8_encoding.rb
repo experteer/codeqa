@@ -22,8 +22,9 @@ module Codeqa
           end
         end
       else
+        # rubocop:disable RescueException,HandleExceptions
         def check
-          out = Iconv.iconv('ucs-2', 'utf-8', sourcefile.content)
+          Iconv.iconv('ucs-2', 'utf-8', sourcefile.content)
         rescue Errno::EINVAL, Errno::EISDIR
           # filename is a softlink directory
         rescue Errno::ENOENT
@@ -31,6 +32,7 @@ module Codeqa
         rescue# => err
           errors.add(nil, "encoding error, not utf8")
         end
+        # rubocop:enable RescueException,HandleExceptions
       end
     end
   end
