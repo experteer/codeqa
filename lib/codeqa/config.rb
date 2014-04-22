@@ -1,18 +1,20 @@
 require 'singleton'
 module Codeqa
-  class Config# < DelegateClass(Hash)
+  class Config
     include Singleton
+    attr_reader :loaded
 
     def self.load
       self.instance.set_config(ConfigLoader.get_config_hash)
       self.instance
     end
-    def self.for(checker_klass)
-      self.instance[checker_klass.to_s.split('::').last]
+    def self.loaded?
+      self.instance.loaded
     end
 
     def set_config(hash)
       @hash = hash
+      @loaded = true
     end
     def excluded?(file)
       file = File.join(Dir.pwd, file) unless file.start_with?('/')

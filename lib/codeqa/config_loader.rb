@@ -16,7 +16,7 @@ module Codeqa
       def load_file(path)
         path = File.absolute_path(path)
         hash = YAML.load_file(path) || {}
-        puts "configuration from #{path}"
+        # puts "configuration from #{path}"
 
         make_excludes_absolute(hash)
       end
@@ -51,9 +51,7 @@ module Codeqa
       end
 
       def default_configuration
-        @default_configuration ||= begin
-                                     load_file(DEFAULT_FILE)
-                                   end
+        load_file(DEFAULT_FILE)
       end
       def home_configuration
         home_dir_config = File.join(home_dir, DOTFILE)
@@ -66,7 +64,7 @@ module Codeqa
       def project_configuration
         project_root_config = File.join(project_root, DOTFILE)
         if File.exist? project_root_config
-          load_file(File.join(project_root_config, DOTFILE))
+          load_file(project_root_config)
         else
           {}
         end

@@ -19,6 +19,14 @@ module Codeqa
   def self.new_ruby_version
     @new_ruby_version ||= Gem::Version.new(RUBY_VERSION)>=Gem::Version.new("1.9.0")
   end
+
+  def self.config
+    if Config.loaded?
+      Config.instance
+    else
+      Config.load
+    end
+  end
 end
 
 require "codeqa/version"
@@ -40,8 +48,6 @@ require 'codeqa/checkers/check_linkto'
 require 'codeqa/config'
 require 'codeqa/config_loader'
 
-config = Codeqa::Config.load
-
 [ Codeqa::Checkers::CheckErb,
   Codeqa::Checkers::CheckErbHtml,
   Codeqa::Checkers::CheckLinkto,
@@ -51,6 +57,6 @@ config = Codeqa::Config.load
   Codeqa::Checkers::CheckYard,
   Codeqa::Checkers::CheckConflict
 ].each do |checker_klass|
-  Codeqa::Runner.register_checker(checker_klass) if config.enabled?(checker_klass)
+  Codeqa::Runner.register_checker(checker_klass) if Codeqa.config.enabled?(checker_klass)
 end
 
