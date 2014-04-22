@@ -4,7 +4,7 @@ module Codeqa
   module Checkers
     class CheckErbHtml < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['language']=='html'
+        sourcefile.attributes['language'] == 'html'
       end
 
       def name
@@ -16,26 +16,24 @@ module Codeqa
       end
 
       def check
-        html=FakeERB.new(sourcefile.content.gsub('<%=','<%')).result
+        html = FakeERB.new(sourcefile.content.gsub('<%=', '<%')).result
         result = nil
-        html= if html.respond_to?(:force_encoding)
-                html.force_encoding("UTF-8")
-              end
+        html =  if html.respond_to?(:force_encoding)
+                  html.force_encoding("UTF-8")
+                end
         html.gsub!(/<script[ >].*?<\/script>|<style[ >].*?<\/style>/m, "<!--removed script/style tag-->")
         with_existing_file(html) do |filename|
           Open3.popen3("tidy -q -e -xml '#{filename}'") do |in_stream, out_stream, err_stream|
-            message=err_stream.read;
-            result=message if message =~ /(Error:|missing trailing quote|end of file while parsing attributes)/m
+            message = err_stream.read
+            result = message if message =~ /(Error:|missing trailing quote|end of file while parsing attributes)/m
           end # IO.popen
-        end #Tempfile
+        end # Tempfile
 
         if result
           errors.add(nil, html)
           errors.add(nil, result)
         end
-
       end
     end
   end
 end
-

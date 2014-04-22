@@ -8,7 +8,7 @@ module Codeqa
     DEFAULT_FILE = File.join(CODEQA_HOME, 'config', 'default.yml')
 
     class << self
-      def get_config_hash
+      def build_config
         tmp = deep_merge(default_configuration, home_configuration)
         deep_merge(tmp, project_configuration)
       end
@@ -53,6 +53,7 @@ module Codeqa
       def default_configuration
         load_file(DEFAULT_FILE)
       end
+
       def home_configuration
         home_dir_config = File.join(home_dir, DOTFILE)
         if File.exist? home_dir_config
@@ -61,6 +62,7 @@ module Codeqa
           {}
         end
       end
+
       def project_configuration
         project_root_config = File.join(project_root, DOTFILE)
         if File.exist? project_root_config
@@ -69,6 +71,7 @@ module Codeqa
           {}
         end
       end
+
       def home_dir
         @home_dir ||= if Dir.respond_to?(:home)
                         Dir.home
@@ -76,13 +79,14 @@ module Codeqa
                         File.expand_path("~")
                       end
       end
+
       def project_root
         @project_root ||= git_root_till_home
       end
       # ascend from the current dir till I find a .git folder or reach home_dir
       def git_root_till_home
         Pathname.new(Dir.pwd).ascend do |dir_pathname|
-          return dir_pathname.to_s if File.directory?("#{dir_pathname.to_s}/.git")
+          return dir_pathname.to_s if File.directory?("#{dir_pathname}/.git")
           return nil if dir_pathname.to_s == home_dir
         end
       end

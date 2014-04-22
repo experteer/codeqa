@@ -45,5 +45,6 @@ if options[:failfast]
     exit 1 unless Codeqa.check(file, options)
   end
 else
-  exit 1 unless files_to_check.all?{|e| Codeqa.check(e, options)}
+  exit 1 unless files_to_check.map{|e| Codeqa.check(e, options)}.all?
 end
+
