@@ -1,0 +1,19 @@
+Exclude:
+  - 'vendor/**/*'
+
+CheckErb:
+  Enabled: true
+CheckErbHtml:
+  Enabled: true
+CheckLinkto:
+  Enabled: true
+CheckRubySyntax:
+  Enabled: true
+CheckStrangeChars:
+  Enabled: true
+CheckUtf8Encoding:
+  Enabled: true
+CheckYard:
+  Enabled: true
+CheckConflict:
+  Enabled: true

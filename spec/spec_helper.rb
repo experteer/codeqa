@@ -27,3 +27,4 @@ end
 def source_with(content='#ruby file', filename='prog.rb')
   Codeqa::Sourcefile.new(filename, content)
 end
+

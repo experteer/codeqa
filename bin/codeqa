@@ -5,6 +5,10 @@ require 'codeqa'
 
 errors = ARGV.map do |file_to_test|
   if file_to_test && File.exist?(file_to_test)
+    if Codeqa::Config.instance.excluded?(file_to_test)
+      $stderr.puts "#{file_to_test} excluded"
+      next true
+    end
     sourcefile=Codeqa::Sourcefile.new(file_to_test)
     runner=Codeqa::Runner.run(sourcefile)
     if runner.success?
