@@ -16,13 +16,7 @@ module Codeqa
       end
 
       def check
-        html = FakeERB.new(sourcefile.content.gsub('<%=', '<%')).result
         result = nil
-        html =  if html.respond_to?(:force_encoding)
-                  html.force_encoding("UTF-8")
-                end
-        html.gsub!(%r{<script[ >].*?</script>|<style[ >].*?</style>}m,
-                   "<!--removed script/style tag-->")
         with_existing_file(html) do |filename|
           Open3.popen3("tidy -q -e -xml '#{filename}'") do |in_stream, out_stream, err_stream|
             message = err_stream.read
@@ -36,6 +30,15 @@ module Codeqa
           errors.add(nil, html)
           errors.add(nil, result)
         end
+      end
+
+      def html
+        @html ||= begin
+                    html=FakeERB.new(sourcefile.content.gsub('<%=','<%')).result
+                    html= html.force_encoding("UTF-8") if html.respond_to?(:force_encoding)
+                    html.gsub(%r{<script[ >].*?</script>|<style[ >].*?</style>}m,
+                              "<!--removed script/style tag-->")
+                  end
       end
     end
   end

@@ -39,11 +39,10 @@ ARGV.options do |opts|
   end
 end
 
-files_to_check = ARGV.reject{ |e| Codeqa.config.excluded?(e) }
+files_to_check = ARGV.reject{|e| Codeqa.config.excluded?(e)}
+puts "#{files_to_check.count} files to check"
 if options[:failfast]
-  files_to_check.each do |file|
-    exit 1 unless Codeqa.check(file, options)
-  end
+  exit 1 unless files_to_check.all?{|e| Codeqa.check(e, options)}
 else
-  exit 1 unless files_to_check.map{ |e| Codeqa.check(e, options) }.all?
+  exit 1 unless files_to_check.map{|e| Codeqa.check(e, options)}.all?
 end

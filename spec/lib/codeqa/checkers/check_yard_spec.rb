@@ -9,8 +9,8 @@ describe Codeqa::Checkers::CheckYard do
   end
 
   it "should detect yard errors" do
-    source = source_with("# @paramsssss\nclass MyClass\nend")
-    checker = check_with(described_class, source)
+    source=source_with("# @paramsssss\nclass MyClass\nend", 'file.rb')
+    checker=check_with(described_class, source)
     checker.should be_error
     detail = checker.errors.details[0][1]
     detail.should match(/Unknown tag @paramsssss in file/)

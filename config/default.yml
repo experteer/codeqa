@@ -8,6 +8,8 @@ CheckErbHtml:
 CheckLinkto:
   Enabled: true
 CheckRubySyntax:
+  Enabled: false
+RubocopLint:
   Enabled: true
 CheckStrangeChars:
   Enabled: true

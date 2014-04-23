@@ -1,9 +1,17 @@
+require 'stringio'
+require 'yard'
+
 module Codeqa
   module Checkers
     class CheckYard < Checker
       def self.check?(sourcefile)
         sourcefile.attributes['language'] == 'ruby' && !(sourcefile.filename =~ /^(test|spec)/)
       end
+
+      def self.io
+        @@io ||= StringIO.new
+      end
+      ::YARD::Logger.instance(io) # replace YARD logger with io
 
       def name
         "yard"
@@ -14,15 +22,19 @@ module Codeqa
       end
 
       def check
-        with_existing_file do |filename|
-          IO.popen("/usr/bin/env yardoc '#{filename}' --no-stats --no-save --no-output") do |io|
+        ::YARD.parse_string(sourcefile.content) # let yard parse the file content
+        io.rewind # rewind the io
+        message = io.read
+        warnings = message.match(/\A\[warn\]: /)
+        errors.add(nil, message.gsub(/\(stdin\)/, sourcefile.filename)) if warnings
+      ensure
+        io.reopen # clear the message for the next file
+      end
 
-            message = io.read
-            #      syntax_warnings=message.grep(/\A\[warn\]: [^\Z]*syntax[^\Z]*\Z/i)
-            warnings = message.match(/\A\[warn\]: /)
-            errors.add(nil, message) if warnings
-          end
-        end
+    private
+
+      def io
+        self.class.io
       end
     end
   end
