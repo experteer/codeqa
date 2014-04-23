@@ -3,25 +3,47 @@
 require 'rubygems'
 require 'codeqa'
 
-errors = ARGV.map do |file_to_test|
-  if file_to_test && File.exist?(file_to_test)
-    if Codeqa::Config.instance.excluded?(file_to_test)
-      $stderr.puts "#{file_to_test} excluded"
-      next true
-    end
-    sourcefile=Codeqa::Sourcefile.new(file_to_test)
-    runner=Codeqa::Runner.run(sourcefile)
-    if runner.success?
-      $stdout.puts runner.display_result
-      false
-    else
-      $stderr.puts runner.display_result
-      true
-    end
-  else
-    $stderr.puts "no file given or file doesn't exist"
-    false
-  end
-end.any?{|e| e }
+require "optparse"
 
-exit 1 if errors
+options = {:silent => false, :failfast => true}
+
+ARGV.options do |opts|
+  opts.banner = "Usage:  #{File.basename($PROGRAM_NAME)} [OPTIONS] FILES"
+
+  opts.separator ""
+  opts.separator "Specific Options:"
+
+  opts.on( "-s", "--silent", "No output if no error" ) do |opt|
+    options[:silent] = true
+  end
+  # opts.on( "-ss", "--silent-success", "No output if not error" ) do |opt|
+  #   options[:silent] = true
+  # end
+  opts.on( "-f", "--fail-fast", "Fail right after the first error." ) do |opt|
+    options[:failfast] = true
+  end
+
+  opts.separator "Common Options:"
+
+  opts.on( "-h", "--help",
+           "Show this message." ) do
+    puts opts
+    exit
+  end
+
+  begin
+    opts.parse!
+  rescue
+    puts opts
+    exit
+  end
+end
+
+files_to_check = ARGV.reject{|e| Codeqa.config.excluded?(e)}
+if options[:failfast]
+  files_to_check.each do |file|
+    exit 1 unless Codeqa.check(file, options)
+  end
+else
+  exit 1 unless files_to_check.all?{|e| Codeqa.check(e, options)}
+end
