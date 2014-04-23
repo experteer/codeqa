@@ -52,6 +52,9 @@ MethodLength:
  
 # Disabled cops ------------------------------
 
+DoubleNegation:
+  Enabled: false
+
 ClassLength:
   Enabled: false
   CountComments: false # count full line comments?
