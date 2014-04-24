@@ -41,7 +41,7 @@ describe Codeqa::ConfigLoader do
         "CheckYard"=>{"Enabled"=>true},
         "CheckConflict"=>{"Enabled"=>true}
       }
-      expect(described_class.get_config_hash).to eql(config)
+      expect(described_class.build_config).to eql(config)
     end
   end
   context "#deep_merge" do
