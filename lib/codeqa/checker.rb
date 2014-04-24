@@ -1,10 +1,9 @@
 require 'tempfile'
 module Codeqa
   class Checker
-
     def initialize(sourcefile)
-      @errors=CheckErrors.new
-      @sourcefile=sourcefile
+      @errors = CheckErrors.new
+      @sourcefile = sourcefile
     end
 
     attr_reader :sourcefile
@@ -26,13 +25,11 @@ module Codeqa
     end
 
     attr_reader :errors
-    #private
 
+  private
 
-    private
     def with_existing_file(content=sourcefile.content)
-
-      if sourcefile.exist? && sourcefile.content==content
+      if sourcefile.exist? && sourcefile.content == content
         yield sourcefile.filename
       else
         Tempfile.open("codeqa") do |tmpfile|
@@ -43,6 +40,5 @@ module Codeqa
         end
       end
     end
-
   end
 end

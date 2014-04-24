@@ -19,7 +19,7 @@ RSpec.configure do |config|
 end
 
 def check_with(klass, source)
-  checker=klass.new(source)
+  checker = klass.new(source)
   checker.check
   checker
 end
@@ -27,4 +27,3 @@ end
 def source_with(content='#ruby file', filename='prog.rb')
   Codeqa::Sourcefile.new(filename, content)
 end
-

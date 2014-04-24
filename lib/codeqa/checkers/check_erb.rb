@@ -7,7 +7,7 @@ module Codeqa
   module Checkers
     class CheckErb < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['eruby']==true
+        sourcefile.attributes['eruby'] == true
       end
 
       def name
@@ -18,25 +18,24 @@ module Codeqa
         "There is a syntax error in the ruby code of the erb parsed file."
       end
 
+      # rubocop:disable RescueException,HandleExceptions
       def check
-        begin
-          if defined?(ActionView)
-            ActionView::Template::Handlers::Erubis.new(erb).result
-          else
-            ERB.new(sourcefile.content.gsub('<%=','<%'), nil, '-').result
-            # ERB.new(sourcefile.content, nil, '-').result
-          end
-        rescue SyntaxError
-          msg= $!.message
-          msg << "\n"
-          msg += $!.backtrace.join("\n")
-          errors.add(nil, msg)
-          return
-        rescue Exception
-          # valid syntax - just to proper setup for the template/rendering is missing
+        if defined?(ActionView)
+          ActionView::Template::Handlers::Erubis.new(erb).result
+        else
+          ERB.new(sourcefile.content.gsub('<%=', '<%'), nil, '-').result
+          # ERB.new(sourcefile.content, nil, '-').result
         end
+      rescue SyntaxError
+        msg = $!.message
+        msg << "\n"
+        msg += $!.backtrace.join("\n")
+        errors.add(nil, msg)
+        return
+      rescue Exception
+        # valid syntax - just the proper setup for the template/rendering is missing
       end
+      # rubocop:enable RescueException,HandleExceptions
     end
   end
 end
-

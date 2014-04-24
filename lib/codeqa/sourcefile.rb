@@ -1,14 +1,14 @@
 module Codeqa
   class Sourcefile
-    BINARY_PATTERN=/\.(swf|jpg|png|gif|pdf|xls|zip|eot|woff|ttf|mo|so)$/
-    ERB_PATTERN=/\.(erb|rhtml|text\.html|text\.plain)$/
-    HTML_PATTERN=/\.(rhtml|html|text\.html)/
-    RUBY_PATTERN=/\.rb$/
+    BINARY_PATTERN = /\.(swf|jpg|png|gif|pdf|xls|zip|eot|woff|ttf|mo|so)$/
+    ERB_PATTERN = /\.(erb|rhtml|text\.html|text\.plain)$/
+    HTML_PATTERN = /\.(rhtml|html|text\.html)/
+    RUBY_PATTERN = /\.rb$/
 
     def initialize(filename, content=nil)
-      @filename=filename
-      @content=content
-      #ensure_file
+      @filename = filename
+      @content = content
+      # ensure_file
     end
 
     attr_reader :filename
@@ -19,31 +19,32 @@ module Codeqa
 
     def attributes
       return @attributes if @attributes
-      @attributes={}
+      @attributes = {}
       if binary?
-        @attributes['binary']=true
-        @attributes['text']=false
+        @attributes['binary'] = true
+        @attributes['text'] = false
       else
-        @attributes['binary']=false
-        @attributes['text']=true
+        @attributes['binary'] = false
+        @attributes['text'] = true
       end
-      @attributes['eruby']=true if erb?
-      @attributes['language']='ruby' if ruby?
-      @attributes['language']='html' if html?
+      @attributes['eruby'] = true if erb?
+      @attributes['language'] = 'ruby' if ruby?
+      @attributes['language'] = 'html' if html?
       @attributes
     end
 
     def exist?
       File.exist?(filename)
     end
-    private
+
+  private
 
     def binary?
       filename =~ BINARY_PATTERN
     end
 
     def ruby?
-      filename =~RUBY_PATTERN
+      filename =~ RUBY_PATTERN
     end
 
     def erb?
@@ -53,6 +54,5 @@ module Codeqa
     def html?
       filename =~ HTML_PATTERN
     end
-
   end
 end

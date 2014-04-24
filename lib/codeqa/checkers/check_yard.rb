@@ -2,7 +2,7 @@ module Codeqa
   module Checkers
     class CheckYard < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['language']=='ruby' and !(sourcefile.filename =~ /^(test|spec)/)
+        sourcefile.attributes['language'] == 'ruby' && !(sourcefile.filename =~ /^(test|spec)/)
       end
 
       def name
@@ -17,12 +17,10 @@ module Codeqa
         with_existing_file do |filename|
           IO.popen("/usr/bin/env yardoc '#{filename}' --no-stats --no-save --no-output") do |io|
 
-            message=io.read;
+            message = io.read
             #      syntax_warnings=message.grep(/\A\[warn\]: [^\Z]*syntax[^\Z]*\Z/i)
-            warnings=message.match(/\A\[warn\]: /)
-            if warnings
-              errors.add(nil, message)
-            end
+            warnings = message.match(/\A\[warn\]: /)
+            errors.add(nil, message) if warnings
           end
         end
       end

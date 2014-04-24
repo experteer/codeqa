@@ -1,7 +1,7 @@
 module Codeqa
   def self.check(filename, options={})
-    options={:silent_success => false, :silent => false}.merge(options)
-    runner=self.runner(filename)
+    options = { :silent_success => false, :silent => false }.merge(options)
+    runner = self.runner(filename)
     if runner.success?
       $stdout.puts(runner.display_result) unless options[:silent_success] || options[:silent]
       true
@@ -12,12 +12,12 @@ module Codeqa
   end
 
   def self.runner(filename)
-    sourcefile=Codeqa::Sourcefile.new(filename)
+    sourcefile = Codeqa::Sourcefile.new(filename)
     Codeqa::Runner.run(sourcefile)
   end
 
   def self.new_ruby_version
-    @new_ruby_version ||= Gem::Version.new(RUBY_VERSION)>=Gem::Version.new("1.9.0")
+    @new_ruby_version ||= Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("1.9.0")
   end
 
   def self.config
@@ -48,15 +48,14 @@ require 'codeqa/checkers/check_linkto'
 require 'codeqa/config'
 require 'codeqa/config_loader'
 
-[ Codeqa::Checkers::CheckErb,
-  Codeqa::Checkers::CheckErbHtml,
-  Codeqa::Checkers::CheckLinkto,
-  Codeqa::Checkers::CheckRubySyntax,
-  Codeqa::Checkers::CheckStrangeChars,
-  Codeqa::Checkers::CheckUtf8Encoding,
-  Codeqa::Checkers::CheckYard,
-  Codeqa::Checkers::CheckConflict
+[Codeqa::Checkers::CheckErb,
+ Codeqa::Checkers::CheckErbHtml,
+ Codeqa::Checkers::CheckLinkto,
+ Codeqa::Checkers::CheckRubySyntax,
+ Codeqa::Checkers::CheckStrangeChars,
+ Codeqa::Checkers::CheckUtf8Encoding,
+ Codeqa::Checkers::CheckYard,
+ Codeqa::Checkers::CheckConflict
 ].each do |checker_klass|
   Codeqa::Runner.register_checker(checker_klass) if Codeqa.config.enabled?(checker_klass)
 end
-

@@ -5,7 +5,7 @@ require 'codeqa'
 
 require "optparse"
 
-options = {:silent => false, :failfast => true}
+options = { :silent => false, :failfast => true }
 
 ARGV.options do |opts|
   opts.banner = "Usage:  #{File.basename($PROGRAM_NAME)} [OPTIONS] FILES"
@@ -13,20 +13,20 @@ ARGV.options do |opts|
   opts.separator ""
   opts.separator "Specific Options:"
 
-  opts.on( "-s", "--silent", "No output if no error" ) do |opt|
+  opts.on("-s", "--silent", "No output if no error") do |opt|
     options[:silent] = true
   end
   # opts.on( "-ss", "--silent-success", "No output if not error" ) do |opt|
   #   options[:silent] = true
   # end
-  opts.on( "-f", "--fail-fast", "Fail right after the first error." ) do |opt|
+  opts.on("-f", "--fail-fast", "Fail right after the first error.") do |opt|
     options[:failfast] = true
   end
 
   opts.separator "Common Options:"
 
-  opts.on( "-h", "--help",
-           "Show this message." ) do
+  opts.on("-h", "--help",
+          "Show this message.") do
     puts opts
     exit
   end
@@ -39,11 +39,11 @@ ARGV.options do |opts|
   end
 end
 
-files_to_check = ARGV.reject{|e| Codeqa.config.excluded?(e)}
+files_to_check = ARGV.reject{ |e| Codeqa.config.excluded?(e) }
 if options[:failfast]
   files_to_check.each do |file|
     exit 1 unless Codeqa.check(file, options)
   end
 else
-  exit 1 unless files_to_check.all?{|e| Codeqa.check(e, options)}
+  exit 1 unless files_to_check.map{ |e| Codeqa.check(e, options) }.all?
 end

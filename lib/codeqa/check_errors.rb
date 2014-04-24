@@ -1,13 +1,13 @@
 module Codeqa
   class CheckErrors
     def initialize
-      @details=[]
+      @details = []
     end
 
     attr_reader :details
 
     def add(place, message)
-      @details<<[place, message]
+      @details << [place, message]
     end
 
     def success?
@@ -17,6 +17,5 @@ module Codeqa
     def errors?
       !success?
     end
-
   end
 end

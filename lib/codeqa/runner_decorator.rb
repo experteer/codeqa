@@ -1,9 +1,9 @@
 module Codeqa
   class RunnerDecorator
     def initialize(runner, options={})
-      @options={:colors => true}.merge(options)
-      @runner=runner
-      @msg=""
+      @options = { :colors => true }.merge(options)
+      @runner = runner
+      @msg = ""
     end
 
     def sourcefile_to_s
@@ -30,9 +30,10 @@ module Codeqa
       @msg
     end
 
-    private
+  private
+
     def error_details
-      msg=""
+      msg = ""
       @runner.failures.each do |checker|
         msg << error("------- #{checker.name} -------\n")
         msg << error("#{checker.hint}\n")
@@ -42,7 +43,6 @@ module Codeqa
       end
       msg
     end
-
 
     # http://stackoverflow.com/questions/1489183/colorized-ruby-output
     def info(txt)
@@ -56,7 +56,6 @@ module Codeqa
     def success(txt)
       green(txt)
     end
-
 
     def colorize(color_code, txt)
       if @options[:colors]
@@ -81,6 +80,5 @@ module Codeqa
     def pink(txt)
       colorize(35, txt)
     end
-
   end
 end
