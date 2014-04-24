@@ -34,8 +34,8 @@ module Codeqa
 
       def html
         @html ||= begin
-                    html=FakeERB.new(sourcefile.content.gsub('<%=','<%')).result
-                    html= html.force_encoding("UTF-8") if html.respond_to?(:force_encoding)
+                    html = FakeERB.new(sourcefile.content.gsub('<%=', '<%')).result
+                    html = html.force_encoding("UTF-8") if html.respond_to?(:force_encoding)
                     html.gsub(%r{<script[ >].*?</script>|<style[ >].*?</style>}m,
                               "<!--removed script/style tag-->")
                   end

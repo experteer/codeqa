@@ -4,6 +4,7 @@ module Codeqa
     ERB_PATTERN = /\.(erb|rhtml|text\.html|text\.plain)$/
     HTML_PATTERN = /\.(rhtml|html|text\.html)/
     RUBY_PATTERN = /\.rb$/
+    SPEC_PATTERN = /_spec\.rb$/
 
     def initialize(filename, content=nil)
       @filename = filename
@@ -28,6 +29,7 @@ module Codeqa
         @attributes['text'] = true
       end
       @attributes['eruby'] = true if erb?
+      @attributes['spec'] = true if spec?
       @attributes['language'] = 'ruby' if ruby?
       @attributes['language'] = 'html' if html?
       @attributes
@@ -53,6 +55,10 @@ module Codeqa
 
     def html?
       filename =~ HTML_PATTERN
+    end
+
+    def spec?
+      filename =~ SPEC_PATTERN
     end
   end
 end

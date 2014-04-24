@@ -15,10 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Codeqa::VERSION
 
-  gem.add_dependency "yard"
-  gem.add_dependency "rubocop"
-
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec",">=2.0.0"
+  gem.add_development_dependency "yard"
 
 end

@@ -32,15 +32,15 @@ describe Codeqa::ConfigLoader do
         "Exclude"           => [
           "/home/aeger/code/codeqa/spec/fixtures/isolation/home/project/vendor/**/*",
           "/home/aeger/code/codeqa/spec/fixtures/isolation/home/project/ignored/**/*"],
-        "CheckErb"=>{"Enabled"=>false},
-        "CheckErbHtml"=>{"Enabled"=>true},
-        "CheckLinkto"=>{"Enabled"=>true},
-        "CheckRubySyntax"=>{"Enabled"=>false},
-        "RubocopLint"=>{"Enabled"=>true},
-        "CheckStrangeChars"=>{"Enabled"=>true},
-        "CheckUtf8Encoding"=>{"Enabled"=>true},
-        "CheckYard"=>{"Enabled"=>true},
-        "CheckConflict"=>{"Enabled"=>true}
+        "CheckErb"          => { "Enabled" => false },
+        "CheckErbHtml"      => { "Enabled" => true },
+        "CheckLinkto"       => { "Enabled" => true },
+        "CheckRubySyntax"   => { "Enabled" => false },
+        "RubocopLint"       => { "Enabled" => true },
+        "CheckStrangeChars" => { "Enabled" => true },
+        "CheckUtf8Encoding" => { "Enabled" => true },
+        "CheckYard"         => { "Enabled" => true },
+        "CheckConflict"     => { "Enabled" => true }
       }
       expect(described_class.build_config).to eql(config)
     end

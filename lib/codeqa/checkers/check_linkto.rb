@@ -1,9 +1,8 @@
-require 'erb'
+require 'codeqa/checkers/pattern_checker'
+
 module Codeqa
   module Checkers
-    class CheckLinkto < Checker
-      OLD_STYLE_LINKTO_PATTERN = /<% link_to.* do.*%>/
-
+    class CheckLinkto < PatternChecker
       def name
         "link_to"
       end
@@ -16,11 +15,11 @@ module Codeqa
         sourcefile.attributes['text'] == true
       end
 
-      def check
-        leftovers = sourcefile.content.match(OLD_STYLE_LINKTO_PATTERN)
-        if leftovers
-          errors.add(nil, "#{leftovers.size} line(s) of old style block link_to")
-        end
+    private
+
+      PATTERN = /<% link_to.* do.*%>/
+      def error_msg(match)
+        "#{match.size} line(s) of old style block link_to"
       end
     end
   end

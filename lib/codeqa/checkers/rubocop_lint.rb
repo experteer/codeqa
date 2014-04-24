@@ -12,7 +12,7 @@ module Codeqa
       end
 
       def config_args
-        ['--lint', '--format', 'emacs', '--fail-level', 'error']
+        %w(--lint --format emacs --fail-level error)
       end
     end
   end

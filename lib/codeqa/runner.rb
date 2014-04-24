@@ -20,9 +20,9 @@ module Codeqa
     attr_reader :sourcefile
 
     def matching_checkers
-      @matching_checkers ||= @@registered_checkers.reject do |checker_class|
-                               !checker_class.check?(sourcefile)
-                             end
+      @matching_checkers ||= @@registered_checkers.select do |checker_class|
+        checker_class.check?(sourcefile)
+      end
     end
 
     def run

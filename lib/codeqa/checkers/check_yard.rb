@@ -1,5 +1,4 @@
 require 'stringio'
-require 'yard'
 
 module Codeqa
   module Checkers
@@ -7,11 +6,13 @@ module Codeqa
       def self.check?(sourcefile)
         sourcefile.attributes['language'] == 'ruby' && !(sourcefile.filename =~ /^(test|spec)/)
       end
+      def self.available?
+        yard?
+      end
 
       def self.io
         @@io ||= StringIO.new
       end
-      ::YARD::Logger.instance(io) # replace YARD logger with io
 
       def name
         "yard"
@@ -35,6 +36,17 @@ module Codeqa
 
       def io
         self.class.io
+      end
+
+      def self.yard?
+        @loaded ||= begin
+                      require 'yard'
+                      ::YARD::Logger.instance(io) # replace YARD logger with io
+                      true
+                    rescue LoadError
+                      puts "yard not installed"
+                      false
+                    end
       end
     end
   end
