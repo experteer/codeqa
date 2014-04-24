@@ -40,7 +40,9 @@ describe Codeqa::ConfigLoader do
         "CheckStrangeChars" => { "Enabled" => true },
         "CheckUtf8Encoding" => { "Enabled" => true },
         "CheckYard"         => { "Enabled" => true },
-        "CheckConflict"     => { "Enabled" => true }
+        "CheckConflict"     => { "Enabled" => true },
+        "CheckPry"          => { "Enabled" => true },
+        "CheckRspecFocus"   => { "Enabled" => true }
       }
       expect(described_class.build_config).to eql(config)
     end

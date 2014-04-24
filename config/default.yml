@@ -5,8 +5,6 @@ CheckErb:
   Enabled: true
 CheckErbHtml:
   Enabled: true
-CheckLinkto:
-  Enabled: true
 CheckRubySyntax:
   Enabled: false
 RubocopLint:
@@ -18,4 +16,10 @@ CheckUtf8Encoding:
 CheckYard:
   Enabled: true
 CheckConflict:
+  Enabled: true
+CheckLinkto:
+  Enabled: true
+CheckPry:
+  Enabled: true
+CheckRspecFocus:
   Enabled: true

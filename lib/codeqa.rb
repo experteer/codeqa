@@ -1,4 +1,26 @@
 module Codeqa
+  def self.install(root='.')
+    require 'fileutils'
+    git_root = "#{root}/.git"
+    if File.exist?(git_root)
+      pre_commit_path = File.join(git_root, 'hooks', 'pre-commit')
+      if File.exist?(pre_commit_path)
+        $stdout.puts "moving away the old pre-commit hook -> pre-commit.bkp"
+        FileUtils.mv(pre_commit_path,
+                     File.join(git_root, 'hooks', 'pre-commit.bkp'),
+                     :force => true)
+      end
+      pre_commit_template_path = File.join(File.expand_path(File.dirname(__FILE__)),
+                                           'templates/pre-commit')
+      $stdout.puts 'placing new pre-commit hook'
+      FileUtils.cp(pre_commit_template_path, pre_commit_path)
+      FileUtils.chmod('+x', pre_commit_path)
+      true
+    else
+      $stderr.puts "#{root} is not in a git root"
+      false
+    end
+  end
   def self.check(filename, options={})
     options = { :silent_success => false, :silent => false }.merge(options)
     runner = self.runner(filename)

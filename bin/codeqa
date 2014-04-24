@@ -23,6 +23,10 @@ ARGV.options do |opts|
     options[:failfast] = true
   end
 
+  opts.on("-i", "--install", "Install a basic pre-commit hook.") do |opt|
+    options[:install] = true
+  end
+
   opts.separator "Common Options:"
 
   opts.on("-h", "--help",
@@ -37,6 +41,11 @@ ARGV.options do |opts|
     puts opts
     exit
   end
+end
+
+if options[:install]
+  Codeqa.install(ARGV.first || '.')
+  exit
 end
 
 files_to_check = ARGV.reject{ |e| Codeqa.config.excluded?(e) }
