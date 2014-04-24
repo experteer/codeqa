@@ -10,7 +10,7 @@ module Codeqa
     end
 
     def self.loaded?
-      self.instance.loaded
+      instance.loaded
     end
 
     def hash=(v)
