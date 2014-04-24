@@ -7,7 +7,7 @@ module Codeqa
   module Checkers
     class CheckErb < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['eruby'] == true
+        sourcefile.erb?
       end
 
       def name
@@ -24,16 +24,14 @@ module Codeqa
           ActionView::Template::Handlers::Erubis.new(erb).result
         else
           ERB.new(sourcefile.content.gsub('<%=', '<%'), nil, '-').result
-          # ERB.new(sourcefile.content, nil, '-').result
         end
       rescue SyntaxError
-        msg = $!.message
-        msg << "\n"
-        msg += $!.backtrace.join("\n")
-        errors.add(nil, msg)
-        return
+        errors.add(nil, <<-EOF)
+        #{$!.message}
+        #{$!.backtrace.join("\n")}
+        EOF
       rescue Exception
-        # valid syntax - just the proper setup for the template/rendering is missing
+        true # valid syntax - just the proper setup for the template/rendering is missing
       end
       # rubocop:enable RescueException,HandleExceptions
     end

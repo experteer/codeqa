@@ -12,14 +12,14 @@ module Codeqa
       end
 
       def self.check?(sourcefile)
-        sourcefile.attributes['text'] == true
+        sourcefile.text?
       end
 
     private
 
       PATTERN = /<% link_to.* do.*%>/
-      def error_msg(match)
-        "#{match.size} line(s) of old style block link_to"
+      def error_msg(_line, line_number, _pos)
+        "old style block link_to in line #{line_number}"
       end
     end
   end

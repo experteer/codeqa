@@ -3,7 +3,7 @@ module Codeqa
   module Checkers
     class CheckRubySyntax < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['language'] == 'ruby'
+        sourcefile.ruby?
       end
 
       def name

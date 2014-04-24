@@ -12,14 +12,14 @@ module Codeqa
       end
 
       def self.check?(sourcefile)
-        sourcefile.attributes['text'] == true
+        sourcefile.text?
       end
 
     private
 
       PATTERN = /^<<<<<<<|^>>>>>>>|^=======$/m
-      def error_msg(match)
-        "conflict leftovers, please merge properly"
+      def error_msg(_line, line_number, _pos)
+        "conflict leftovers in line #{line_number}, please merge properly"
       end
     end
   end

@@ -12,14 +12,14 @@ module Codeqa
       end
 
       def self.check?(sourcefile)
-        sourcefile.attributes['spec'] == true
+        sourcefile.spec?
       end
 
     private
 
-      PATTERN = ':focus'
-      def error_msg(match)
-        ":focus found in specs"
+      PATTERN = /:focus/
+      def error_msg(_line, line_number, _pos)
+        ":focus in line #{line_number}"
       end
     end
   end

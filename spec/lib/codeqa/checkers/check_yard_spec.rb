@@ -3,9 +3,9 @@ require 'spec_helper'
 describe Codeqa::Checkers::CheckYard do
   it "should check rb files" do
     source = source_with("", "file.rb")
-    described_class.check?(source).should be == true
+    described_class.check?(source).should be_true
     source = source_with("", "test.rhtml")
-    described_class.check?(source).should be == false
+    described_class.check?(source).should be_false
   end
 
   it "should detect yard errors" do

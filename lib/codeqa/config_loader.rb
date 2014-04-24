@@ -4,7 +4,7 @@ require 'pathname'
 module Codeqa
   class ConfigLoader
     DOTFILE = '.codeqa.yml'
-    CODEQA_HOME = File.realpath(File.join(File.dirname(__FILE__), '..', '..'))
+    CODEQA_HOME = Pathname.new(File.join(File.dirname(__FILE__), '..', '..')).realpath
     DEFAULT_FILE = File.join(CODEQA_HOME, 'config', 'default.yml')
 
     class << self
@@ -14,7 +14,7 @@ module Codeqa
       end
 
       def load_file(path)
-        path = File.absolute_path(path)
+        path = Pathname.new(path).realpath
         hash = YAML.load_file(path) || {}
         # puts "configuration from #{path}"
 

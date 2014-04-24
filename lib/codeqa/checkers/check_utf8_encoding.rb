@@ -4,7 +4,7 @@ module Codeqa
   module Checkers
     class CheckUtf8Encoding < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['text'] == true
+        sourcefile.text?
       end
 
       def name

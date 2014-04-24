@@ -2,7 +2,7 @@ module Codeqa
   module Checkers
     class Rubocop < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['language'] == 'ruby'
+        sourcefile.ruby?
       end
 
       def self.available?

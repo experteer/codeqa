@@ -18,47 +18,32 @@ module Codeqa
       @content ||= File.read(filename)
     end
 
-    def attributes
-      return @attributes if @attributes
-      @attributes = {}
-      if binary?
-        @attributes['binary'] = true
-        @attributes['text'] = false
-      else
-        @attributes['binary'] = false
-        @attributes['text'] = true
-      end
-      @attributes['eruby'] = true if erb?
-      @attributes['spec'] = true if spec?
-      @attributes['language'] = 'ruby' if ruby?
-      @attributes['language'] = 'html' if html?
-      @attributes
-    end
-
     def exist?
       File.exist?(filename)
     end
 
-  private
+    def text?
+      !binary?
+    end
 
     def binary?
-      filename =~ BINARY_PATTERN
+      @binary ||= !!(filename =~ BINARY_PATTERN)
     end
 
     def ruby?
-      filename =~ RUBY_PATTERN
+      @ruby ||= !!(filename =~ RUBY_PATTERN)
     end
 
     def erb?
-      filename =~ ERB_PATTERN
+      @erb ||= !!(filename =~ ERB_PATTERN)
     end
 
     def html?
-      filename =~ HTML_PATTERN
+      @html ||= !!(filename =~ HTML_PATTERN)
     end
 
     def spec?
-      filename =~ SPEC_PATTERN
+      @spec ||= !!(filename =~ SPEC_PATTERN)
     end
   end
 end

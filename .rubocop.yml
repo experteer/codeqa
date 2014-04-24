@@ -53,6 +53,7 @@ MethodLength:
 FileName:
   Exclude:
     - 'pre-commit'
+
 # Disabled cops ------------------------------
 
 DoubleNegation:

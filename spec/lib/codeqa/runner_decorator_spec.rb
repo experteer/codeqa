@@ -6,7 +6,6 @@ describe Codeqa::RunnerDecorator do
     runner = Codeqa::Runner.run(source)
     runner.should_not be_success
     decorator = Codeqa::RunnerDecorator.new(runner)
-    # decorator.to_s.should match(/ruby syntax/)
-    decorator.to_s.should match(/rubocop lint/)
+    decorator.to_s.should match(/ruby syntax/)
   end
 end

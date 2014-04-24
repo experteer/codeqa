@@ -17,7 +17,7 @@ describe Codeqa::ConfigLoader do
       expect(described_class.git_root_till_home).to eql(File.expand_path("../"))
     end
     it "should find the home dir config" do
-      expect(described_class.home_configuration).to eql("CheckRubySyntax" => { "Enabled" => false })
+      expect(described_class.home_configuration).to eql("CheckErbHtml" => { "Enabled" => false })
     end
     it "should find the project config" do
       project_config = {
@@ -33,13 +33,13 @@ describe Codeqa::ConfigLoader do
           "/home/aeger/code/codeqa/spec/fixtures/isolation/home/project/vendor/**/*",
           "/home/aeger/code/codeqa/spec/fixtures/isolation/home/project/ignored/**/*"],
         "CheckErb"          => { "Enabled" => false },
-        "CheckErbHtml"      => { "Enabled" => true },
+        "CheckErbHtml"      => { "Enabled" => false },
         "CheckLinkto"       => { "Enabled" => true },
-        "CheckRubySyntax"   => { "Enabled" => false },
-        "RubocopLint"       => { "Enabled" => true },
+        "CheckRubySyntax"   => { "Enabled" => true },
+        "RubocopLint"       => { "Enabled" => false },
         "CheckStrangeChars" => { "Enabled" => true },
         "CheckUtf8Encoding" => { "Enabled" => true },
-        "CheckYard"         => { "Enabled" => true },
+        "CheckYard"         => { "Enabled" => false },
         "CheckConflict"     => { "Enabled" => true },
         "CheckPry"          => { "Enabled" => true },
         "CheckRspecFocus"   => { "Enabled" => true }

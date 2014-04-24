@@ -12,14 +12,14 @@ module Codeqa
       end
 
       def self.check?(sourcefile)
-        sourcefile.attributes['language'] == 'ruby'
+        sourcefile.ruby?
       end
 
     private
 
-      PATTERN = 'binding.pry'
-      def error_msg(match)
-        "binding.pry found, please remove it."
+      PATTERN = /binding\.pry/
+      def error_msg(_line, line_number, _pos)
+        "binding.pry in line #{line_number}"
       end
     end
   end

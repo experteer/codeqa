@@ -4,7 +4,7 @@ module Codeqa
   module Checkers
     class CheckErbHtml < Checker
       def self.check?(sourcefile)
-        sourcefile.attributes['language'] == 'html'
+        sourcefile.html?
       end
 
       def name

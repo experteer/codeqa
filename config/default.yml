@@ -6,15 +6,15 @@ CheckErb:
 CheckErbHtml:
   Enabled: true
 CheckRubySyntax:
-  Enabled: false
-RubocopLint:
   Enabled: true
+RubocopLint:
+  Enabled: false
 CheckStrangeChars:
   Enabled: true
 CheckUtf8Encoding:
   Enabled: true
 CheckYard:
-  Enabled: true
+  Enabled: false
 CheckConflict:
   Enabled: true
 CheckLinkto:

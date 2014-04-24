@@ -21,6 +21,7 @@ module Codeqa
       false
     end
   end
+
   def self.check(filename, options={})
     options = { :silent_success => false, :silent => false }.merge(options)
     runner = self.runner(filename)

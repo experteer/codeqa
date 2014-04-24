@@ -2,8 +2,10 @@ module Codeqa
   module Checkers
     class PatternChecker < Checker
       def check
-        match = sourcefile.content.match(self.class::PATTERN)
-        errors.add(nil, error_msg(match)) if match
+        sourcefile.content.lines.each.with_index(1) do |line, line_number|
+          pos = (line =~ self.class::PATTERN)
+          errors.add("#{line_number},#{pos + 1}", error_msg(line, line_number, pos)) if pos
+        end
       end
 
       def self.available?
@@ -12,7 +14,7 @@ module Codeqa
 
     private
 
-      def error_msg(match)
+      def error_msg(*args)
         raise "not implemented"
       end
       # PATTERN = //
