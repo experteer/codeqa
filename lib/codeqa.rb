@@ -1,3 +1,4 @@
+require 'pathname'
 module Codeqa
   CODEQA_HOME = Pathname.new(File.join(File.dirname(__FILE__), '..')).realpath
 
@@ -69,8 +70,9 @@ module Codeqa
      Codeqa::Checkers::CheckPry,
      Codeqa::Checkers::CheckRspecFocus
     ].each do |checker_klass|
-      next unless checker_klass.available?
-      Codeqa::Runner.register_checker(checker_klass) if Codeqa.config.enabled?(checker_klass)
+      if checker_klass.available? && Codeqa.config.enabled?(checker_klass)
+        Codeqa::Runner.register_checker(checker_klass)
+      end
     end
   end
 end

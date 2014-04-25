@@ -17,7 +17,9 @@ module Codeqa
 
     private
 
-      PATTERN = /:focus/
+      def self.pattern
+        @pattern ||= /:focus/
+      end
       def error_msg(_line, line_number, _pos)
         ":focus in line #{line_number}"
       end

@@ -17,7 +17,9 @@ module Codeqa
 
     private
 
-      PATTERN = /<% link_to.* do.*%>/
+      def self.pattern
+        @pattern ||= /<% link_to.* do.*%>/
+      end
       def error_msg(_line, line_number, _pos)
         "old style block link_to in line #{line_number}"
       end
