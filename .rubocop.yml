@@ -52,7 +52,7 @@ MethodLength:
 
 FileName:
   Exclude:
-    - 'pre-commit'
+    - 'lib/templates/pre-commit'
 
 # Disabled cops ------------------------------
 
