@@ -2,3 +2,7 @@ Exclude:
   - 'spec/fixtures/html_error.html.erb'
   - 'spec/fixtures/html_error.text.html'
   - 'spec/fixtures/ruby_error.rb'
+CheckRubySyntax:
+  Enabled: false
+RubocopLint:
+  Enabled: true
