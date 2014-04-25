@@ -49,7 +49,7 @@ if options[:install]
 end
 
 files_to_check = ARGV.reject{ |e| Codeqa.config.excluded?(e) }
-puts "#{files_to_check.count} files to check"
+puts "#{files_to_check.count} files to check" unless options[:silent]
 if options[:failfast]
   # all? is already lazy/fail-fast so it will stop after the first false
   exit 1 unless files_to_check.all?{ |e| Codeqa.check(e, options) }
