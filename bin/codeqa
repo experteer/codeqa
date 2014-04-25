@@ -5,7 +5,7 @@ require 'codeqa'
 
 require "optparse"
 
-options = { :silent => false, :failfast => true }
+options = { :silent => false, :failfast => false }
 
 ARGV.options do |opts|
   opts.banner = "Usage:  #{File.basename($PROGRAM_NAME)} [OPTIONS] FILES"
