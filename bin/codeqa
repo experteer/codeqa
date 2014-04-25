@@ -1,7 +1,11 @@
 #!/usr/bin/env ruby
 
+if ENV['CODEQA_DEV']
+ $: << File.join(File.dirname(__FILE__),"../lib")
+end
 require 'rubygems'
 require 'codeqa'
+
 
 require "optparse"
 
