@@ -8,7 +8,7 @@ describe Codeqa::Checkers::CheckPry do
     described_class.check?(source).should be_false
   end
 
-  it "should detect binding.pry" do
+  it "should detect binding pry" do
     source = source_with("first line\nbinding.pry\nthirdline", 'file.rb')
     checker = check_with(described_class, source)
     checker.should be_error

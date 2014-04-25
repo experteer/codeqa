@@ -12,7 +12,7 @@ module Codeqa
       end
 
       def self.check?(sourcefile)
-        sourcefile.text?
+        sourcefile.erb?
       end
 
     private

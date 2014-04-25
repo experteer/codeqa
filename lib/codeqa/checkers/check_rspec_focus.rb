@@ -8,7 +8,7 @@ module Codeqa
       end
 
       def hint
-        "Leftover binding.pry found, please remove it."
+        "Leftover :focus in spec found, please remove it."
       end
 
       def self.check?(sourcefile)
