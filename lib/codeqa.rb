@@ -1,6 +1,8 @@
 module Codeqa
+  CODEQA_HOME = Pathname.new(File.join(File.dirname(__FILE__), '..')).realpath
+
   def self.root
-    ConfigLoader::CODEQA_HOME
+    CODEQA_HOME
   end
 
   def self.install(root='.')
