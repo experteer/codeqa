@@ -50,6 +50,23 @@ module Codeqa
       Config.load
     end
   end
+  def self.init
+    [Codeqa::Checkers::CheckErb,
+     Codeqa::Checkers::CheckErbHtml,
+     Codeqa::Checkers::CheckLinkto,
+     Codeqa::Checkers::CheckRubySyntax,
+     Codeqa::Checkers::RubocopLint,
+     Codeqa::Checkers::CheckStrangeChars,
+     Codeqa::Checkers::CheckUtf8Encoding,
+     Codeqa::Checkers::CheckYard,
+     Codeqa::Checkers::CheckConflict,
+     Codeqa::Checkers::CheckPry,
+     Codeqa::Checkers::CheckRspecFocus
+    ].each do |checker_klass|
+      next unless checker_klass.available?
+      Codeqa::Runner.register_checker(checker_klass) if Codeqa.config.enabled?(checker_klass)
+    end
+  end
 end
 
 require "codeqa/version"
@@ -67,18 +84,4 @@ end
 require 'codeqa/config'
 require 'codeqa/config_loader'
 
-[Codeqa::Checkers::CheckErb,
- Codeqa::Checkers::CheckErbHtml,
- Codeqa::Checkers::CheckLinkto,
- Codeqa::Checkers::CheckRubySyntax,
- Codeqa::Checkers::RubocopLint,
- Codeqa::Checkers::CheckStrangeChars,
- Codeqa::Checkers::CheckUtf8Encoding,
- Codeqa::Checkers::CheckYard,
- Codeqa::Checkers::CheckConflict,
- Codeqa::Checkers::CheckPry,
- Codeqa::Checkers::CheckRspecFocus
-].each do |checker_klass|
-  next unless checker_klass.available?
-  Codeqa::Runner.register_checker(checker_klass) if Codeqa.config.enabled?(checker_klass)
-end
+Codeqa.init

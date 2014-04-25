@@ -9,8 +9,12 @@ module Codeqa
 
     class << self
       def build_config
-        tmp = deep_merge(default_configuration, home_configuration)
-        deep_merge(tmp, project_configuration)
+        if project_root == CODEQA_HOME
+          default_configuration
+        else
+          tmp = deep_merge(default_configuration, home_configuration)
+          deep_merge(tmp, project_configuration)
+        end
       end
 
       def load_file(path)
@@ -86,7 +90,7 @@ module Codeqa
       # ascend from the current dir till I find a .git folder or reach home_dir
       def git_root_till_home
         Pathname.new(Dir.pwd).ascend do |dir_pathname|
-          return dir_pathname.to_s if File.directory?("#{dir_pathname}/.git")
+          return dir_pathname if File.directory?("#{dir_pathname}/.git")
           return nil if dir_pathname.to_s == home_dir
         end
       end

@@ -14,7 +14,7 @@ describe Codeqa::ConfigLoader do
     end
 
     it "should find the project folder" do
-      expect(described_class.git_root_till_home).to eql(File.expand_path("../"))
+      expect(described_class.git_root_till_home.to_s).to eql(File.expand_path("../"))
     end
     it "should find the home dir config" do
       expect(described_class.home_configuration).to eql("CheckErbHtml" => { "Enabled" => false })

@@ -32,7 +32,7 @@ module Codeqa
     end
 
     def ruby?
-      @ruby ||= RUBY_NAMES.include?(filename) || !!(filename =~ RUBY_PATTERN)
+      @ruby ||= (RUBY_NAMES.include?(filename) || !!(filename =~ RUBY_PATTERN))
     end
 
     def erb?
