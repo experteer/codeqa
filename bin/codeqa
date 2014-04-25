@@ -33,6 +33,11 @@ ARGV.options do |opts|
     puts opts
     exit
   end
+  opts.on("-v", "--version",
+          "Show version (it's #{Codeqa::VERSION})" ) do
+    puts Codeqa::VERSION
+    exit
+  end
 
   begin
     opts.parse!
