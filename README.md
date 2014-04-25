@@ -40,7 +40,7 @@ and will be automatically skiped if they do not exist.
 ## Todo
 
 * rake task to check all checked in files of a repo
-* if a directory is passed as one of the arguments to bin/codeqa all files should be checked (unless excluded)
+
 ## Contributing
 
 1. Fork it

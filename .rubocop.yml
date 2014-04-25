@@ -26,6 +26,9 @@ SpaceBeforeBlockBraces:
 SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space
 
+DotPosition:
+  EnforcedStyle: trailing
+
 #SpaceInsideBlockBraces:
 #  EnforcedStyle: no_space
 #  SupportedStyles:

@@ -46,7 +46,19 @@ if options[:install]
   exit
 end
 
-files_to_check = ARGV.reject{ |e| Codeqa.config.excluded?(e) }
+exploded_args = ARGV.map do |e|
+  if File.directory?(e)
+    Dir["#{e}/**/*"]
+  else
+    e
+  end
+end
+
+files_to_check = exploded_args.
+  flatten.
+  reject{ |e| File.directory?(e) || Codeqa.config.excluded?(e) }.
+  uniq
+
 puts "#{files_to_check.count} files to check" unless options[:silent]
 if options[:failfast]
   # all? is already lazy/fail-fast so it will stop after the first false
