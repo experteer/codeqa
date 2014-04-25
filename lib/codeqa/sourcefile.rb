@@ -1,6 +1,6 @@
 module Codeqa
   class Sourcefile
-    BINARY_PATTERN = /\.(swf|jpg|png|gif|pdf|xls|zip|eot|woff|ttf|mo|so)$/
+    BINARY_PATTERN = /\.(swf|jpg|png|gif|pdf|xls|zip|eot|woff|ttf|mo|so|gem)$/
     ERB_PATTERN = /\.(erb|rhtml|text\.html|text\.plain)$/
     HTML_PATTERN = /\.(rhtml|html|text\.html)/
     RUBY_PATTERN = /\.(rb|gemspec)$/
