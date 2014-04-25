@@ -1,4 +1,8 @@
 module Codeqa
+  def self.root
+    ConfigLoader::CODEQA_HOME
+  end
+
   def self.install(root='.')
     require 'fileutils'
     git_root = "#{root}/.git"
@@ -50,7 +54,7 @@ module Codeqa
       Config.load
     end
   end
-  def self.init
+  def self.register_checkers
     [Codeqa::Checkers::CheckErb,
      Codeqa::Checkers::CheckErbHtml,
      Codeqa::Checkers::CheckLinkto,
@@ -76,12 +80,12 @@ require 'codeqa/check_errors'
 require 'codeqa/runner'
 require 'codeqa/runner_decorator'
 
-# load all files in checkers subfolder
-Dir.glob('lib/codeqa/checkers/*.rb') do |file|
-  require "codeqa/checkers/#{file[%r{/([^/]+)\.rb}, 1]}"
-end
-
 require 'codeqa/config'
 require 'codeqa/config_loader'
 
-Codeqa.init
+# load all files in checkers subfolder
+Dir.glob(Codeqa.root.join('lib/codeqa/checkers/*.rb')) do |file|
+  require "codeqa/checkers/#{file[%r{/([^/]+)\.rb}, 1]}"
+end
+
+Codeqa.register_checkers
