@@ -18,11 +18,9 @@ module Codeqa
       def check
         result = nil
         with_existing_file(html) do |filename|
-          Open3.popen3("tidy -q -e -xml '#{filename}'") do |in_stream, out_stream, err_stream|
+          Open3.popen3("tidy -q -e -xml '#{filename}'") do |_in_stream, _out_stream, err_stream|
             message = err_stream.read
-            if message =~ /(Error:|missing trailing quote|end of file while parsing attributes)/m
-              result = message
-            end
+            result = message if message =~ /(Error:|missing trailing quote|end of file while parsing attributes)/m
           end # IO.popen
         end # Tempfile
 

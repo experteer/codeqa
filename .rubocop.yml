@@ -82,3 +82,9 @@ StringLiterals:
 
 SpecialGlobalVars:
   Enabled: false
+
+SignalException:
+ EnforcedStyle: only_raise
+
+MethodLength:
+ Enabled: false

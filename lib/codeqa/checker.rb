@@ -17,7 +17,7 @@ module Codeqa
       !success?
     end
 
-    def self.check?(sourcefile)
+    def self.check?(_sourcefile)
       raise "implement check?"
     end
     def self.available?

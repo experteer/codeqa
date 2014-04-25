@@ -14,7 +14,7 @@ module Codeqa
 
     private
 
-      def error_msg(*args)
+      def error_msg(*_args)
         raise "not implemented"
       end
       # PATTERN = //
