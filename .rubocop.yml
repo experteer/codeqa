@@ -91,3 +91,6 @@ SignalException:
 
 MethodLength:
  Enabled: false
+
+RegexpLiteral:
+ Enabled: false
