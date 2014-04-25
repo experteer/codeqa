@@ -19,7 +19,7 @@ module Codeqa
 
       PATTERN = /(\x09|\x0c)/
       def error_msg(line, line_number, pos)
-        strangeness = (line[pos] == "\x09" ? 'TAB x09' : 'FORM FEED x0C')
+        strangeness = (line.include?("\x09") ? 'TAB x09' : 'FORM FEED x0C')
         "#{strangeness} at line #{line_number} column #{pos + 1}"
       end
     end

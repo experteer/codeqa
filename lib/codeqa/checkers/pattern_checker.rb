@@ -2,9 +2,9 @@ module Codeqa
   module Checkers
     class PatternChecker < Checker
       def check
-        sourcefile.content.lines.each.with_index(1) do |line, line_number|
+        sourcefile.content.lines.each.with_index do |line, line_number|
           pos = (line =~ self.class::PATTERN)
-          errors.add("#{line_number},#{pos + 1}", error_msg(line, line_number, pos)) if pos
+          errors.add("#{line_number + 1},#{pos + 1}", error_msg(line, line_number + 1, pos)) if pos
         end
       end
 
