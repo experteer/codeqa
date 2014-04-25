@@ -1,10 +1,10 @@
-require 'iconv' unless Codeqa.new_ruby_version
-require 'stringio'
+require 'codeqa/checkers/pattern_checker'
+
 module Codeqa
   module Checkers
-    class CheckStrangeChars < Checker
+    class CheckStrangeChars < PatternChecker
       def self.check?(sourcefile)
-        sourcefile.attributes['text'] == true
+        sourcefile.text?
       end
 
       def name
@@ -15,19 +15,12 @@ module Codeqa
         "The file contains a tab or form feed. Remove them."
       end
 
-      def check
-        strange = /(\x09|\x0c)/
-        lineno = 1
-        StringIO.open(sourcefile.content) do |fd|
-          fd.readlines.each do |line|
-            pos = (line =~ strange)
-            if pos
-              strangeness = ($1 == "\x09" ? 'TAB x09' : 'FORM FEED x0C')
-              errors.add("#{lineno},#{pos + 1}", "#{strangeness} at line #{lineno} column #{pos + 1}")
-            end
-            lineno += 1
-          end
-        end
+    private
+
+      PATTERN = /(\x09|\x0c)/
+      def error_msg(line, line_number, pos)
+        strangeness = (line[pos] == "\x09" ? 'TAB x09' : 'FORM FEED x0C')
+        "#{strangeness} at line #{line_number} column #{pos + 1}"
       end
     end
   end

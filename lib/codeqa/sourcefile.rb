@@ -4,6 +4,7 @@ module Codeqa
     ERB_PATTERN = /\.(erb|rhtml|text\.html|text\.plain)$/
     HTML_PATTERN = /\.(rhtml|html|text\.html)/
     RUBY_PATTERN = /\.rb$/
+    SPEC_PATTERN = /_spec\.rb$/
 
     def initialize(filename, content=nil)
       @filename = filename
@@ -17,42 +18,32 @@ module Codeqa
       @content ||= File.read(filename)
     end
 
-    def attributes
-      return @attributes if @attributes
-      @attributes = {}
-      if binary?
-        @attributes['binary'] = true
-        @attributes['text'] = false
-      else
-        @attributes['binary'] = false
-        @attributes['text'] = true
-      end
-      @attributes['eruby'] = true if erb?
-      @attributes['language'] = 'ruby' if ruby?
-      @attributes['language'] = 'html' if html?
-      @attributes
-    end
-
     def exist?
       File.exist?(filename)
     end
 
-  private
+    def text?
+      !binary?
+    end
 
     def binary?
-      filename =~ BINARY_PATTERN
+      @binary ||= !!(filename =~ BINARY_PATTERN)
     end
 
     def ruby?
-      filename =~ RUBY_PATTERN
+      @ruby ||= !!(filename =~ RUBY_PATTERN)
     end
 
     def erb?
-      filename =~ ERB_PATTERN
+      @erb ||= !!(filename =~ ERB_PATTERN)
     end
 
     def html?
-      filename =~ HTML_PATTERN
+      @html ||= !!(filename =~ HTML_PATTERN)
+    end
+
+    def spec?
+      @spec ||= !!(filename =~ SPEC_PATTERN)
     end
   end
 end

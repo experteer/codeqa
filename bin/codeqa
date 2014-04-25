@@ -23,6 +23,10 @@ ARGV.options do |opts|
     options[:failfast] = true
   end
 
+  opts.on("-i", "--install", "Install a basic pre-commit hook.") do |opt|
+    options[:install] = true
+  end
+
   opts.separator "Common Options:"
 
   opts.on("-h", "--help",
@@ -39,11 +43,16 @@ ARGV.options do |opts|
   end
 end
 
+if options[:install]
+  Codeqa.install(ARGV.first || '.')
+  exit
+end
+
 files_to_check = ARGV.reject{ |e| Codeqa.config.excluded?(e) }
+puts "#{files_to_check.count} files to check"
 if options[:failfast]
-  files_to_check.each do |file|
-    exit 1 unless Codeqa.check(file, options)
-  end
+  # all? is already lazy/fail-fast so it will stop after the first false
+  exit 1 unless files_to_check.all?{ |e| Codeqa.check(e, options) }
 else
   exit 1 unless files_to_check.map{ |e| Codeqa.check(e, options) }.all?
 end

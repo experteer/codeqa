@@ -24,7 +24,7 @@ module Codeqa
     end
 
     def enabled?(checker_klass)
-      !!@hash[checker_klass.to_s.split('::').last]['Enabled']
+      !!@hash.fetch(checker_klass.to_s.split('::').last, {}).fetch('Enabled', false)
     end
 
   private

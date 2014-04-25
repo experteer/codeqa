@@ -39,9 +39,6 @@ and will be automatically skiped if they do not exist.
 
 ## Todo
 
-* load a config to set checkers, and global setting (silence)
-* load config from filesystem (global down, /etc/codeqa/config)
-* config to skip codeqa on special files
 * rake task to check all checked in files of a repo
 
 ## Contributing

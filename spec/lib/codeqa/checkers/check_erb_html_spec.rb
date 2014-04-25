@@ -3,14 +3,14 @@ require 'spec_helper'
 describe Codeqa::Checkers::CheckErbHtml do
   it "should check erb files" do
     source = source_with("", "file.html.erb")
-    described_class.check?(source).should be == true
+    described_class.check?(source).should be_true
     source = source_with("", "test.rhtml")
-    described_class.check?(source).should be == true
+    described_class.check?(source).should be_true
     source = source_with("", "test.text.html")
-    described_class.check?(source).should be == true
+    described_class.check?(source).should be_true
 
     source = source_with('', 'zipped.zip')
-    described_class.check?(source).should be == false
+    described_class.check?(source).should be_false
   end
 
   it "should detect html tag errors" do

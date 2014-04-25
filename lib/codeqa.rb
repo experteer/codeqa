@@ -1,4 +1,27 @@
 module Codeqa
+  def self.install(root='.')
+    require 'fileutils'
+    git_root = "#{root}/.git"
+    if File.exist?(git_root)
+      pre_commit_path = File.join(git_root, 'hooks', 'pre-commit')
+      if File.exist?(pre_commit_path)
+        $stdout.puts "moving away the old pre-commit hook -> pre-commit.bkp"
+        FileUtils.mv(pre_commit_path,
+                     File.join(git_root, 'hooks', 'pre-commit.bkp'),
+                     :force => true)
+      end
+      pre_commit_template_path = File.join(File.expand_path(File.dirname(__FILE__)),
+                                           'templates/pre-commit')
+      $stdout.puts 'placing new pre-commit hook'
+      FileUtils.cp(pre_commit_template_path, pre_commit_path)
+      FileUtils.chmod('+x', pre_commit_path)
+      true
+    else
+      $stderr.puts "#{root} is not in a git root"
+      false
+    end
+  end
+
   def self.check(filename, options={})
     options = { :silent_success => false, :silent => false }.merge(options)
     runner = self.runner(filename)
@@ -36,14 +59,10 @@ require 'codeqa/check_errors'
 require 'codeqa/runner'
 require 'codeqa/runner_decorator'
 
-require 'codeqa/checkers/check_conflict'
-require 'codeqa/checkers/check_yard'
-require 'codeqa/checkers/check_erb'
-require 'codeqa/checkers/check_erb_html'
-require 'codeqa/checkers/check_ruby_syntax'
-require 'codeqa/checkers/check_utf8_encoding'
-require 'codeqa/checkers/check_strange_chars'
-require 'codeqa/checkers/check_linkto'
+# load all files in checkers subfolder
+Dir.glob('lib/codeqa/checkers/*.rb') do |file|
+  require "codeqa/checkers/#{file[%r{/([^/]+)\.rb}, 1]}"
+end
 
 require 'codeqa/config'
 require 'codeqa/config_loader'
@@ -52,10 +71,14 @@ require 'codeqa/config_loader'
  Codeqa::Checkers::CheckErbHtml,
  Codeqa::Checkers::CheckLinkto,
  Codeqa::Checkers::CheckRubySyntax,
+ Codeqa::Checkers::RubocopLint,
  Codeqa::Checkers::CheckStrangeChars,
  Codeqa::Checkers::CheckUtf8Encoding,
  Codeqa::Checkers::CheckYard,
- Codeqa::Checkers::CheckConflict
+ Codeqa::Checkers::CheckConflict,
+ Codeqa::Checkers::CheckPry,
+ Codeqa::Checkers::CheckRspecFocus
 ].each do |checker_klass|
+  next unless checker_klass.available?
   Codeqa::Runner.register_checker(checker_klass) if Codeqa.config.enabled?(checker_klass)
 end

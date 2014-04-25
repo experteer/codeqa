@@ -2,24 +2,24 @@ require 'codeqa/checkers/pattern_checker'
 
 module Codeqa
   module Checkers
-    class CheckLinkto < PatternChecker
+    class CheckRspecFocus < PatternChecker
       def name
-        "link_to"
+        "rspec-focus"
       end
 
       def hint
-        "<% link_to ... do ... %> detected add an '=' after the <%"
+        "Leftover binding.pry found, please remove it."
       end
 
       def self.check?(sourcefile)
-        sourcefile.text?
+        sourcefile.spec?
       end
 
     private
 
-      PATTERN = /<% link_to.* do.*%>/
+      PATTERN = /:focus/
       def error_msg(_line, line_number, _pos)
-        "old style block link_to in line #{line_number}"
+        ":focus in line #{line_number}"
       end
     end
   end

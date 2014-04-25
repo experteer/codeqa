@@ -1,9 +1,8 @@
-require 'erb'
+require 'codeqa/checkers/pattern_checker'
+
 module Codeqa
   module Checkers
-    class CheckConflict < Checker
-      LEFTOVER_PATTERN = /^<<<<<<<|^>>>>>>>|^=======$/m
-
+    class CheckConflict < PatternChecker
       def name
         "conflict"
       end
@@ -13,14 +12,14 @@ module Codeqa
       end
 
       def self.check?(sourcefile)
-        sourcefile.attributes['text'] == true
+        sourcefile.text?
       end
 
-      def check
-        leftovers = sourcefile.content.match(LEFTOVER_PATTERN)
-        if leftovers
-          errors.add(nil, "conflict leftovers, please merge properly")
-        end
+    private
+
+      PATTERN = /^<<<<<<<|^>>>>>>>|^=======$/m
+      def error_msg(_line, line_number, _pos)
+        "conflict leftovers in line #{line_number}, please merge properly"
       end
     end
   end

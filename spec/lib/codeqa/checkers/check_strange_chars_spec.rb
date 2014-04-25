@@ -3,9 +3,9 @@ require 'spec_helper'
 describe Codeqa::Checkers::CheckStrangeChars do
   it "should check text files" do
     source = source_with("", "file.html.erb")
-    described_class.check?(source).should be == true
+    described_class.check?(source).should be_true
     source = source_with('', 'zipped.zip')
-    described_class.check?(source).should be == false
+    described_class.check?(source).should be_false
   end
 
   it "should detect tabs" do

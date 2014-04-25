@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# vim: ft=ruby
+
+def staged_files
+  @staged_files ||= begin
+    files = `git diff --cached --name-only --diff-filter=ACM`.split
+    files.reject do |f|
+      size = File.size(f)
+      size > 1_000_000 || (size > 20 && binary?(f))
+    end
+  end
+end
+
+# from https://github.com/djberg96/ptools/blob/master/lib/ptools.rb#L90
+def binary?(file)
+  s = (File.read(file, File.stat(file).blksize) || "").split(//)
+  ((s.size - s.grep(" ".."~").size) / s.size.to_f) > 0.30
+end
+
+require 'rubygems'
+require 'codeqa'
+files_to_check = staged_files.reject{ |e| Codeqa.config.excluded?(e) }
+
+print "Codeqa checking #{files_to_check.count} files"
+success = files_to_check.all? do |file|
+  print '.'
+  Codeqa.check(file, :silent => true)
+end
+
+if success
+  puts 'success'
+  exit 0
+else
+  puts 'error'
+  exit 1
+end
