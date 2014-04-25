@@ -4,6 +4,7 @@ module Codeqa
     ERB_PATTERN = /\.(erb|rhtml|text\.html|text\.plain)$/
     HTML_PATTERN = /\.(rhtml|html|text\.html)/
     RUBY_PATTERN = /\.rb$/
+    RUBY_NAMES=%w{ Rakefile config.ru }
     SPEC_PATTERN = /_spec\.rb$/
 
     def initialize(filename, content=nil)
@@ -31,7 +32,7 @@ module Codeqa
     end
 
     def ruby?
-      @ruby ||= !!(filename =~ RUBY_PATTERN)
+      @ruby ||= RUBY_NAMES.include?(filename) || !!(filename =~ RUBY_PATTERN)
     end
 
     def erb?
