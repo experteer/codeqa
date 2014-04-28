@@ -1,6 +1,6 @@
 module Codeqa
   class Sourcefile
-    BINARY_PATTERN = /\.(swf|jpg|png|gif|pdf|xls|zip|eot|woff|ttf|mo|so)$/
+    BINARY_PATTERN = /\.(swf|jpg|png|gif|pdf|xls|zip|eot|woff|ttf|mo|so|gem)$/
     ERB_PATTERN = /\.(erb|rhtml|text\.html|text\.plain)$/
     HTML_PATTERN = /\.(rhtml|html|text\.html)/
     RUBY_PATTERN = /\.(rb|gemspec)$/
@@ -32,7 +32,7 @@ module Codeqa
     end
 
     def ruby?
-      @ruby ||= RUBY_NAMES.include?(filename) || !!(filename =~ RUBY_PATTERN)
+      @ruby ||= (RUBY_NAMES.include?(filename) || !!(filename =~ RUBY_PATTERN))
     end
 
     def erb?
