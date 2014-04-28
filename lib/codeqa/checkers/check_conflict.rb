@@ -17,7 +17,9 @@ module Codeqa
 
     private
 
-      PATTERN = /^<<<<<<<|^>>>>>>>|^=======$/m
+      def self.pattern
+        @pattern ||= /^<<<<<<<|^>>>>>>>|^=======$/m
+      end
       def error_msg(_line, line_number, _pos)
         "conflict leftovers in line #{line_number}, please merge properly"
       end

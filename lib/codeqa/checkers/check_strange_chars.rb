@@ -17,7 +17,9 @@ module Codeqa
 
     private
 
-      PATTERN = /(\x09|\x0c)/
+      def self.pattern
+        @pattern ||= /(\x09|\x0c)/
+      end
       def error_msg(line, line_number, pos)
         strangeness = (line.include?("\x09") ? 'TAB x09' : 'FORM FEED x0C')
         "#{strangeness} at line #{line_number} column #{pos + 1}"

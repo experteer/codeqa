@@ -17,7 +17,9 @@ module Codeqa
 
     private
 
-      PATTERN = /binding\.pry/
+      def self.pattern
+        @pattern ||= /binding\.pry/
+      end
       def error_msg(_line, line_number, _pos)
         "binding.pry in line #{line_number}"
       end

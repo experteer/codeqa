@@ -33,6 +33,11 @@ ARGV.options do |opts|
     puts opts
     exit
   end
+  opts.on("-v", "--version",
+          "Show version (it's #{Codeqa::VERSION})" ) do
+    puts Codeqa::VERSION
+    exit
+  end
 
   begin
     opts.parse!
@@ -55,11 +60,11 @@ exploded_args = ARGV.map do |e|
   end
 end
 
-files_to_check = exploded_args
-  .flatten
-  .map { |e| Pathname.new(e).realpath.to_s }
-  .reject{ |e| File.directory?(e) || Codeqa.config.excluded?(e) }
-  .uniq
+files_to_check = exploded_args.
+  flatten.
+  map{ |e| Pathname.new(e).realpath.to_s }.
+  reject{ |e| File.directory?(e) || Codeqa.config.excluded?(e) }.
+  uniq
 
 puts "#{files_to_check.count} files to check" unless options[:silent]
 if options[:failfast]

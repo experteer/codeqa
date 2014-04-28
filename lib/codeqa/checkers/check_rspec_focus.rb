@@ -8,7 +8,7 @@ module Codeqa
       end
 
       def hint
-        "Leftover binding.pry found, please remove it."
+        "Leftover :focus in spec found, please remove it."
       end
 
       def self.check?(sourcefile)
@@ -17,7 +17,9 @@ module Codeqa
 
     private
 
-      PATTERN = /:focus/
+      def self.pattern
+        @pattern ||= /:focus/
+      end
       def error_msg(_line, line_number, _pos)
         ":focus in line #{line_number}"
       end

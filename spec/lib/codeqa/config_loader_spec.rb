@@ -21,7 +21,7 @@ describe Codeqa::ConfigLoader do
     end
     it "should find the project config" do
       project_config = {
-        "Exclude"  => ["/home/aeger/code/codeqa/spec/fixtures/isolation/home/project/ignored/**/*"],
+        "Exclude"  => [Codeqa.root.join("spec/fixtures/isolation/home/project/ignored/**/*").to_s],
         "CheckErb" => { "Enabled" => false }
       }
       expect(described_class.project_configuration).to eql(project_config)
@@ -30,8 +30,8 @@ describe Codeqa::ConfigLoader do
     it "should load and merge all config files correctly" do
       config = {
         "Exclude"           => [
-          "/home/aeger/code/codeqa/spec/fixtures/isolation/home/project/vendor/**/*",
-          "/home/aeger/code/codeqa/spec/fixtures/isolation/home/project/ignored/**/*"],
+          Codeqa.root.join("spec/fixtures/isolation/home/project/vendor/**/*").to_s,
+          Codeqa.root.join("spec/fixtures/isolation/home/project/ignored/**/*").to_s],
         "CheckErb"          => { "Enabled" => false },
         "CheckErbHtml"      => { "Enabled" => false },
         "CheckLinkto"       => { "Enabled" => true },
