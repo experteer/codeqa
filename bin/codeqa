@@ -34,7 +34,7 @@ ARGV.options do |opts|
     exit
   end
   opts.on("-v", "--version",
-          "Show version (it's #{Codeqa::VERSION})" ) do
+          "Show version (it's #{Codeqa::VERSION})") do
     puts Codeqa::VERSION
     exit
   end
