@@ -21,7 +21,11 @@ module Codeqa
                                            'templates/pre-commit')
       $stdout.puts 'placing new pre-commit hook'
       FileUtils.cp(pre_commit_template_path, pre_commit_path)
-      FileUtils.chmod('+x', pre_commit_path)
+      if new_ruby_version
+        FileUtils.chmod('+x', pre_commit_path)
+      else
+        FileUtils.chmod(755, pre_commit_path)
+      end
       true
     else
       $stderr.puts "#{root} is not in a git root"

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# vim: ft=ruby
+#vim: ft=ruby
 
 def staged_files
   @staged_files ||= begin
@@ -18,7 +18,19 @@ def binary?(file)
 end
 
 require 'rubygems'
-require 'codeqa'
+begin
+  require 'codeqa'
+rescue LoadError
+  puts "no global codeqa, trying in current bundle"
+  begin
+    require 'bundler/setup'
+    require 'codeqa'
+  rescue LoadError
+    puts "can't find codeqa in current bundle either"
+    exit 1
+  end
+end
+
 files_to_check = staged_files.reject{ |e| Codeqa.config.excluded?(e) }
 
 print "Codeqa checking #{files_to_check.count} files"
