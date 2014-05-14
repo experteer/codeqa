@@ -21,7 +21,7 @@ module Codeqa
         if self.class.rubocop?
           with_existing_file do |filename|
             args = config_args << filename
-            success, captured = capture{ ::Rubocop::CLI.new.run(args) == 0 }
+            success, captured = capture{ ::Rubocop::CLI.new.run(default_args + args) == 0 }
             errors.add(nil, captured) unless success
           end
         end
@@ -30,7 +30,11 @@ module Codeqa
     private
 
       def config_args
-        %w(--format emacs --fail-level warning)
+        %w(--auto-correct --fail-level warning)
+      end
+
+      def default_args
+        %w(--display-cop-names --format emacs)
       end
 
       def self.rubocop?

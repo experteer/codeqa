@@ -8,11 +8,11 @@ module Codeqa
       end
 
       def hint
-        "Rubocop does not like your syntax, please fix your code."
+        "Rubocop found syntax errors, please fix your code."
       end
 
       def config_args
-        %w(--lint --format emacs --fail-level error)
+        %w(--lint --fail-level error)
       end
     end
   end
