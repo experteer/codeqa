@@ -24,7 +24,7 @@ module Codeqa
       if new_ruby_version
         FileUtils.chmod('+x', pre_commit_path)
       else
-        FileUtils.chmod(755, pre_commit_path)
+        FileUtils.chmod(0755, pre_commit_path)
       end
       true
     else
