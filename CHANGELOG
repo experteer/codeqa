@@ -1,2 +1,6 @@
+0.2.0
+  * .codeqa config file
+  * lots of refactorings
+  * ruby 2.0.0 compliant
 0.1.0 
   * checking for old style link_to blocks (without equal signs)
