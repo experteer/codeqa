@@ -23,11 +23,13 @@ module Codeqa
       end
 
       def check
-        ::YARD.parse_string(sourcefile.content) # let yard parse the file content
-        io.rewind # rewind the io
-        message = io.read
-        warnings = message.match(/\A\[warn\]: /)
-        errors.add(nil, message.gsub(/\(stdin\)/, sourcefile.filename)) if warnings
+        if self.class.yard?
+          ::YARD.parse_string(sourcefile.content) # let yard parse the file content
+          io.rewind # rewind the io
+          message = io.read
+          warnings = message.match(/\A\[warn\]: /)
+          errors.add(nil, message.gsub(/\(stdin\)/, sourcefile.filename)) if warnings
+        end
       ensure
         io.reopen # clear the message for the next file
       end

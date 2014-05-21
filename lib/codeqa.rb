@@ -74,7 +74,7 @@ module Codeqa
      Codeqa::Checkers::CheckPry,
      Codeqa::Checkers::CheckRspecFocus
     ].each do |checker_klass|
-      if checker_klass.available? && Codeqa.config.enabled?(checker_klass)
+      if Codeqa.config.enabled?(checker_klass) && checker_klass.available?
         Codeqa::Runner.register_checker(checker_klass)
       end
     end
