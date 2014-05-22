@@ -1,3 +1,4 @@
+require 'erb'
 module Codeqa
   # copied from ERB
   # throws away all the erb stuff so only html remains
