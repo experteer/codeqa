@@ -1,3 +1,5 @@
+0.2.1
+  * fixing missing ERB error
 0.2.0
   * .codeqa config file
   * lots of refactorings
