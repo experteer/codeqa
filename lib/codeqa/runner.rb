@@ -30,7 +30,9 @@ module Codeqa
       @results = matching_checkers.map do |checker_class|
         checker = checker_class.new(sourcefile)
 
+        checker.before_check if checker.respond_to?(:before_check)
         checker.check
+        checker.after_check if checker.respond_to?(:after_check)
         checker
       end
     end
@@ -39,7 +41,6 @@ module Codeqa
     attr_reader :results
 
     def failures
-      # return @failures if @failures
       @failures ||= @results.reject{ |checker| checker.success? }
     end
 
