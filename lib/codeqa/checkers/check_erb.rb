@@ -1,13 +1,12 @@
-begin
-  require 'action_view'
-rescue LoadError
-  require 'erb'
-end
 module Codeqa
   module Checkers
     class CheckErb < Checker
       def self.check?(sourcefile)
         sourcefile.erb?
+      end
+
+      def self.available?
+        engine?
       end
 
       def name
@@ -34,6 +33,16 @@ module Codeqa
         true # valid syntax - just the proper setup for the template/rendering is missing
       end
       # rubocop:enable RescueException,HandleExceptions
+
+    private
+
+      def self.engine?
+        @engine ||= if settings.fetch('Engine', 'erb').downcase == 'actionview'
+                      require 'action_view'
+                    else
+                      require 'erb'
+                    end
+      end
     end
   end
 end

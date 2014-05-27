@@ -3,6 +3,7 @@ Exclude:
 
 CheckErb:
   Enabled: true
+  Engine: Erb
 CheckErbHtml:
   Enabled: true
 CheckRubySyntax:

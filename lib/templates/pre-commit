@@ -31,7 +31,10 @@ rescue LoadError
   end
 end
 
-files_to_check = staged_files.reject{ |e| Codeqa.config.excluded?(e) }
+files_to_check = staged_files.
+                  map{ |e| Pathname.new(e).realpath.to_s }.
+                  reject{ |e| File.directory?(e) || Codeqa.config.excluded?(e) }.
+                  uniq
 
 print "Codeqa checking #{files_to_check.count} files"
 success = files_to_check.all? do |file|

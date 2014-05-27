@@ -32,7 +32,7 @@ describe Codeqa::ConfigLoader do
         "Exclude"           => [
           Codeqa.root.join("spec/fixtures/isolation/home/project/vendor/**/*").to_s,
           Codeqa.root.join("spec/fixtures/isolation/home/project/ignored/**/*").to_s],
-        "CheckErb"          => { "Enabled" => false },
+        "CheckErb"          => { "Enabled" => false, "Engine" => "Erb" },
         "CheckErbHtml"      => { "Enabled" => false },
         "CheckLinkto"       => { "Enabled" => true },
         "CheckRubySyntax"   => { "Enabled" => true },

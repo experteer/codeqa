@@ -41,9 +41,6 @@ module Codeqa
         @loaded ||= begin
                       require 'rubocop'
                       true
-                    rescue LoadError
-                      puts "rubocop not installed"
-                      false
                     end
       end
     end

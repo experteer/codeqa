@@ -27,6 +27,10 @@ module Codeqa
       !!@hash.fetch(checker_klass.to_s.split('::').last, {}).fetch('Enabled', false)
     end
 
+    def settings_for_checker(checker_klass)
+      @hash.fetch(checker_klass.to_s.split('::').last,{})
+    end
+
   private
 
     def patterns_to_exclude
