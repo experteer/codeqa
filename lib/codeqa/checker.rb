@@ -54,5 +54,12 @@ module Codeqa
       $stdout = stdout
       $stderr = stderr
     end
+
+    def settings
+      self.class.settings
+    end
+    def self.settings
+      Codeqa.config.settings_for_checker(self)
+    end
   end
 end
