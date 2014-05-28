@@ -40,7 +40,7 @@ module Codeqa
     end
 
     def html?
-      @html ||= !!(filename =~ HTML_PATTERN)
+      @html ||= !!(filename =~ HTML_PATTERN) && !ruby?
     end
 
     def spec?
