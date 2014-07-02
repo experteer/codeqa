@@ -10,3 +10,5 @@ CheckRubySyntax:
   Enabled: false
 RubocopLint:
   Enabled: true
+RubocopFormatter:
+  Enabled: true

@@ -28,7 +28,7 @@ module Codeqa
     end
 
     def settings_for_checker(checker_klass)
-      @hash.fetch(checker_klass.to_s.split('::').last,{})
+      @hash.fetch(checker_klass.to_s.split('::').last, {})
     end
 
   private

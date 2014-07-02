@@ -11,6 +11,8 @@ module Codeqa
         "Rubocop found syntax errors, please fix your code."
       end
 
+    private
+
       def config_args
         %w(--lint --fail-level error)
       end

@@ -62,11 +62,12 @@ module Codeqa
     end
   end
   def self.register_checkers
-    [Codeqa::Checkers::CheckErb,
+    [Codeqa::Checkers::CheckRubySyntax,
+     Codeqa::Checkers::RubocopLint,
+     Codeqa::Checkers::RubocopFormatter,
+     Codeqa::Checkers::CheckErb,
      Codeqa::Checkers::CheckErbHtml,
      Codeqa::Checkers::CheckLinkto,
-     Codeqa::Checkers::CheckRubySyntax,
-     Codeqa::Checkers::RubocopLint,
      Codeqa::Checkers::CheckStrangeChars,
      Codeqa::Checkers::CheckUtf8Encoding,
      Codeqa::Checkers::CheckYard,

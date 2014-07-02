@@ -42,6 +42,7 @@ files_to_check = staged_files.
                   uniq
 
 print "Codeqa checking #{files_to_check.count} files"
+# fail fast
 success = files_to_check.all? do |file|
   print '.'
   Codeqa.check(file, :silent => true)
