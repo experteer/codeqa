@@ -21,7 +21,13 @@ module Codeqa
         if self.class.rubocop?
           with_existing_file do |filename|
             args = config_args << filename
-            success, captured = capture{ ::Rubocop::CLI.new.run(default_args + args) == 0 }
+            success, captured = capture{
+              if defined?(RuboCop) # its RuboCop since 0.24
+                ::RuboCop::CLI.new.run(default_args + args) == 0
+              else
+                ::Rubocop::CLI.new.run(default_args + args) == 0
+              end
+            }
             errors.add(nil, captured) unless success
           end
         end

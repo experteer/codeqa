@@ -22,7 +22,7 @@ EOF
     private
 
       def config_args
-        %w(--auto-correct ) + active_cops
+        %w(--auto-correct --only ) << active_cops
       end
 
       def active_cops
@@ -48,7 +48,8 @@ EOF
             AlignArray
             AlignParameters
             BracesAroundHashParameters
-        ).map{ |e| "--only #{e}" }
+        ).join(",")
+        # ).map{ |e| "--only #{e}" }
         # SignalException
         # DeprecatedClassMethods
         # RedundantBegin
