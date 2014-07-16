@@ -44,12 +44,12 @@ EOF
             MethodDefParentheses
             DefWithParentheses
             HashSyntax
-            AlignHash
             AlignArray
             AlignParameters
             BracesAroundHashParameters
         ).join(",")
         # ).map{ |e| "--only #{e}" }
+        # AlignHash
         # SignalException
         # DeprecatedClassMethods
         # RedundantBegin
