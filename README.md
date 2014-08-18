@@ -1,5 +1,9 @@
 # Codeqa
 
+[![Build Status](https://travis-ci.org/experteer/codeqa.svg?branch=master)](https://travis-ci.org/experteer/codeqa)
+[![Coverage Status](https://img.shields.io/coveralls/experteer/codeqa.svg)](https://coveralls.io/r/experteer/codeqa)
+[![Code Climate](https://codeclimate.com/github/experteer/codeqa/badges/gpa.svg)](https://codeclimate.com/github/experteer/codeqa)
+
 With codeqa you can check your code to comply to certain coding rules (utf8 only chars, indenting) or to avoid typical errors or
 enforce deprecations. You might even put it into a pre commit hook.
 
