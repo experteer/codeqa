@@ -1,28 +1,31 @@
 require 'spec_helper'
 
 describe Codeqa::Checkers::CheckErb do
-  it "should check erb files" do
-    source = source_with("", "file.html.erb")
-    described_class.check?(source).should be_true
-    source = source_with("", "test.rhtml")
-    described_class.check?(source).should be_true
-    source = source_with("", "test.text.html")
-    described_class.check?(source).should be_true
+  it_behaves_like 'a checker'
+
+  it 'should check erb files' do
+    source = source_with('', 'file.html.erb')
+    expect(described_class.check?(source)).to be_truthy
+    source = source_with('', 'test.rhtml')
+    expect(described_class.check?(source)).to be_truthy
+    source = source_with('', 'test.text.html')
+    expect(described_class.check?(source)).to be_truthy
     source = source_with('', 'zipped.zip')
-    described_class.check?(source).should be_false
+    expect(described_class.check?(source)).to be_falsey
   end
 
-  it "should detect syntax errors in the erb" do
-    source = source_with("blub<%= def syntax %> ok")
+  it 'should detect syntax errors in the erb' do
+    source = source_with('blub<%= def syntax %> ok')
     checker = check_with(described_class, source)
-    checker.should be_error
+    expect(checker.errors?).to be true
     str = checker.errors.details[0][1]
 
-    if Codeqa.new_ruby_version
-      str.should =~ Regexp.new(Regexp.escape("(erb):1: syntax error, unexpected end-of-input, expect"))
-    else
-      str.should =~ Regexp.new(Regexp.escape("(erb):1: syntax error, unexpected $end, expecting kEND"))
-    end
+    expect(str).to match(Regexp.new(Regexp.escape('(erb):1: syntax error, unexpected end-of-input, expect')))
+  end
+  it 'should be successfull for valid erb' do
+    source = source_with('blub<%= var %> ok')
+    checker = check_with(described_class, source)
+    expect(checker.success?).to be true
   end
 
 end

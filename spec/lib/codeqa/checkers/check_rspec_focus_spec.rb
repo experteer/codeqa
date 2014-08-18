@@ -1,23 +1,25 @@
 require 'spec_helper'
 
 describe Codeqa::Checkers::CheckRspecFocus do
-  it "should check spec files" do
+  it_behaves_like 'a checker'
+
+  it 'should check spec files' do
     source = source_with('', 'file_spec.rb')
-    described_class.check?(source).should be_true
+    expect(described_class.check?(source)).to be_truthy
     source = source_with('', 'file.rb')
-    described_class.check?(source).should be_false
+    expect(described_class.check?(source)).to be_falsey
   end
 
-  it "should detect :focus" do
+  it 'should detect :focus' do
     source = source_with("first line\:focus\nthirdline", 'file_spec.rb')
     checker = check_with(described_class, source)
-    checker.should be_error
+    expect(checker).to be_error
   end
 
-  it "should be success is all is finde " do
+  it 'should be success is all is finde ' do
     source = source_with("first line\nthirdline\n", 'file_spec.rb')
     checker = check_with(described_class, source)
-    checker.should be_success
+    expect(checker).to be_success
   end
 
 end

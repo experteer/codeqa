@@ -4,11 +4,11 @@ module Codeqa
   module Checkers
     class CheckPry < PatternChecker
       def name
-        "pry"
+        'pry'
       end
 
       def hint
-        "Leftover binding.pry found, please remove it."
+        'Leftover binding.pry found, please remove it.'
       end
 
       def self.check?(sourcefile)

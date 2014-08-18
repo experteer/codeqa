@@ -1,10 +1,19 @@
 module Codeqa
   class Runner
-    @@registered_checkers = [] # I want this to be inheritable
+    class << self
+      def registered_checkers
+        @@registered_checkers
+      end
 
-    def self.register_checker(checker_class)
-      @@registered_checkers << checker_class
+      def reset_checkers
+        @@registered_checkers = Set.new
+      end
+
+      def register_checker(checker_class)
+        @@registered_checkers << checker_class
+      end
     end
+    @@registered_checkers = reset_checkers
 
     # run the checks on source
     def self.run(sourcefile)
@@ -19,22 +28,17 @@ module Codeqa
     end
     attr_reader :sourcefile
 
-    def matching_checkers
-      @matching_checkers ||= @@registered_checkers.select do |checker_class|
-        checker_class.check?(sourcefile)
-      end
-    end
-
     def run
       return @results unless @results.empty?
-      @results = matching_checkers.map do |checker_class|
-        checker = checker_class.new(sourcefile)
+      @results = @@registered_checkers.map do |checker_klass|
+        next unless checker_klass.check?(sourcefile)
+        checker = checker_klass.new(sourcefile)
 
         checker.before_check if checker.respond_to?(:before_check)
         checker.check
         checker.after_check if checker.respond_to?(:after_check)
         checker
-      end
+      end.compact
     end
 
     # the results (checker instances of the run)

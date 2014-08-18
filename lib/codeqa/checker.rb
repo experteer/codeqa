@@ -2,33 +2,20 @@ require 'stringio'
 require 'tempfile'
 module Codeqa
   class Checker
+    extend Forwardable
+
     def initialize(sourcefile)
       @errors = CheckErrors.new
       @sourcefile = sourcefile
     end
 
     attr_reader :sourcefile
+    attr_reader :errors
+    def_delegators :@errors, :success?, :errors?
 
-    def success?
-      @errors.success?
-    end
-
-    def errors?
-      !success?
-    end
-
-    def self.check?(_sourcefile)
-      raise "implement check?"
-    end
     def self.available?
       true
     end
-
-    def check
-      raise "implement check"
-    end
-
-    attr_reader :errors
 
   private
 
@@ -36,7 +23,7 @@ module Codeqa
       if sourcefile.exist? && sourcefile.content == content
         yield sourcefile.filename
       else
-        Tempfile.open("codeqa") do |tmpfile|
+        Tempfile.open('codeqa') do |tmpfile|
           tmpfile.write(content)
           tmpfile.flush
           tmpfile.rewind
@@ -53,13 +40,6 @@ module Codeqa
     ensure
       $stdout = stdout
       $stderr = stderr
-    end
-
-    def settings
-      self.class.settings
-    end
-    def self.settings
-      Codeqa.config.settings_for_checker(self)
     end
   end
 end

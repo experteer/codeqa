@@ -10,26 +10,25 @@ module Codeqa
       end
 
       def name
-        "rubocop"
+        'rubocop'
       end
 
       def hint
-        "Rubocop does not like your syntax, please fix your code."
+        'Rubocop does not like your syntax, please fix your code.'
       end
 
       def check
-        if self.class.rubocop?
-          with_existing_file do |filename|
-            args = config_args << filename
-            success, captured = capture{
-              if defined?(RuboCop) # its RuboCop since 0.24
-                ::RuboCop::CLI.new.run(default_args + args) == 0
-              else
-                ::Rubocop::CLI.new.run(default_args + args) == 0
-              end
-            }
-            errors.add(nil, captured) unless success
+        return unless self.class.rubocop?
+        with_existing_file do |filename|
+          args = config_args << filename
+          success, captured = capture do
+            if defined?(RuboCop) # its RuboCop since 0.24
+              ::RuboCop::CLI.new.run(default_args + args) == 0
+            else
+              ::Rubocop::CLI.new.run(default_args + args) == 0
+            end
           end
+          errors.add(nil, captured) unless success
         end
       end
 

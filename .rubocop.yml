@@ -56,6 +56,7 @@ MethodLength:
 FileName:
   Exclude:
     - 'lib/templates/pre-commit'
+    - '.codeqa.rb'
 
 # Disabled cops ------------------------------
 
@@ -78,10 +79,6 @@ Documentation:
 # checks to avoid \1 in regex
 PerlBackrefs:
   Enabled: false
-
-StringLiterals:
-  Enabled: false
-  EnforcedStyle: double_quotes
 
 SpecialGlobalVars:
   Enabled: false

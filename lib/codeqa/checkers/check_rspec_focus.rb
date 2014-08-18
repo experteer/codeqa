@@ -4,11 +4,11 @@ module Codeqa
   module Checkers
     class CheckRspecFocus < PatternChecker
       def name
-        "rspec-focus"
+        'rspec-focus'
       end
 
       def hint
-        "Leftover :focus in spec found, please remove it."
+        'Leftover :focus in spec found, please remove it.'
       end
 
       def self.check?(sourcefile)

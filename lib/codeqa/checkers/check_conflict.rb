@@ -4,11 +4,11 @@ module Codeqa
   module Checkers
     class CheckConflict < PatternChecker
       def name
-        "conflict"
+        'conflict'
       end
 
       def hint
-        "Remove the lines which are beginning with <<<<<<< or >>>>>>> or =======."
+        'Remove the lines which are beginning with <<<<<<< or >>>>>>> or =======.'
       end
 
       def self.check?(sourcefile)

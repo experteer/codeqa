@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
-#vim: ft=ruby
 
 def staged_files
   @staged_files ||= begin
     files = `git diff --cached --name-only --diff-filter=ACM`.split
     files.reject do |f|
-      if File.ftype(f) != "file"
+      if File.ftype(f) != 'file'
         true
       else
         size = File.size(f)
@@ -17,16 +16,16 @@ end
 
 # from https://github.com/djberg96/ptools/blob/master/lib/ptools.rb#L90
 def binary?(file)
-  return true if File.ftype(f) != "file"
-  s = (File.read(file, File.stat(file).blksize) || "").split(//)
-  ((s.size - s.grep(" ".."~").size) / s.size.to_f) > 0.30
+  return true if File.ftype(f) != 'file'
+  s = (File.read(file, File.stat(file).blksize) || '').split(//)
+  ((s.size - s.grep(' '..'~').size) / s.size.to_f) > 0.30
 end
 
 require 'rubygems'
 begin
   require 'codeqa'
 rescue LoadError
-  puts "no global codeqa, trying in current bundle"
+  puts 'no global codeqa, trying in current bundle'
   begin
     require 'bundler/setup'
     require 'codeqa'
@@ -38,7 +37,7 @@ end
 
 files_to_check = staged_files.
                   map{ |e| Pathname.new(e).realpath.to_s }.
-                  reject{ |e| File.directory?(e) || Codeqa.config.excluded?(e) }.
+                  reject{ |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
                   uniq
 
 print "Codeqa checking #{files_to_check.count} files"

@@ -4,7 +4,7 @@ module Codeqa
   module Checkers
     class RubocopFormatter < Rubocop
       def name
-        "rubocop formatter"
+        'rubocop formatter'
       end
 
       def hint
@@ -22,40 +22,7 @@ EOF
     private
 
       def config_args
-        %w(--auto-correct --only ) << active_cops
-      end
-
-      def active_cops
-        %w( EmptyLinesAroundBody
-            EmptyLines
-            TrailingWhitespace
-            SpaceBeforeBlockBraces
-            SpaceInsideBlockBraces
-            SpaceAroundEqualsInParameterDefault
-            SpaceAfterComma
-            SingleSpaceBeforeFirstArg
-            SpaceInsideHashLiteralBraces
-            SpaceAroundOperators
-            SpaceInsideParens
-            LeadingCommentSpace
-            EmptyLineBetweenDefs
-            IndentationConsistency
-            IndentationWidth
-            MethodDefParentheses
-            DefWithParentheses
-            HashSyntax
-            AlignArray
-            AlignParameters
-            BracesAroundHashParameters
-        ).join(",")
-        # ).map{ |e| "--only #{e}" }
-        # AlignHash
-        # SignalException
-        # DeprecatedClassMethods
-        # RedundantBegin
-        # RedundantSelf
-        # RedundantReturn
-        # CollectionMethods
+        %w(--auto-correct --only ) << Codeqa.configuration.rubocop_formatter_cops.to_a.join(',')
       end
     end
   end

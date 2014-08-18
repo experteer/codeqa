@@ -1,39 +1,39 @@
 #!/usr/bin/env ruby
 
-$: << File.join(File.dirname(__FILE__), "../lib") if ENV['CODEQA_DEV']
+$: << File.join(File.dirname(__FILE__), '../lib') if ENV['CODEQA_DEV']
 require 'rubygems'
 require 'codeqa'
 
 require 'pathname'
-require "optparse"
+require 'optparse'
 
 options = { :silent => false, :failfast => false }
 
 ARGV.options do |opts|
   opts.banner = "Usage:  #{File.basename($PROGRAM_NAME)} [OPTIONS] FILES"
 
-  opts.separator ""
-  opts.separator "Specific Options:"
+  opts.separator ''
+  opts.separator 'Specific Options:'
 
-  opts.on("-s", "--silent", "No output if no error") do
+  opts.on('-s', '--silent', 'No output if no error') do
     options[:silent] = true
   end
-  opts.on("-f", "--fail-fast", "Fail right after the first error.") do
+  opts.on('-f', '--fail-fast', 'Fail right after the first error.') do
     options[:failfast] = true
   end
 
-  opts.on("-i", "--install", "Install a basic pre-commit hook.") do
+  opts.on('-i', '--install', 'Install a basic pre-commit hook.') do
     options[:install] = true
   end
 
-  opts.separator "Common Options:"
+  opts.separator 'Common Options:'
 
-  opts.on("-h", "--help",
-          "Show this message.") do
+  opts.on('-h', '--help',
+          'Show this message.') do
     puts opts
     exit
   end
-  opts.on("-v", "--version",
+  opts.on('-v', '--version',
           "Show version (it's #{Codeqa::VERSION})") do
     puts Codeqa::VERSION
     exit
@@ -63,7 +63,7 @@ end
 files_to_check = exploded_args.
   flatten.
   map{ |e| Pathname.new(e).realpath.to_s }.
-  reject{ |e| File.directory?(e) || Codeqa.config.excluded?(e) }.
+  reject{ |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
   uniq
 
 puts "#{files_to_check.count} files to check" unless options[:silent]

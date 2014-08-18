@@ -4,11 +4,11 @@ module Codeqa
   module Checkers
     class RubocopLint < Rubocop
       def name
-        "rubocop lint"
+        'rubocop lint'
       end
 
       def hint
-        "Rubocop found syntax errors, please fix your code."
+        'Rubocop found syntax errors, please fix your code.'
       end
 
     private

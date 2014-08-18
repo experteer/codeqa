@@ -8,11 +8,11 @@ module Codeqa
       end
 
       def name
-        "strange chars"
+        'strange chars'
       end
 
       def hint
-        "The file contains a tab or form feed. Remove them."
+        'The file contains a tab or form feed. Remove them.'
       end
 
     private

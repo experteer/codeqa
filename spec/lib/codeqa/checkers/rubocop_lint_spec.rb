@@ -1,28 +1,26 @@
 require 'spec_helper'
-begin
-  require 'rubocop'
-  describe Codeqa::Checkers::RubocopLint do
-    it "should check text files" do
-      source = source_with
-      described_class.check?(source).should be_true
-      source = source_with('', 'zipped.zip')
-      described_class.check?(source).should be_false
-    end
 
-    it "should detect syntax errors" do
-      source = source_with("class MyClass")
-      checker = check_with(described_class, source)
-      checker.should be_error
-      checker.errors.details.first[1].should match(/unexpected token/)
-    end
+describe Codeqa::Checkers::RubocopLint do
+  it_behaves_like 'a checker'
 
-    it "should find not find if not there " do
-      source = source_with("class MyClass; end")
-      checker = check_with(described_class, source)
-      checker.should be_success
-    end
-
+  it 'should check text files' do
+    source = source_with
+    expect(described_class.check?(source)).to be_truthy
+    source = source_with('', 'zipped.zip')
+    expect(described_class.check?(source)).to be_falsey
   end
-rescue LoadError
-  true #  skip rubocop specs
+
+  it 'should detect syntax errors' do
+    source = source_with('class MyClass')
+    checker = check_with(described_class, source)
+    expect(checker).to be_error
+    expect(checker.errors.details.first[1]).to match(/unexpected token/)
+  end
+
+  it 'should find not find if not there ' do
+    source = source_with('class MyClass; end')
+    checker = check_with(described_class, source)
+    expect(checker).to be_success
+  end
+
 end

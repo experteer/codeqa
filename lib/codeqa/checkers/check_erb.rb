@@ -10,11 +10,11 @@ module Codeqa
       end
 
       def name
-        "erb syntax"
+        'erb syntax'
       end
 
       def hint
-        "There is a syntax error in the ruby code of the erb parsed file."
+        'There is a syntax error in the ruby code of the erb parsed file.'
       end
 
       # rubocop:disable RescueException,HandleExceptions
@@ -34,14 +34,14 @@ module Codeqa
       end
       # rubocop:enable RescueException,HandleExceptions
 
-    private
-
       def self.engine?
-        @engine ||= if settings.fetch('Engine', 'erb').downcase == 'actionview'
-                      require 'action_view'
-                    else
-                      require 'erb'
-                    end
+        @@engine ||= if %w(actionview action_view).include? Codeqa.configuration.erb_engine.downcase
+                       require 'action_view'
+                       true
+                     else
+                       require 'erb'
+                       true
+                     end
       end
     end
   end

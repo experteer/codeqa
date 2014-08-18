@@ -1,1 +1,1 @@
-p "this is a ruby file"
+p 'this is a ruby file'

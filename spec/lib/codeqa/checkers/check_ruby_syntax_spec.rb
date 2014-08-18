@@ -1,24 +1,26 @@
 require 'spec_helper'
 
 describe Codeqa::Checkers::CheckRubySyntax do
-  it "should check text files" do
+  it_behaves_like 'a checker'
+
+  it 'should check text files' do
     source = source_with
-    described_class.check?(source).should be_true
+    expect(described_class.check?(source)).to be_truthy
     source = source_with('', 'zipped.zip')
-    described_class.check?(source).should be_false
+    expect(described_class.check?(source)).to be_falsey
   end
 
-  it "should detect syntax errors" do
-    source = source_with("class MyClass")
+  it 'should detect syntax errors' do
+    source = source_with('class MyClass')
     checker = check_with(described_class, source)
-    checker.should be_error
-    checker.errors.details.should be == [[nil, "Ruby syntax error"]]
+    expect(checker).to be_error
+    expect(checker.errors.details).to eq([[nil, 'Ruby syntax error']])
   end
 
-  it "should find not find if not there " do
-    source = source_with("class MyClass; end")
+  it 'should find not find if not there ' do
+    source = source_with('class MyClass; end')
     checker = check_with(described_class, source)
-    checker.should be_success
+    expect(checker).to be_success
   end
 
 end

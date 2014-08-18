@@ -4,7 +4,7 @@ module Codeqa
   module Checkers
     class CheckLinkto < PatternChecker
       def name
-        "link_to"
+        'link_to'
       end
 
       def hint

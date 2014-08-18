@@ -15,11 +15,11 @@ module Codeqa
       end
 
       def name
-        "yard"
+        'yard'
       end
 
       def hint
-        "Yard gives us some warnings on the file you can run <yardoc filename> to check yourself."
+        'Yard gives us some warnings on the file you can run <yardoc filename> to check yourself.'
       end
 
       def check
@@ -46,7 +46,7 @@ module Codeqa
                       ::YARD::Logger.instance(io) # replace YARD logger with io
                       true
                     rescue LoadError
-                      puts "yard not installed"
+                      puts 'yard not installed'
                       false
                     end
       end

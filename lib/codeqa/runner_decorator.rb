@@ -3,7 +3,7 @@ module Codeqa
     def initialize(runner, options={})
       @options = { :colors => true }.merge(options)
       @runner = runner
-      @msg = ""
+      @msg = ''
     end
 
     def sourcefile_to_s
@@ -33,7 +33,7 @@ module Codeqa
   private
 
     def error_details
-      msg = ""
+      msg = ''
       @runner.failures.each do |checker|
         msg << error("------- #{checker.name} -------\n")
         msg << error("#{checker.hint}\n")
@@ -73,12 +73,12 @@ module Codeqa
       colorize(32, txt)
     end
 
-    def yellow(txt)
-      colorize(33, txt)
-    end
+    # def yellow(txt)
+    #   colorize(33, txt)
+    # end
 
-    def pink(txt)
-      colorize(35, txt)
-    end
+    # def pink(txt)
+    #   colorize(35, txt)
+    # end
   end
 end
