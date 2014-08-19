@@ -2,9 +2,9 @@ language: ruby
 rvm:
   - 2.1.2
   - 2.0.0
-  - rbx-2
+  - rbx
   - ruby-head
 matrix:
   allow_failures:
-    - rvm: rbx-2
+    - rvm: rbx
     - rvm: ruby-head
