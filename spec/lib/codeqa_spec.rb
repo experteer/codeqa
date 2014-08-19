@@ -35,9 +35,14 @@ describe Codeqa do
     #   Dir.chdir(@org_dir)
     # end
 
+    let(:project_dir){ Codeqa.root.join('spec/fixtures/isolation/home/project') }
+    after(:each) do
+      File.delete(project_dir.join('.git/hooks/pre-commit'))
+      File.delete(project_dir.join('.git/hooks/pre-commit.bkp'))
+    end
     it 'should copy pre-commit hook into project git folder' do
-      Codeqa.install './spec/fixtures/isolation/home/project'
-      expect(File.exist?('./spec/fixtures/isolation/home/project/.git/hooks/pre-commit')).to be true
+      Codeqa.install project_dir.to_s
+      expect(File.exist?(project_dir.join('.git/hooks/pre-commit'))).to be true
     end
   end
 end
