@@ -24,7 +24,7 @@ module Codeqa
         FileUtils.chmod('+x', pre_commit_path)
         true
       else
-        $stderr.puts "#{root} is not in a git root"
+        # $stderr.puts "#{root} is not in a git root"
         false
       end
     end

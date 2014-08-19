@@ -26,6 +26,21 @@ describe Codeqa do
 
   context 'install' do
     let(:project_dir){ Codeqa.root.join('spec/fixtures/isolation/home/project') }
+    before(:each) do
+      FileUtils.mkdir_p(project_dir.join('.git', 'hooks'))
+    end
+    after(:each) do
+      FileUtils.rm_rf(project_dir.join('.git'))
+    end
+
+    it 'should be true if folder looks like a git root' do
+      expect(Codeqa.install(project_dir.to_s)).to be true
+    end
+
+    it 'should be false if folder does not look like a git root' do
+      expect(Codeqa.install(Codeqa.root.join('spec', 'fixtures'))).to be false
+    end
+
     it 'should copy pre-commit hook into project git folder' do
       template_location = Codeqa.root.join('lib', 'templates', 'pre-commit')
       hook_location = project_dir.join('.git', 'hooks', 'pre-commit')
