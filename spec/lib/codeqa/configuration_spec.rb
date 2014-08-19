@@ -7,9 +7,9 @@ describe Codeqa::Configuration do
     expect(Codeqa).to respond_to(:configuration)
   end
 
-  %i(excludes enabled_checker erb_engine rubocop_formatter_cops).each do |c|
+  %w(excludes enabled_checker erb_engine rubocop_formatter_cops).each do |c|
     it "should provide :#{c}" do
-      expect(Codeqa.configuration).to respond_to(c)
+      expect(Codeqa.configuration).to respond_to(c.to_sym)
     end
   end
 
@@ -49,20 +49,4 @@ describe Codeqa::Configuration do
       expect(Codeqa.configuration.excluded?('some/tmp/path')).to be true
     end
   end
-
-  # describe 'path finding' do
-  #   before(:each) do
-  #     @org_dir = Dir.pwd
-  #     Dir.chdir("./spec/fixtures/isolation/home/project/dir")
-  #     described_class.stub(:home_dir).and_return(File.expand_path("../../"))
-  #     described_class.stub(:project_root).and_return(File.expand_path("../"))
-  #   end
-  #   after(:each) do
-  #     Dir.chdir(@org_dir)
-  #   end
-  #   it "should " do
-
-  #   end
-  # end
-
 end
