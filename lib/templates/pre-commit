@@ -16,23 +16,17 @@ end
 
 # from https://github.com/djberg96/ptools/blob/master/lib/ptools.rb#L90
 def binary?(file)
-  return true if File.ftype(f) != 'file'
+  return true if File.ftype(file) != 'file'
   s = (File.read(file, File.stat(file).blksize) || '').split(//)
   ((s.size - s.grep(' '..'~').size) / s.size.to_f) > 0.30
 end
 
-require 'rubygems'
 begin
+  require 'bundler/setup'
   require 'codeqa'
 rescue LoadError
-  puts 'no global codeqa, trying in current bundle'
-  begin
-    require 'bundler/setup'
-    require 'codeqa'
-  rescue LoadError
-    puts "can't find codeqa in current bundle either"
-    exit 1
-  end
+  puts "can't find codeqa in current bundle"
+  exit 1
 end
 
 files_to_check = staged_files.
