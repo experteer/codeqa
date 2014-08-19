@@ -2,16 +2,16 @@ require 'erb'
 module Codeqa
   module Checkers
     class CheckRubySyntax < Checker
-      def self.check?(sourcefile)
-        sourcefile.ruby?
-      end
-
       def name
         'ruby syntax'
       end
 
       def hint
         'Ruby can not parse the file, please check it for syntax errors.'
+      end
+
+      def self.check?(sourcefile)
+        sourcefile.ruby?
       end
 
       def check

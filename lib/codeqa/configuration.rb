@@ -69,8 +69,12 @@ module Codeqa
       case pattern
       when String
         basename = File.basename(path)
-        pattern = File.join(project_root, pattern) unless pattern.start_with?('/')
-        path == pattern || basename == pattern || File.fnmatch(pattern, path)
+        if path == pattern || basename == pattern
+          true
+        else
+          pattern = File.join(project_root, pattern) unless pattern.start_with?('/')
+          File.fnmatch(pattern, path)
+        end
       when Regexp
         path =~ pattern
       end

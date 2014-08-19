@@ -33,7 +33,7 @@ describe Codeqa::Configuration do
       project_root = Codeqa.root.join 'spec/fixtures/isolation/home/project'
       allow(Codeqa.configuration).to receive(:project_root).and_return(Pathname.new(project_root))
       Dir.chdir(project_root)
-      Codeqa.configure{ |c| c.excludes = ['ignored/*', /tmp/] }
+      Codeqa.configure{ |c| c.excludes = ['ignored/*', /tmp/, 'dont_check.rb', 'some/path/to/file.html'] }
     end
     after(:each) do
       Dir.chdir(@org_dir)
@@ -47,6 +47,12 @@ describe Codeqa::Configuration do
     end
     it 'should work with regex matches' do
       expect(Codeqa.configuration.excluded?('some/tmp/path')).to be true
+    end
+    it 'should match on the basename' do
+      expect(Codeqa.configuration.excluded?('some/path/dont_check.rb')).to be true
+    end
+    it 'should match if the pattern is equal to the path' do
+      expect(Codeqa.configuration.excluded?('some/path/to/file.html')).to be true
     end
   end
 end
