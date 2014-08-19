@@ -1,5 +1,15 @@
+require 'bundler'
+Bundler.setup
+
 require 'simplecov'
+require 'coveralls'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
 SimpleCov.start
+
+Bundler.require(:default, :test)
 
 require 'codeqa'
 RSpec.configure do |config|

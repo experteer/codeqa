@@ -12,4 +12,7 @@ group :development do
   # gem 'rb-fchange', :require => false #windows only
 end
 
-gem 'simplecov', :require => false, :group => :test
+group :test do
+  gem 'simplecov', :require => false
+  gem 'coveralls', :require => false
+end
