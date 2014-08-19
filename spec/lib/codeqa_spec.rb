@@ -37,8 +37,7 @@ describe Codeqa do
 
     let(:project_dir){ Codeqa.root.join('spec/fixtures/isolation/home/project') }
     after(:each) do
-      File.delete(project_dir.join('.git/hooks/pre-commit'))
-      File.delete(project_dir.join('.git/hooks/pre-commit.bkp'))
+      FileUtils.rm(project_dir.join('.git/hooks/pre-commit'))
     end
     it 'should copy pre-commit hook into project git folder' do
       Codeqa.install project_dir.to_s

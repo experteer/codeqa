@@ -1,5 +1,0 @@
-Exclude:
-  - 'ignored/**/*'
-
-CheckErb:
-  Enabled: false
