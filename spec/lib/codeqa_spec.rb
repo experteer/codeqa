@@ -25,23 +25,13 @@ describe Codeqa do
   end
 
   context 'install' do
-    # before(:each) do
-    #   @org_dir = Dir.pwd
-    #   Dir.chdir('./spec/fixtures/isolation/home/project/dir')
-    #   described_class.stub(:home_dir).and_return(File.expand_path('../../'))
-    #   described_class.stub(:project_root).and_return(File.expand_path('../'))
-    # end
-    # after(:each) do
-    #   Dir.chdir(@org_dir)
-    # end
-
     let(:project_dir){ Codeqa.root.join('spec/fixtures/isolation/home/project') }
-    after(:each) do
-      FileUtils.rm(project_dir.join('.git/hooks/pre-commit'))
-    end
     it 'should copy pre-commit hook into project git folder' do
+      template_location = Codeqa.root.join('lib', 'templates', 'pre-commit')
+      hook_location = project_dir.join('.git', 'hooks', 'pre-commit')
+      expect(FileUtils).to receive(:cp).with(template_location, hook_location)
+      allow(FileUtils).to receive(:chmod)
       Codeqa.install project_dir.to_s
-      expect(File.exist?(project_dir.join('.git/hooks/pre-commit'))).to be true
     end
   end
 end
