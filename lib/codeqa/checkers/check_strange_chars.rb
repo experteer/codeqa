@@ -3,16 +3,16 @@ require 'codeqa/checkers/pattern_checker'
 module Codeqa
   module Checkers
     class CheckStrangeChars < PatternChecker
-      def self.check?(sourcefile)
-        sourcefile.text?
-      end
-
       def name
         'strange chars'
       end
 
       def hint
         'The file contains a tab or form feed. Remove them.'
+      end
+
+      def self.check?(sourcefile)
+        sourcefile.text?
       end
 
     private
