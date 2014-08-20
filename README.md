@@ -1,5 +1,6 @@
 # Codeqa
 
+[![Gem Version](https://badge.fury.io/rb/codeqa.svg)](http://badge.fury.io/rb/codeqa)
 [![Build Status](https://travis-ci.org/experteer/codeqa.svg?branch=master)](https://travis-ci.org/experteer/codeqa)
 [![Coverage Status](https://img.shields.io/coveralls/experteer/codeqa.svg)](https://coveralls.io/r/experteer/codeqa)
 [![Code Climate](https://codeclimate.com/github/experteer/codeqa/badges/gpa.svg)](https://codeclimate.com/github/experteer/codeqa)
