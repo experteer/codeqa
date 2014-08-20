@@ -1,8 +1,10 @@
 require 'stringio'
 require 'tempfile'
+require 'forwardable'
+
 module Codeqa
   class Checker
-    extend Forwardable
+    extend ::Forwardable
 
     def initialize(sourcefile)
       @errors = CheckErrors.new

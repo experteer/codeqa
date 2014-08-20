@@ -1,3 +1,5 @@
+require 'set'
+
 module Codeqa
   class Runner
     class << self
