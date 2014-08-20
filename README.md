@@ -70,6 +70,24 @@ Codeqa.configure do |config|
 end
 ```
 
+## Checkers
+
+- pattern
+  - CheckPry
+  - CheckRspecFocus
+  - CheckConflict
+  - CheckStrangeChars
+  - CheckLinkTo
+- rubocop
+  - RubocopLint (replacement for CheckRubySyntax)
+  - RubocopFormatter
+- erb
+  - CheckErb (tests erb template for syntax errors using either `erb` or `action_view`
+  - CheckErbHtml (removes all erb tags and tests with `tidy` if the template is valid XML)
+- yard
+  - CheckYard (checks YARD for warnings)
+- CheckRubySyntax (runs file though `ruby -c`, use RubocopLint if possible)
+
 ## Contributing
 
 1. Fork it
