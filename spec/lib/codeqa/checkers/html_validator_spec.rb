@@ -15,34 +15,37 @@ describe Codeqa::Checkers::HtmlValidator do
   end
 
   it 'should detect html tag errors' do
-    source = source_with('<div><ul></div>')
+    text = '<div><ul></div>'
+    source = source_with(text)
     checker = check_with(described_class, source)
     expect(checker).to be_error
     expect(checker.errors.details).to eq([
-      [1, 'Opening and ending tag mismatch: ul line 1 and div'],
-      [1, 'Premature end of data in tag div line 1']
+      [:source, text],
+      [1, 'Opening and ending tag mismatch: ul line 1 and div']
     ])
   end
 
   it 'should detect attribute till end of file errors' do
-    source = source_with("<div class='halfopen></div>")
+    text = "<div class='halfopen></div>"
+    source = source_with(text)
     checker = check_with(described_class, source)
     expect(checker).to be_error
     expect(checker.errors.details).to eq([
+      [:source, text],
       [1, "Unescaped '<' not allowed in attributes values"],
       [1, 'attributes construct error'],
-      [1, "Couldn't find end of Start Tag div line 1"],
-      [1, 'Extra content at the end of the document']
+      [1, "Couldn't find end of Start Tag div line 1"]
     ])
   end
   it 'should detect attribute with missing trailing qute mark' do
-    source = source_with('<div class="halfopen next="ok"></div>')
+    text = '<div class="halfopen next="ok"></div>'
+    source = source_with(text)
     checker = check_with(described_class, source)
     expect(checker).to be_error
     expect(checker.errors.details).to eq([
+      [:source, text],
       [1, 'attributes construct error'],
-      [1, "Couldn't find end of Start Tag div line 1"],
-      [1, 'Extra content at the end of the document']
+      [1, "Couldn't find end of Start Tag div line 1"]
     ])
   end
 
@@ -90,39 +93,7 @@ describe Codeqa::Checkers::HtmlValidator do
     it 'should replace erb tags with html comments' do
       s = source_with('<div><% some ruby %></div>')
       checker = described_class.new(s)
-      expect(checker.stripped_html).to eq('<div><!-- some ruby --></div>')
-    end
-    it 'should replace multiline erb tags' do
-      checker = described_class.new(source)
-      expect(checker.stripped_html).to eq(<<-EOF)
-<div class="jobdetail">
-  <!--= render :partial => 'header',
-             :locals => @header_options.reverse_merge(
-                     :position_presenter => @position_presenter,
-                     :bookmark => @bookmark,
-                     :account_id => @account.id,
-                     :social_share => @social_share) if @position_presenter.show_header? -->
-  <!--  if @position_presenter.internal_view? -->
-      <!--= render :partial => 'intern',
-                 :locals => @header_options.reverse_merge(
-                         :position_presenter => @position_presenter,
-                         :account_id => @account.id) -->
-  <!-- else -->
-      <iframe src="" scrolling="no">
-      </iframe>
-  <!-- end -->
-</div>
-
-<!--#
-params:
-@header_options
-@account_id
-@bookmark
-@position
-@position_presenter
--->
-<!--removed script/style tag-->
-EOF
+      expect(checker.stripped_html).to eq('<div></div>')
     end
     it 'should be able to validate this stripped html' do
       checker = check_with(described_class, source)
@@ -131,12 +102,17 @@ EOF
     it 'should only remove tags completely within quotes' do
       s = source_with '<%dont touch this%> before baz="bla <%=inside%> <%=inside2%> stuff" after'
       checker = described_class.new s
-      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla  stuff" after')
+      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla   stuff" after')
     end
     it 'should also remove tags within single quotes' do
       s = source_with '<%dont touch this%> before baz="bla <%=inside + "text"%> <%=inside2%> stuff" after'
       checker = described_class.new s
-      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla  stuff" after')
+      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla   stuff" after')
+    end
+    it 'foo' do
+      s = source_with '<a href="<%= url_for :controller => \'/recruiter\', :action => \'profile\', :id => recruiter.id %>">'
+      checker = described_class.new s
+      expect(checker.stripped_html).to eq('<a href="">')
     end
   end
 end

@@ -24,10 +24,10 @@ module Codeqa
         else
           ERB.new(sourcefile.content.gsub('<%=', '<%'), nil, '-').result
         end
-      rescue SyntaxError
+      rescue SyntaxError => e
         errors.add(nil, <<-EOF)
-        #{$!.message}
-        #{$!.backtrace.join("\n")}
+        #{e.message}
+        #{e.backtrace.join("\n")}
         EOF
       rescue Exception
         true # valid syntax - just the proper setup for the template/rendering is missing

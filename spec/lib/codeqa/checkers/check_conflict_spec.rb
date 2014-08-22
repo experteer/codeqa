@@ -15,9 +15,9 @@ describe Codeqa::Checkers::CheckConflict do
     checker = check_with(described_class, source)
     expect(checker).to be_error
     expect(checker.errors.details).to eq([
-      ['2,1', 'conflict leftovers in line 2, please merge properly'],
-      ['3,1', 'conflict leftovers in line 3, please merge properly'],
-      ['5,1', 'conflict leftovers in line 5, please merge properly']
+      [[2, 1], 'conflict leftovers in line 2, please merge properly'],
+      [[3, 1], 'conflict leftovers in line 3, please merge properly'],
+      [[5, 1], 'conflict leftovers in line 5, please merge properly']
     ])
   end
 
