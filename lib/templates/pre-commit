@@ -38,13 +38,11 @@ print "Codeqa checking #{files_to_check.count} files"
 # fail fast
 success = files_to_check.all? do |file|
   print '.'
-  Codeqa.check(file, :silent => true)
+  Codeqa.check(file, :silent_success => true)
 end
 
 if success
-  puts 'success'
   exit 0
 else
-  puts 'error'
   exit 1
 end
