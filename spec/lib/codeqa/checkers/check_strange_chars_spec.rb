@@ -14,14 +14,18 @@ describe Codeqa::Checkers::CheckStrangeChars do
     source = source_with("one\x09two")
     checker = check_with(described_class, source)
     expect(checker).to be_error
-    expect(checker.errors.details).to eq([['1,4', 'TAB x09 at line 1 column 4']])
+    expect(checker.errors.details).to eq([
+      [[1, 4], 'TAB x09 at line 1 column 4']
+    ])
   end
 
   it 'should detect form feeds' do
     source = source_with("one\n\x0ctwo")
     checker = check_with(described_class, source)
     expect(checker).to be_error
-    expect(checker.errors.details).to eq([['2,1', 'FORM FEED x0C at line 2 column 1']])
+    expect(checker.errors.details).to eq([
+      [[2, 1], 'FORM FEED x0C at line 2 column 1']
+    ])
   end
 
 end

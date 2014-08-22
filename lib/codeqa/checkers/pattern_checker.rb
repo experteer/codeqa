@@ -4,7 +4,7 @@ module Codeqa
       def check
         sourcefile.content.lines.each.with_index do |line, line_number|
           pos = (line =~ pattern)
-          errors.add("#{line_number + 1},#{pos + 1}", error_msg(line, line_number + 1, pos)) if pos
+          errors.add([line_number + 1, pos + 1], error_msg(line, line_number + 1, pos)) if pos
         end
       end
 

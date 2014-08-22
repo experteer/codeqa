@@ -15,31 +15,38 @@ describe Codeqa::Checkers::HtmlValidator do
   end
 
   it 'should detect html tag errors' do
-    source = source_with('<div><ul></div>')
+    text = '<div><ul></div>'
+    source = source_with(text)
     checker = check_with(described_class, source)
     expect(checker).to be_error
     expect(checker.errors.details).to eq([
-      [nil, '<div><ul></div>'],
-      [nil, "line 1 column 10 - Error: unexpected </div> in <ul>\n"]])
+      [:source, text],
+      [1, 'Opening and ending tag mismatch: ul line 1 and div']
+    ])
   end
 
   it 'should detect attribute till end of file errors' do
-    source = source_with("<div class='halfopen></div>")
+    text = "<div class='halfopen></div>"
+    source = source_with(text)
     checker = check_with(described_class, source)
     expect(checker).to be_error
     expect(checker.errors.details).to eq([
-      [nil, "<div class='halfopen></div>"],
-      [nil, "line 1 column 28 - Warning: <div> end of file while parsing attributes\n"]])
-
+      [:source, text],
+      [1, "Unescaped '<' not allowed in attributes values"],
+      [1, 'attributes construct error'],
+      [1, "Couldn't find end of Start Tag div line 1"]
+    ])
   end
   it 'should detect attribute with missing trailing qute mark' do
-    source = source_with('<div class="halfopen next="ok"></div>')
+    text = '<div class="halfopen next="ok"></div>'
+    source = source_with(text)
     checker = check_with(described_class, source)
     expect(checker).to be_error
     expect(checker.errors.details).to eq([
-      [nil, "<div class=\"halfopen next=\"ok\"></div>"],
-      [nil, "line 1 column 1 - Warning: <div> attribute with missing trailing quote mark\n"]])
-
+      [:source, text],
+      [1, 'attributes construct error'],
+      [1, "Couldn't find end of Start Tag div line 1"]
+    ])
   end
 
   it 'should find not find errors if html is ok ' do
@@ -48,22 +55,64 @@ describe Codeqa::Checkers::HtmlValidator do
     expect(checker).to be_success
   end
 
-  it 'should ignore javascript' do
-    source = source_with('<div><script></ul></script></div>')
-    checker = check_with(described_class, source)
-    expect(checker).to be_success
+  context 'javascript' do
+    it 'should ignore javascript' do
+      source = source_with('<div><script></ul></script></div>')
+      checker = check_with(described_class, source)
+      expect(checker).to be_success
+    end
+    it 'should ignore javascript' do
+      source = source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
+      checker = check_with(described_class, source)
+      expect(checker).to be_success
+      source = source_with("<div><script>multiline\n</ul></script></div>")
+      checker = check_with(described_class, source)
+      expect(checker).to be_success
+    end
+    it 'should ignore javascript' do
+      source = source_with('<div><style></ul></style></div>')
+      checker = check_with(described_class, source)
+      expect(checker).to be_success
+    end
   end
-  it 'should ignore javascript' do
-    source = source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
-    checker = check_with(described_class, source)
-    expect(checker).to be_success
-    source = source_with("<div><script>multiline\n</ul></script></div>")
-    checker = check_with(described_class, source)
-    expect(checker).to be_success
-  end
-  it 'should ignore javascript' do
-    source = source_with('<div><style></ul></style></div>')
-    checker = check_with(described_class, source)
-    expect(checker).to be_success
+
+  context 'erb' do
+    let(:source) do
+      source_with(
+        IO.read(
+          Codeqa.root.join('spec', 'fixtures', 'erb_example.html.erb')
+        )
+      )
+    end
+
+    it 'should use a stripped_html for validation' do
+      checker = described_class.new(source)
+      expect(checker).to receive(:stripped_html)
+      checker.check
+    end
+    it 'should replace erb tags with html comments' do
+      s = source_with('<div><% some ruby %></div>')
+      checker = described_class.new(s)
+      expect(checker.stripped_html).to eq('<div></div>')
+    end
+    it 'should be able to validate this stripped html' do
+      checker = check_with(described_class, source)
+      expect(checker).to be_success
+    end
+    it 'should only remove tags completely within quotes' do
+      s = source_with '<%dont touch this%> before baz="bla <%=inside%> <%=inside2%> stuff" after'
+      checker = described_class.new s
+      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla   stuff" after')
+    end
+    it 'should also remove tags within single quotes' do
+      s = source_with '<%dont touch this%> before baz="bla <%=inside + "text"%> <%=inside2%> stuff" after'
+      checker = described_class.new s
+      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla   stuff" after')
+    end
+    it 'foo' do
+      s = source_with '<a href="<%= url_for :controller => \'/recruiter\', :action => \'profile\', :id => recruiter.id %>">'
+      checker = described_class.new s
+      expect(checker.stripped_html).to eq('<a href="">')
+    end
   end
 end
