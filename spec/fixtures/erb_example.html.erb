@@ -1,0 +1,29 @@
+<div class="jobdetail">
+  <%= render :partial => 'header',
+             :locals => @header_options.reverse_merge(
+                     :position_presenter => @position_presenter,
+                     :bookmark => @bookmark,
+                     :account_id => @account.id,
+                     :social_share => @social_share) if @position_presenter.show_header? %>
+  <%  if @position_presenter.internal_view? %>
+      <%= render :partial => 'intern',
+                 :locals => @header_options.reverse_merge(
+                         :position_presenter => @position_presenter,
+                         :account_id => @account.id) %>
+  <% else %>
+      <iframe src="<%= raw @position_presenter.url %>" scrolling="no">
+      </iframe>
+  <% end %>
+</div>
+
+<%#
+params:
+@header_options
+@account_id
+@bookmark
+@position
+@position_presenter
+%>
+<script>
+    ujsOpenDialog('.ujsDialog');
+</script>

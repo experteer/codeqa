@@ -21,14 +21,25 @@ module Codeqa
 
       def check
         return unless self.class.nokogiri?
-        doc = Nokogiri::XML html
-        binding.pry
+        doc = Nokogiri::XML stripped_html
         doc.errors.each do |error|
-          errors.add(nil, error)
+          errors.add(error.line, error.message) unless error.warning?
         end
       end
 
-    private
+      ERB_OPEN = %r{<%}
+      ERB_CLOSE = %r{%>}
+      ERB_IN_ATTR = %r{(?<before>"[^<"]*)<%(?:.*)%>(?<after>[^"]*")}
+      SCRIPT_TAG = %r{<script[ >].*?</script>|<style[ >].*?</style>}m
+      def stripped_html
+        sourcefile.content.
+                  force_encoding('UTF-8').
+                  gsub(SCRIPT_TAG, '<!--removed script/style tag-->').
+                  gsub(ERB_IN_ATTR, '\k<before>\k<after>').
+                  gsub(ERB_IN_ATTR, '\k<before>\k<after>').
+                  gsub(ERB_OPEN, '<!--').
+                  gsub(ERB_CLOSE, '-->')
+      end
 
       def html
         @html ||= begin
