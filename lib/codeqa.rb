@@ -67,6 +67,7 @@ require 'codeqa/checker'
 require 'codeqa/check_errors'
 require 'codeqa/runner'
 require 'codeqa/runner_decorator'
+require 'codeqa/utils/erb_sanitizer'
 
 require 'codeqa/configuration'
 
