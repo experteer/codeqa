@@ -55,64 +55,24 @@ describe Codeqa::Checkers::HtmlValidator do
     expect(checker).to be_success
   end
 
-  context 'javascript' do
-    it 'should ignore javascript' do
-      source = source_with('<div><script></ul></script></div>')
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-    end
-    it 'should ignore javascript' do
-      source = source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-      source = source_with("<div><script>multiline\n</ul></script></div>")
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-    end
-    it 'should ignore javascript' do
-      source = source_with('<div><style></ul></style></div>')
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-    end
-  end
-
-  context 'erb' do
-    let(:source) do
-      source_with(
-        IO.read(
-          Codeqa.root.join('spec', 'fixtures', 'erb_example.html.erb')
-        )
-      )
-    end
-
-    it 'should use a stripped_html for validation' do
-      checker = described_class.new(source)
-      expect(checker).to receive(:stripped_html)
-      checker.check
-    end
-    it 'should replace erb tags with html comments' do
-      s = source_with('<div><% some ruby %></div>')
-      checker = described_class.new(s)
-      expect(checker.stripped_html).to eq('<div></div>')
-    end
-    it 'should be able to validate this stripped html' do
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-    end
-    it 'should only remove tags completely within quotes' do
-      s = source_with '<%dont touch this%> before baz="bla <%=inside%> <%=inside2%> stuff" after'
-      checker = described_class.new s
-      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla   stuff" after')
-    end
-    it 'should also remove tags within single quotes' do
-      s = source_with '<%dont touch this%> before baz="bla <%=inside + "text"%> <%=inside2%> stuff" after'
-      checker = described_class.new s
-      expect(checker.stripped_html).to eq('<!--dont touch this--> before baz="bla   stuff" after')
-    end
-    it 'foo' do
-      s = source_with '<a href="<%= url_for :controller => \'/recruiter\', :action => \'profile\', :id => recruiter.id %>">'
-      checker = described_class.new s
-      expect(checker.stripped_html).to eq('<a href="">')
-    end
-  end
+  # context 'javascript' do
+  #   it 'should ignore javascript' do
+  #     source = source_with('<div><script></ul></script></div>')
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #   end
+  #   it 'should ignore javascript' do
+  #     source = source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #     source = source_with("<div><script>multiline\n</ul></script></div>")
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #   end
+  #   it 'should ignore javascript' do
+  #     source = source_with('<div><style></ul></style></div>')
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #   end
+  # end
 end

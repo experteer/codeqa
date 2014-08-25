@@ -1,4 +1,4 @@
-require 'codeqa/fake_erb'
+require 'codeqa/utils/erb_sanitizer'
 
 module Codeqa
   module Checkers
@@ -37,38 +37,8 @@ module Codeqa
         end
       end
 
-      ERB_OPEN = %r{<%(-|=)?}
-      ERB_CLOSE = %r{-?%>}
-      ERB_IN_ATTR = %r{(?<before>"[^<"]*)<%(?:[^>]*)%>(?<after>[^"]*")}
-      ERB_IN_TAG = %r{(?<before><[^<]*)<%(?:[^>]*)%>(?<after>[^>]*>)}
-      SCRIPT_TAG = %r{<script[ >].*?</script>|<style[ >].*?</style>}m
-      HASH_ROCKET = /=>/
-      NBSP = '&nbsp;'
       def stripped_html
-        sourcefile.content.
-                  force_encoding('UTF-8').
-                  gsub(/"<%(?:[^"]+)%>"/, '""').
-                  gsub(ERB_IN_ATTR, '\k<before>\k<after>').
-                  gsub(ERB_IN_ATTR, '\k<before>\k<after>').
-                  gsub(ERB_IN_ATTR, '\k<before>\k<after>').
-                  gsub(ERB_IN_TAG, '\k<before>\k<after>').
-                  # gsub(ERB_IN_ATTR_SINGLE, '\k<before>\k<after>').
-                  # gsub(ERB_IN_ATTR_SINGLE, '\k<before>\k<after>').
-                  gsub(%r{<!--\[if lte IE \d+\]>|<!\[endif\]-->}, '').
-                  gsub(ERB_OPEN, '<!--').
-                  gsub(ERB_CLOSE, '-->').
-                  gsub(HASH_ROCKET, '').
-                  gsub(NBSP, '').
-                  gsub(SCRIPT_TAG, '')
-      end
-
-      def html
-        @html ||= begin
-                    html = FakeERB.new(sourcefile.content.gsub('<%=', '<%')).result
-                    html = html.force_encoding('UTF-8') if html.respond_to?(:force_encoding)
-                    html.gsub(%r{<script[ >].*?</script>|<style[ >].*?</style>}m,
-                              '<!--removed script/style tag-->')
-                  end
+        @html ||= ErbSanitizer.new(sourcefile.content).result
       end
 
       def self.nokogiri?

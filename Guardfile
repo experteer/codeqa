@@ -9,9 +9,8 @@ group :red_green_refactor, halt_on_fail: true do
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})               { |m| "spec/lib/#{m[1]}_spec.rb" }
     watch('spec/spec_helper.rb')            { 'spec' }
-    watch('spec/factories.rb')              { 'spec' }
-    watch('spec/support/jobs.json')         { 'spec' }
-    watch(%r{^spec/factories/(.+)\.rb})     { 'spec' }
+    watch(%r{^spec/support/(.+)\.rb})       { 'spec' }
+    watch(%r{^spec/fixtures/(.+)})          { 'spec' }
   end
 
   guard :rubocop, cli: %w(--display-cop-names --auto-correct) do

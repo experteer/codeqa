@@ -21,7 +21,7 @@ unless ENV['TRAVIS']
       checker = check_with(described_class, source)
       expect(checker).to be_error
       expect(checker.errors.details).to eq([
-        [nil, '<div><ul></div>'],
+        [:source, '<div><ul></div>'],
         [nil, "line 1 column 10 - Error: unexpected </div> in <ul>\n"]])
     end
 
@@ -30,7 +30,7 @@ unless ENV['TRAVIS']
       checker = check_with(described_class, source)
       expect(checker).to be_error
       expect(checker.errors.details).to eq([
-        [nil, "<div class='halfopen></div>"],
+        [:source, "<div class='halfopen></div>"],
         [nil, "line 1 column 28 - Warning: <div> end of file while parsing attributes\n"]])
 
     end
@@ -39,7 +39,7 @@ unless ENV['TRAVIS']
       checker = check_with(described_class, source)
       expect(checker).to be_error
       expect(checker.errors.details).to eq([
-        [nil, "<div class=\"halfopen next=\"ok\"></div>"],
+        [:source, "<div class=\"halfopen next=\"ok\"></div>"],
         [nil, "line 1 column 1 - Warning: <div> attribute with missing trailing quote mark\n"]])
 
     end
