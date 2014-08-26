@@ -34,15 +34,5 @@ module Codeqa
         end
       end
     end
-
-    def capture
-      $stdout, stdout = StringIO.new, $stdout
-      $stderr, stderr = StringIO.new, $stderr
-      result = yield
-      [result, $stdout.string + $stderr.string]
-    ensure
-      $stdout = stdout
-      $stderr = stderr
-    end
   end
 end

@@ -14,7 +14,7 @@ describe Codeqa::Checkers::RubocopLint do
     source = source_with('class MyClass')
     checker = check_with(described_class, source)
     expect(checker).to be_error
-    expect(checker.errors.details.first[1]).to match(/unexpected token/)
+    expect(checker.errors.details.first).to eq([[1, 14], 'Syntax: unexpected token $end'])
   end
 
   it 'should find not find if not there ' do
