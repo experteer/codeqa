@@ -1,4 +1,4 @@
-require 'codeqa/fake_erb'
+require 'codeqa/utils/erb_sanitizer'
 require 'open3'
 module Codeqa
   module Checkers
@@ -25,13 +25,13 @@ module Codeqa
         end # Tempfile
 
         return unless result
-        errors.add(nil, html)
+        errors.add(:source, html)
         errors.add(nil, result)
       end
 
       def html
         @html ||= begin
-                    html = FakeERB.new(sourcefile.content.gsub('<%=', '<%')).result
+                    html = ErbSanitizer.new(sourcefile.content).result
                     html = html.force_encoding('UTF-8') if html.respond_to?(:force_encoding)
                     html.gsub(%r{<script[ >].*?</script>|<style[ >].*?</style>}m,
                               '<!--removed script/style tag-->')

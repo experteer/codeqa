@@ -1,6 +1,7 @@
 require 'stringio'
 require 'tempfile'
 require 'forwardable'
+require 'codeqa/utils/check_errors'
 
 module Codeqa
   class Checker

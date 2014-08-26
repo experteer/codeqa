@@ -14,7 +14,9 @@ describe Codeqa::Checkers::CheckLinkto do
     source = source_with("<% link_to '/page',do_some_paths do%>", 'file.html.erb')
     checker = check_with(described_class, source)
     expect(checker).to be_error
-    expect(checker.errors.details).to eq([['1,1', 'old style block link_to in line 1']])
+    expect(checker.errors.details).to eq([
+      [[1, 1], 'old style block link_to in line 1']
+    ])
   end
 
   it 'should find not find if not there ' do
