@@ -27,7 +27,7 @@ describe Codeqa::ErbSanitizer do
       expect(doc).to eq(expected)
       expect(Nokogiri::XML(doc).errors).to be_empty
     end
-    it 'should properly remove multiline erb tags and keep the empty lines' do
+    it 'should properly remove multiline erb tags and keep the correct line numbers' do
       source = <<-EOR
 <div>
 <% render :partial => :foo, :locals => { :foo => 'foo',
@@ -42,6 +42,14 @@ EOR
 
 </div>
 EOR
+      doc = compile(source)
+      expect(doc).to eq(expected)
+      expect(Nokogiri::XML(doc).errors).to be_empty
+    end
+
+    it 'should work on a more difficult example' do
+      source = IO.read(Codeqa.root.join('spec', 'fixtures', 'erb_example.html.erb'))
+      expected = IO.read(Codeqa.root.join('spec', 'fixtures', 'erb_example.html'))
       doc = compile(source)
       expect(doc).to eq(expected)
       expect(Nokogiri::XML(doc).errors).to be_empty

@@ -1,4 +1,6 @@
 require 'erb'
+# Based on ERB source from ruby 2.1.2
+# https://github.com/ruby/ruby/blob/v2_1_2/lib/erb.rb#L597
 module Codeqa
   class ErbSanitizer < ERB
     def make_compiler(trim_mode)
@@ -6,18 +8,9 @@ module Codeqa
     end
 
     class Compiler < ERB::Compiler
-      def add_put_cmd(out, content)
-        out.push("#{@put_cmd} #{content_dump(content)}")
-        # out.push(content_dump(content))
-      end
-
-      def add_insert_cmd(out, content)
-        out.push("#{@insert_cmd}((#{content}).to_s)")
-        # out.push(content.to_s)
-      end
-
       # Compiles an ERB template into Ruby code.  Returns an array of the code
       # and encoding like ["code", Encoding].
+      # rubocop:disable Style/CyclomaticComplexity
       def compile(s)
         enc = s.encoding
         raise ArgumentError, "#{enc} is not ASCII compatible" if enc.dummy?
@@ -55,6 +48,7 @@ module Codeqa
           else
             case token
             when '%>'
+              # in here we deal with the content of a erb tag
               (content.scan("\n").count).times do
                 add_put_cmd(out, "\n")
               end
@@ -85,6 +79,7 @@ module Codeqa
         out.close
         [out.script, enc]
       end
+      # rubocop:enable Style/CyclomaticComplexity
     end
   end
 end

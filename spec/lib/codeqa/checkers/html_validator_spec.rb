@@ -55,24 +55,24 @@ describe Codeqa::Checkers::HtmlValidator do
     expect(checker).to be_success
   end
 
-  context 'javascript' do
-    it 'should ignore javascript' do
-      source = source_with('<div><script></ul></script></div>')
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-    end
-    it 'should ignore javascript' do
-      source = source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-      source = source_with("<div><script>multiline\n</ul></script></div>")
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-    end
-    it 'should ignore javascript' do
-      source = source_with('<div><style></ul></style></div>')
-      checker = check_with(described_class, source)
-      expect(checker).to be_success
-    end
-  end
+  # context 'javascript' do
+  #   it 'should ignore javascript' do
+  #     source = source_with('<div><script></ul></script></div>')
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #   end
+  #   it 'should ignore javascript' do
+  #     source = source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #     source = source_with("<div><script>multiline\n</ul></script></div>")
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #   end
+  #   it 'should ignore javascript' do
+  #     source = source_with('<div><style></ul></style></div>')
+  #     checker = check_with(described_class, source)
+  #     expect(checker).to be_success
+  #   end
+  # end
 end
