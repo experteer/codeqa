@@ -32,23 +32,24 @@ module Codeqa
 
   private
 
+    # TODO: move this error formating into check error class
     def error_details
       msg = ''
       @runner.failures.each do |checker|
-        msg << error("------- #{checker.name} -------\n")
-        msg << error("#{checker.hint}\n")
+        msg << error("------- #{checker.name} -------") << "\n"
+        msg << error("#{checker.hint}") << "\n"
         checker.errors.details.each do |type, content|
           case type
           when :source
             content.each_line.with_index do |l, i|
-              msg << yellow((i).to_s.rjust(3)) << '|' << l
+              msg << yellow((i + 1).to_s.rjust(3)) << '|' << l
             end
           when Integer
             msg << info('Line: ') << yellow(type) << '|' << info(content)
           when Array
             msg << info('Pos: ') << yellow(type.join(',')) << '|' << info(content)
           when nil
-            msg << info(content) << "\n"
+            msg << info(content)
           end
           msg << "\n"
         end
