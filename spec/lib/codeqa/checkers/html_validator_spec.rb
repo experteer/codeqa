@@ -60,24 +60,33 @@ describe Codeqa::Checkers::HtmlValidator do
     expect(checker).to be_success
   end
 
-  # context 'javascript' do
-  #   it 'should ignore javascript' do
-  #     source = source_with('<div><script></ul></script></div>')
-  #     checker = check_with(described_class, source)
-  #     expect(checker).to be_success
-  #   end
-  #   it 'should ignore javascript' do
-  #     source = source_with('<div><script type="text/javascript" charset="utf-8"></ul></script></div>')
-  #     checker = check_with(described_class, source)
-  #     expect(checker).to be_success
-  #     source = source_with("<div><script>multiline\n</ul></script></div>")
-  #     checker = check_with(described_class, source)
-  #     expect(checker).to be_success
-  #   end
-  #   it 'should ignore javascript' do
-  #     source = source_with('<div><style></ul></style></div>')
-  #     checker = check_with(described_class, source)
-  #     expect(checker).to be_success
-  #   end
-  # end
+  context 'script tags' do
+    it 'should replace script tags with html comment' do
+      text = '<div><script>foo</script></div>'
+      source = source_with(text)
+      checker = described_class.new(source)
+      expect(checker.stripped_html).to eq('<div><!-- script /script --></div>')
+    end
+
+    it 'should replace multiline script tags while keeping the linecount correct' do
+      text = <<-EOR
+<div>
+  <script>
+    var some = 'javascript';
+    console.log(some);
+  </script>
+</div>
+EOR
+      source = source_with(text)
+      checker = described_class.new(source)
+      expect(checker.stripped_html).to eq(<<-EOR)
+<div>
+  <!-- script
+
+
+ /script -->
+</div>
+EOR
+    end
+  end
 end

@@ -33,14 +33,16 @@ module Codeqa
 
         doc.errors.delete_if{ |e| e.message =~ REMOVED_NOKOGIRI_ERRORS }
         errors.add(:source, sourcefile.content) unless doc.errors.empty?
-        # errors.add(:source, stripped_html) unless doc.errors.empty?
         doc.errors.each do |error|
           errors.add(error.line, error.message) unless error.warning?
         end
       end
 
       def stripped_html
-        @html ||= ErbSanitizer.new(sourcefile.content).result
+        ErbSanitizer.
+          new(sourcefile.content).
+          result.
+          gsub(%r{<script[ >](.*)</script>}m){ "<!-- script#{"\n" * $1.scan("\n").count} /script -->" }
       end
 
       def self.nokogiri?

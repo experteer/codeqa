@@ -49,7 +49,7 @@ module Codeqa
             case token
             when '%>'
               # in here we deal with the content of a erb tag
-              (content.scan("\n").count).times do
+              content.scan("\n").count.times do
                 add_put_cmd(out, "\n")
               end
               # case scanner.stag

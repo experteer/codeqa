@@ -12,7 +12,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'pry-byebug'
+  gem 'pry-byebug', :platform => :mri
 end
 
 group :test do
