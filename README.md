@@ -1,9 +1,9 @@
 # Codeqa
 
-[![Gem Version](https://badge.fury.io/rb/codeqa.svg)](http://badge.fury.io/rb/codeqa)
-[![Build Status](https://travis-ci.org/experteer/codeqa.svg?branch=master)](https://travis-ci.org/experteer/codeqa)
-[![Coverage Status](https://img.shields.io/coveralls/experteer/codeqa.svg)](https://coveralls.io/r/experteer/codeqa)
-[![Code Climate](https://codeclimate.com/github/experteer/codeqa/badges/gpa.svg)](https://codeclimate.com/github/experteer/codeqa)
+[![Gem Version](http://img.shields.io/gem/v/codeqa.svg?style=flat)](https://rubygems.org/gems/codeqa)
+[![Build Status](http://img.shields.io/travis/experteer/codeqa.svg?style=flat)](https://travis-ci.org/experteer/codeqa)
+[![Coverage Status](https://img.shields.io/coveralls/experteer/codeqa.svg?style=flat)](https://coveralls.io/r/experteer/codeqa)
+[![Code Climate](http://img.shields.io/codeclimate/github/experteer/codeqa.svg?style=flat)](https://codeclimate.com/github/experteer/codeqa)
 
 With codeqa you can check your code to comply to certain coding rules (utf8 only chars, indenting) or to avoid typical errors or
 enforce deprecations. You might even put it into a pre commit hook.
@@ -85,6 +85,7 @@ end
 - erb
   - CheckErb (tests erb template for syntax errors using either `erb` or `action_view`
   - CheckErbHtml (removes all erb tags and tests with `tidy` if the template is valid XML)
+  - HtmlValidator (uses Nokogiri to check stripped html.erb files against XML errors)
 - yard
   - CheckYard (checks YARD for warnings)
 - CheckRubySyntax (runs file though `ruby -c`, use RubocopLint if possible)
