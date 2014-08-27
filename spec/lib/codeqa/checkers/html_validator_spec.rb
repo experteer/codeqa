@@ -54,6 +54,11 @@ describe Codeqa::Checkers::HtmlValidator do
     checker = check_with(described_class, source)
     expect(checker).to be_success
   end
+  it "should no complain about nbsp 'spaces'" do
+    source = source_with('<div>something&nbsp;fooo</div>')
+    checker = check_with(described_class, source)
+    expect(checker).to be_success
+  end
 
   # context 'javascript' do
   #   it 'should ignore javascript' do

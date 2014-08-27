@@ -1,4 +1,5 @@
 require 'codeqa/utils/erb_sanitizer'
+require 'nokogiri'
 
 module Codeqa
   module Checkers
@@ -23,7 +24,8 @@ module Codeqa
         /Opening and ending tag mismatch: (special line 1|\w+ line 1 and special)/,
         /Premature end of data in tag special/,
         /Extra content at the end of the document/,
-        /xmlParseEntityRef: no name/
+        /xmlParseEntityRef: no name/,
+        /Entity 'nbsp' not defined/
       )
       def check
         return unless self.class.nokogiri?
