@@ -13,8 +13,6 @@ end
 
 group :development, :test do
   gem 'pry-byebug'
-  gem 'nokogiri'
-  gem 'rubocop'
 end
 
 group :test do

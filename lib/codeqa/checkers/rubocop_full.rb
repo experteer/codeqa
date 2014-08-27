@@ -1,4 +1,4 @@
-require 'ostruct'
+require 'multi_json'
 
 module Codeqa
   module Checkers
@@ -45,15 +45,14 @@ module Codeqa
       end
 
       def handle_rubocop_results(raw)
-        data = JSON.parse raw, :object_class => OpenStruct
-        data.files.
-             reject{ |f| f.offenses.empty? }.
-             each do |file|
-               file.offenses.each do |offense|
-                 position = [offense.location.line, offense.location.column]
-                 errors.add(position, "#{offense.cop_name}: #{offense.message}")
-               end
-             end
+        MultiJson.load(raw)['files'].
+                 reject{ |f| f['offenses'].empty? }.
+                 each do |file|
+                   file['offenses'].each do |offense|
+                     position = [offense['location']['line'], offense['location']['column']]
+                     errors.add(position, "#{offense['cop_name']}: #{offense['message']}")
+                   end
+                 end
       end
       def self.rubocop?
         @loaded ||= begin
@@ -63,7 +62,8 @@ module Codeqa
       end
 
       # Since using the json format we only care about stdout
-      # stderr will be silent
+      # stderr will be silenced
+      # (internal rubocop errors/warning will be printed there)
       def capture
         $stdout, stdout = StringIO.new, $stdout
         $stderr, stderr = StringIO.new, $stderr
