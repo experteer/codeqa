@@ -15,8 +15,6 @@ describe Codeqa::RunnerDecorator do
   it 'should format error as line if number given' do
     errors.add(77, 'test message')
     expect(decorator.details_to_s).to eq(<<-EOF)
-\e[31m------- test -------\e[0m
-\e[31mtesttest\e[0m
 Line: \e[33m77\e[0m|test message
 EOF
   end
@@ -24,8 +22,6 @@ EOF
   it 'should format error as position if array given' do
     errors.add([22, 77], 'test message')
     expect(decorator.details_to_s).to eq(<<-EOF)
-\e[31m------- test -------\e[0m
-\e[31mtesttest\e[0m
 Pos: \e[33m22,77\e[0m|test message
 EOF
   end
@@ -33,8 +29,6 @@ EOF
   it 'should simply print error content if no context is given' do
     errors.add(nil, 'test message')
     expect(decorator.details_to_s).to eq(<<-EOF)
-\e[31m------- test -------\e[0m
-\e[31mtesttest\e[0m
 test message
 EOF
   end
@@ -42,8 +36,6 @@ EOF
   it 'should format error as source if :source token given' do
     errors.add(:source, 'test message')
     expect(decorator.details_to_s).to eq(<<-EOF)
-\e[31m------- test -------\e[0m
-\e[31mtesttest\e[0m
 \e[33m  1\e[0m|test message
 EOF
   end
@@ -51,8 +43,6 @@ EOF
   it 'should correctly format multiline source' do
     errors.add(:source, "test message\nline two\nthird\n\nfifth")
     expect(decorator.details_to_s).to eq(<<-EOF)
-\e[31m------- test -------\e[0m
-\e[31mtesttest\e[0m
 \e[33m  1\e[0m|test message
 \e[33m  2\e[0m|line two
 \e[33m  3\e[0m|third

@@ -21,7 +21,7 @@ module Codeqa
       end
 
       REMOVED_NOKOGIRI_ERRORS = Regexp.union(
-        /Opening and ending tag mismatch: (special line 1|\w+ line 1 and special)/,
+        /Opening and ending tag mismatch: (special line 1|\w+ line \d* and special)/,
         /Premature end of data in tag special/,
         /Extra content at the end of the document/,
         /xmlParseEntityRef: no name/,
@@ -39,10 +39,12 @@ module Codeqa
       end
 
       def stripped_html
-        ErbSanitizer.
-          new(sourcefile.content).
-          result.
-          gsub(%r{<script[ >](.*)</script>}m){ "<!-- script#{"\n" * $1.scan("\n").count} /script -->" }
+        @stripped_html ||= ErbSanitizer.
+                            new(sourcefile.content).
+                            result.
+                            gsub(%r{<script[ >](.*?)</script>}m) do
+                              "<!-- script#{"\n" * $1.scan("\n").count} /script -->"
+                            end
       end
 
       def self.nokogiri?

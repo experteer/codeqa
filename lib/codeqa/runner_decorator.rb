@@ -36,8 +36,8 @@ module Codeqa
     def error_details
       msg = ''
       @runner.failures.each do |checker|
-        msg << error("------- #{checker.name} -------") << "\n"
-        msg << error("#{checker.hint}") << "\n"
+        # msg << error("------- #{checker.name} -------") << "\n"
+        # msg << error("#{checker.hint}") << "\n"
         checker.errors.details.each do |type, content|
           case type
           when :source

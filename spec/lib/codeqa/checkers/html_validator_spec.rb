@@ -88,5 +88,31 @@ EOR
 </div>
 EOR
     end
+    it 'should replace script tags when there are multiple script tags in the text' do
+      text = <<-EOR
+<div>
+  <script>
+    var some = 'javascript';
+  </script>
+  content
+  <script>
+    console.log(some);
+  </script>
+</div>
+EOR
+      source = source_with(text)
+      checker = described_class.new(source)
+      expect(checker.stripped_html).to eq(<<-EOR)
+<div>
+  <!-- script
+
+ /script -->
+  content
+  <!-- script
+
+ /script -->
+</div>
+EOR
+    end
   end
 end
