@@ -1,5 +1,4 @@
 require 'codeqa/utils/erb_sanitizer'
-require 'nokogiri'
 
 module Codeqa
   module Checkers
