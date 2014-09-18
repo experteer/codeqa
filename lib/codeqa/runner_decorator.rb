@@ -1,13 +1,14 @@
+require 'colorize'
 module Codeqa
   class RunnerDecorator
-    def initialize(runner, options={})
-      @options = { :colors => true }.merge(options)
+    def initialize(runner, options = {})
+      @options = { colors: true }.merge(options)
       @runner = runner
       @msg = ''
     end
 
     def sourcefile_to_s
-      info("Codeqa on :'#{@runner.sourcefile.filename}'\n")
+      head("Codeqa on :'#{@runner.sourcefile.filename}'\n")
     end
 
     def success_to_s
@@ -32,6 +33,7 @@ module Codeqa
 
   private
 
+    # rubocop:disable Metrics/MethodLength
     # TODO: move this error formating into check error class
     def error_details
       msg = ''
@@ -42,12 +44,12 @@ module Codeqa
           case type
           when :source
             content.each_line.with_index do |l, i|
-              msg << yellow((i + 1).to_s.rjust(3)) << '|' << l
+              msg << position((i + 1).to_s.rjust(3)) << '|' << l
             end
           when Integer
-            msg << info('Line: ') << yellow(type) << '|' << info(content)
+            msg << info('Line: ') << position(type.to_s.rjust(3)) << '|' << info(content)
           when Array
-            msg << info('Pos: ') << yellow(type.join(',')) << '|' << info(content)
+            msg << info('Pos: ') << position(type.join(':').rjust(7)) << '|' << info(content)
           when nil
             msg << info(content)
           end
@@ -56,42 +58,39 @@ module Codeqa
       end
       msg
     end
+    # rubocop:enable Metrics/MethodLength
 
     # http://stackoverflow.com/questions/1489183/colorized-ruby-output
     def info(txt)
       txt
     end
 
+    def head(txt)
+      colorize(txt, :cyan)
+    end
+
     def error(txt)
-      red(txt)
+      colorize(txt, :red)
+    end
+
+    def warn(txt)
+      colorize(txt, :light_red)
+    end
+
+    def position(txt)
+      colorize(txt, :yellow)
     end
 
     def success(txt)
-      green(txt)
+      colorize(txt, :green)
     end
 
-    def colorize(color_code, txt)
+    def colorize(txt, color_name)
       if @options[:colors]
-        "\e[#{color_code}m#{txt}\e[0m"
+        txt.colorize(color_name)
       else
         txt
       end
     end
-
-    def red(txt)
-      colorize(31, txt)
-    end
-
-    def green(txt)
-      colorize(32, txt)
-    end
-
-    def yellow(txt)
-      colorize(33, txt)
-    end
-
-    # def pink(txt)
-    #   colorize(35, txt)
-    # end
   end
 end

@@ -24,11 +24,7 @@ module Codeqa
         with_existing_file do |filename|
           args = config_args << filename
           success, raw_json = capture do
-            if defined?(RuboCop) # its RuboCop since 0.24
-              ::RuboCop::CLI.new.run(default_args + args) == 0
-            else
-              ::Rubocop::CLI.new.run(default_args + args) == 0
-            end
+            ::RuboCop::CLI.new.run(default_args + args) == 0
           end
           handle_rubocop_results(raw_json) unless success
         end
@@ -37,7 +33,7 @@ module Codeqa
     private
 
       def config_args
-        %w(--auto-correct --fail-level warning)
+        %w(--auto-correct)
       end
 
       def default_args
@@ -46,7 +42,7 @@ module Codeqa
 
       def handle_rubocop_results(raw)
         MultiJson.load(raw)['files'].
-                 reject{ |f| f['offenses'].empty? }.
+                 reject { |f| f['offenses'].empty? }.
                  each do |file|
                    file['offenses'].each do |offense|
                      position = [offense['location']['line'], offense['location']['column']]

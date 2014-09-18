@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Codeqa::Configuration do
-  let(:subject){ Codeqa.configuration }
+  let(:subject) { Codeqa.configuration }
 
   it 'should be exposed in the Codeqa module' do
     expect(Codeqa).to respond_to(:configuration)
@@ -33,7 +33,7 @@ describe Codeqa::Configuration do
       project_root = Codeqa.root.join 'spec/fixtures/isolation/home/project'
       allow(Codeqa.configuration).to receive(:project_root).and_return(Pathname.new(project_root))
       Dir.chdir(project_root)
-      Codeqa.configure{ |c| c.excludes = ['ignored/*', /tmp/] }
+      Codeqa.configure { |c| c.excludes = ['ignored/*', /tmp/] }
     end
     after(:each) do
       Dir.chdir(@org_dir)

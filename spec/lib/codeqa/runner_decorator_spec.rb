@@ -1,28 +1,28 @@
 require 'spec_helper'
 
 describe Codeqa::RunnerDecorator do
-  let(:errors){ Codeqa::CheckErrors.new }
+  let(:errors) { Codeqa::CheckErrors.new }
   let(:decorator) do
-    checker = double(Codeqa::Checker, :errors => errors,
-                                      :name   => 'test',
-                                      :hint   => 'testtest')
-    runner = double(Codeqa::Runner, :failures   => [checker],
-                                    :sourcefile => Codeqa::Sourcefile.new('foo.rb', 'foo'),
-                                    :success?   => false)
-    Codeqa::RunnerDecorator.new(runner)
+    checker = double(Codeqa::Checker, errors: errors,
+                                      name: 'test',
+                                      hint: 'testtest')
+    runner = double(Codeqa::Runner, failures:   [checker],
+                                    sourcefile: Codeqa::Sourcefile.new('foo.rb', 'foo'),
+                                    success?:   false)
+    Codeqa::RunnerDecorator.new(runner, colors: false)
   end
 
   it 'should format error as line if number given' do
     errors.add(77, 'test message')
     expect(decorator.details_to_s).to eq(<<-EOF)
-Line: \e[33m77\e[0m|test message
+Line:  77|test message
 EOF
   end
 
   it 'should format error as position if array given' do
     errors.add([22, 77], 'test message')
     expect(decorator.details_to_s).to eq(<<-EOF)
-Pos: \e[33m22,77\e[0m|test message
+Pos:   22:77|test message
 EOF
   end
 
@@ -36,18 +36,18 @@ EOF
   it 'should format error as source if :source token given' do
     errors.add(:source, 'test message')
     expect(decorator.details_to_s).to eq(<<-EOF)
-\e[33m  1\e[0m|test message
+  1|test message
 EOF
   end
 
   it 'should correctly format multiline source' do
     errors.add(:source, "test message\nline two\nthird\n\nfifth")
     expect(decorator.details_to_s).to eq(<<-EOF)
-\e[33m  1\e[0m|test message
-\e[33m  2\e[0m|line two
-\e[33m  3\e[0m|third
-\e[33m  4\e[0m|
-\e[33m  5\e[0m|fifth
+  1|test message
+  2|line two
+  3|third
+  4|
+  5|fifth
 EOF
   end
   # it 'should run provide the errors if the checker failed' do

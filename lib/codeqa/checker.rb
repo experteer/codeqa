@@ -2,6 +2,7 @@ require 'stringio'
 require 'tempfile'
 require 'forwardable'
 require 'codeqa/utils/check_errors'
+require 'codeqa/utils/offense_collector'
 
 module Codeqa
   class Checker
@@ -22,7 +23,7 @@ module Codeqa
 
   private
 
-    def with_existing_file(content=sourcefile.content)
+    def with_existing_file(content = sourcefile.content)
       if sourcefile.exist? && sourcefile.content == content
         yield sourcefile.filename
       else

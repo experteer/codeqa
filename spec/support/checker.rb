@@ -1,5 +1,5 @@
 RSpec.shared_examples 'a checker' do
-  let(:checker){ described_class.new(double('SourceFile', :null_object => true)) }
+  let(:checker) { described_class.new(double('SourceFile', null_object: true)) }
   %w(name hint check).each do |method|
     it "should respond to :#{method}" do
       expect(checker).to respond_to(method.to_sym)

@@ -28,8 +28,9 @@ RSpec.configure do |config|
   end
 end
 
-Dir['./spec/support/**/*.rb'].sort.each{ |f| require f }
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 
+# rubocop:disable Metrics/MethodLength
 def load_test_config
   Codeqa.configure do |c|
     c.excludes = ['vendor/**/*']
@@ -44,6 +45,7 @@ def load_test_config
     c.erb_engine = 'erb'
   end
 end
+# rubocop:enable Metrics/MethodLength
 
 def check_with(klass, source)
   checker = klass.new(source)
@@ -51,6 +53,6 @@ def check_with(klass, source)
   checker
 end
 
-def source_with(content='#ruby file', filename='prog.rb')
+def source_with(content = '#ruby file', filename = 'prog.rb')
   Codeqa::Sourcefile.new(filename, content)
 end

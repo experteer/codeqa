@@ -47,14 +47,14 @@ module Codeqa
     attr_reader :results
 
     def failures
-      @failures ||= @results.reject{ |checker| checker.success? }
+      @failures ||= @results.reject(&:success?)
     end
 
     def success?
       failures.empty?
     end
 
-    def display_result(options={})
+    def display_result(options = {})
       RunnerDecorator.new(self, options)
     end
   end

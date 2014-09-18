@@ -7,7 +7,7 @@ module Codeqa
     RUBY_NAMES = %w(Guardfile Gemfile Rakefile config.ru)
     SPEC_PATTERN = /_spec\.rb$/
 
-    def initialize(filename, content=nil)
+    def initialize(filename, content = nil)
       @filename = filename
       @content = content
       # ensure_file

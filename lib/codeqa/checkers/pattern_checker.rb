@@ -19,7 +19,7 @@ module Codeqa
       end
 
       def error_msg(*_args)
-        raise 'not implemented'
+        fail 'not implemented'
       end
     end
   end

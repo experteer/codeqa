@@ -42,7 +42,7 @@ module Codeqa
     # @return [Boolean]
     def excluded?(file)
       file = File.join(Dir.pwd, file) unless file.start_with?('/')
-      Codeqa.configuration.excludes.any?{ |pattern| match_path?(pattern, file) }
+      Codeqa.configuration.excludes.any? { |pattern| match_path?(pattern, file) }
     end
 
   private

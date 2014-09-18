@@ -16,16 +16,16 @@ describe Codeqa do
   context 'check' do
     it 'should be true if the file is OK' do
       file = './spec/fixtures/ruby.rb'
-      expect(Codeqa.check(file, :silent => true)).to be true
+      expect(Codeqa.check(file, silent: true)).to be true
     end
     it 'should be false if the file is broken' do
       file = './spec/fixtures/ruby_error.rb'
-      expect(Codeqa.check(file, :silent => true)).to be false
+      expect(Codeqa.check(file, silent: true)).to be false
     end
   end
 
   context 'install' do
-    let(:project_dir){ Codeqa.root.join('spec/fixtures/isolation/home/project') }
+    let(:project_dir) { Codeqa.root.join('spec/fixtures/isolation/home/project') }
     before(:each) do
       FileUtils.mkdir_p(project_dir.join('.git', 'hooks'))
     end

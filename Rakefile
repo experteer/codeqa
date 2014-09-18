@@ -13,7 +13,7 @@ task :specs do
   cmd = opts.join(' ')
   puts cmd if Rake.application.options.trace
   system(cmd)
-  raise "Command failed with status (#{$?.to_i}): #{cmd}" if $?.to_i != 0
+  fail "Command failed with status (#{$?.to_i}): #{cmd}" if $?.to_i != 0
 end
-task :spec => :specs
-task :default => :specs
+task spec: :specs
+task default: :specs

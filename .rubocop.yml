@@ -8,44 +8,14 @@ AllCops:
 AlignHash:
   EnforcedHashRocketStyle: table
 
-HashSyntax:
-  EnforcedStyle: hash_rockets
-
 LineLength:
   Max: 119
 
 AccessModifierIndentation:
   EnforcedStyle: outdent
 
-MethodDefParentheses:
-  EnforcedStyle: require_parentheses
-
-SpaceBeforeBlockBraces:
-  EnforcedStyle: no_space
-
-SpaceAroundEqualsInParameterDefault:
-  EnforcedStyle: no_space
-
 DotPosition:
   EnforcedStyle: trailing
-
-#SpaceInsideBlockBraces:
-#  EnforcedStyle: no_space
-#  SupportedStyles:
-#    - space
-#    - no_space
-#  # Valid values are: space, no_space
-#  EnforcedStyleForEmptyBraces: no_space
-#  # Space between { and |. Overrides EnforcedStyle if there is a conflict.
-#  SpaceBeforeBlockParameters: false
-
-# http://www.ruby-doc.org/core-2.1.1/Kernel.html#method-i-fail
-SignalException:
-    EnforcedStyle: only_raise
-
-
-CollectionMethods:
-  Enabled: true
 
 MethodLength:
   Enabled: true
@@ -82,12 +52,6 @@ PerlBackrefs:
 
 SpecialGlobalVars:
   Enabled: false
-
-SignalException:
- EnforcedStyle: only_raise
-
-MethodLength:
- Enabled: false
 
 RegexpLiteral:
  Enabled: false

@@ -30,7 +30,7 @@ module Codeqa
         return unless self.class.nokogiri?
         doc = Nokogiri::XML "<special>#{stripped_html}</special>"
 
-        doc.errors.delete_if{ |e| e.message =~ REMOVED_NOKOGIRI_ERRORS }
+        doc.errors.delete_if { |e| e.message =~ REMOVED_NOKOGIRI_ERRORS }
         errors.add(:source, sourcefile.content) unless doc.errors.empty?
         doc.errors.each do |error|
           errors.add(error.line, error.message) unless error.warning?

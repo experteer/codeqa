@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+# rubocop:disable Metrics/MethodLength
 def staged_files
   @staged_files ||= begin
     files = `git diff --cached --name-only --diff-filter=ACM`.split
@@ -13,6 +14,7 @@ def staged_files
     end
   end
 end
+# rubocop:enable Metrics/MethodLength
 
 # from https://github.com/djberg96/ptools/blob/master/lib/ptools.rb#L90
 def binary?(file)
@@ -30,15 +32,15 @@ rescue LoadError
 end
 
 files_to_check = staged_files.
-                  map{ |e| Pathname.new(e).realpath.to_s }.
-                  reject{ |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
+                  map { |e| Pathname.new(e).realpath.to_s }.
+                  reject { |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
                   uniq
 
 print "Codeqa checking #{files_to_check.count} files"
 # fail fast
 success = files_to_check.all? do |file|
   print '.'
-  Codeqa.check(file, :silent_success => true)
+  Codeqa.check(file, silent_success: true)
 end
 
 if success
