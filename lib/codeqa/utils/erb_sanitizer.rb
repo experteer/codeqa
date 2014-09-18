@@ -10,7 +10,7 @@ module Codeqa
     class Compiler < ERB::Compiler
       # Compiles an ERB template into Ruby code.  Returns an array of the code
       # and encoding like ["code", Encoding].
-      # rubocop:disable Style/CyclomaticComplexity
+      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
       def compile(s)
         enc = s.encoding
         raise ArgumentError, "#{enc} is not ASCII compatible" if enc.dummy?
@@ -79,7 +79,7 @@ module Codeqa
         out.close
         [out.script, enc]
       end
-      # rubocop:enable Style/CyclomaticComplexity
+      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/MethodLength
     end
   end
 end

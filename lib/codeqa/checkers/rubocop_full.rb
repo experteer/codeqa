@@ -37,7 +37,7 @@ module Codeqa
     private
 
       def config_args
-        %w(--auto-correct --fail-level warning)
+        %w(--auto-correct)
       end
 
       def default_args

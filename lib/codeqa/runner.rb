@@ -47,7 +47,7 @@ module Codeqa
     attr_reader :results
 
     def failures
-      @failures ||= @results.reject{ |checker| checker.success? }
+      @failures ||= @results.reject(&:success?)
     end
 
     def success?
