@@ -16,7 +16,6 @@ def staged_files
   end
 end
 
-
 # from https://github.com/djberg96/ptools/blob/master/lib/ptools.rb#L90
 def binary?(file)
   return true if File.ftype(file) != 'file'
@@ -33,9 +32,9 @@ rescue LoadError
 end
 
 files_to_check = staged_files.
-                  map{ |e| Pathname.new(e).realpath.to_s }.
-                  reject{ |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
-                  uniq
+                 map{ |e| Pathname.new(e).realpath.to_s }.
+                 reject{ |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
+                 uniq
 
 print "Codeqa checking #{files_to_check.count} files"
 # fail fast

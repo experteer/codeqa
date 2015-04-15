@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'nokogiri'
 
 describe Codeqa::ErbSanitizer do
   context 'erb' do
