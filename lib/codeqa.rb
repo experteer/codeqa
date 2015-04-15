@@ -8,25 +8,8 @@ module Codeqa
     end
 
     def install(root='.')
-      require 'fileutils'
-      git_root = Pathname.new "#{root}/.git"
-      if File.exist?(git_root)
-        pre_commit_path = git_root.join 'hooks', 'pre-commit'
-        if File.exist?(pre_commit_path)
-          # $stdout.puts 'moving away the old pre-commit hook -> pre-commit.bkp'
-          FileUtils.mv(pre_commit_path,
-                       git_root.join('hooks', 'pre-commit.bkp'),
-                       :force => true)
-        end
-        pre_commit_template_path = Codeqa.root.join('lib', 'templates', 'pre-commit')
-        # $stdout.puts 'placing new pre-commit hook'
-        FileUtils.cp(pre_commit_template_path, pre_commit_path)
-        FileUtils.chmod('+x', pre_commit_path)
-        true
-      else
-        # $stderr.puts "#{root} is not in a git root"
-        false
-      end
+      require 'codeqa/installer'
+      Codeqa::Installer.call(root)
     end
 
     def check(filename, options={})

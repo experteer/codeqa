@@ -17,5 +17,4 @@ describe Codeqa::Checkers::CheckYard do
     detail = checker.errors.details[0][1]
     expect(detail).to match(/Unknown tag @paramsssss in file/)
   end
-
 end

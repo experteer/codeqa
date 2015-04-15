@@ -42,11 +42,11 @@ describe Codeqa do
     end
 
     it 'should copy pre-commit hook into project git folder' do
-      template_location = Codeqa.root.join('lib', 'templates', 'pre-commit')
-      hook_location = project_dir.join('.git', 'hooks', 'pre-commit')
-      expect(FileUtils).to receive(:cp).with(template_location, hook_location)
-      allow(FileUtils).to receive(:chmod)
       Codeqa.install project_dir.to_s
+      expect(project_dir.join('.codeqa')).to be_exist
+      expect(project_dir.join('.codeqa', 'hooks')).to be_exist
+      expect(project_dir.join('.codeqa', 'hooks', 'base.rb')).to be_exist
+      expect(project_dir.join('.codeqa', 'git_hook.rb')).to be_exist
     end
   end
 end

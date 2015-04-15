@@ -32,7 +32,6 @@ unless ENV['TRAVIS']
       expect(checker.errors.details).to eq([
         [:source, "<div class='halfopen></div>"],
         [nil, "line 1 column 28 - Warning: <div> end of file while parsing attributes\n"]])
-
     end
     it 'should detect attribute with missing trailing qute mark' do
       source = source_with('<div class="halfopen next="ok"></div>')
@@ -41,7 +40,6 @@ unless ENV['TRAVIS']
       expect(checker.errors.details).to eq([
         [:source, "<div class=\"halfopen next=\"ok\"></div>"],
         [nil, "line 1 column 1 - Warning: <div> attribute with missing trailing quote mark\n"]])
-
     end
 
     it 'should find not find errors if html is ok ' do

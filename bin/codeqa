@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$: << File.join(File.dirname(__FILE__), '../lib') if ENV['CODEQA_DEV']
+$: << File.join(File.dirname(__FILE__), '../lib') unless $PROGRAM_NAME == 'codeqa'
 require 'rubygems'
 require 'codeqa'
 

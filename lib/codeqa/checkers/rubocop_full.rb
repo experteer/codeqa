@@ -46,13 +46,13 @@ module Codeqa
 
       def handle_rubocop_results(raw)
         MultiJson.load(raw)['files'].
-                 reject{ |f| f['offenses'].empty? }.
-                 each do |file|
-                   file['offenses'].each do |offense|
-                     position = [offense['location']['line'], offense['location']['column']]
-                     errors.add(position, "#{offense['cop_name']}: #{offense['message']}")
-                   end
-                 end
+          reject{ |f| f['offenses'].empty? }.
+          each do |file|
+          file['offenses'].each do |offense|
+            position = [offense['location']['line'], offense['location']['column']]
+            errors.add(position, "#{offense['cop_name']}: #{offense['message']}")
+          end
+        end
       end
       def self.rubocop?
         @loaded ||= begin

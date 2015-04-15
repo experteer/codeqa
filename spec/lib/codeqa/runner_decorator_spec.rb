@@ -64,5 +64,4 @@ EOF
   #   decorator = Codeqa::RunnerDecorator.new(runner)
   #   expect(decorator.to_s).to match(/Passed tests.+strange chars/)
   # end
-
 end
