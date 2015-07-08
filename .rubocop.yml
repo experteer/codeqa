@@ -3,23 +3,6 @@ AllCops:
   Exclude:
     - spec/fixtures/ruby_error.rb
 
-
-Metrics/LineLength:
-  Enabled: false
-  Max: 119
-
-
-Metrics/AbcSize:
-  Enabled: false
-
-
-Metrics/MethodLength:
-  Enabled: false
-  CountComments: false # count full line comments?
-  Max: 10
-  Severity: refactor
-
-
 # changed config ---------------------------
 
 AlignHash:
@@ -28,6 +11,8 @@ AlignHash:
 HashSyntax:
   EnforcedStyle: hash_rockets
 
+LineLength:
+  Max: 119
 
 AccessModifierIndentation:
   EnforcedStyle: outdent
@@ -62,6 +47,12 @@ SignalException:
 CollectionMethods:
   Enabled: true
 
+MethodLength:
+  Enabled: true
+  CountComments: false # count full line comments?
+  Max: 10
+  Severity: refactor
+
 FileName:
   Exclude:
     - 'lib/templates/pre-commit'
@@ -95,7 +86,8 @@ SpecialGlobalVars:
 SignalException:
  EnforcedStyle: only_raise
 
-RegexpLiteral:
+MethodLength:
  Enabled: false
 
-# new layout
+RegexpLiteral:
+ Enabled: false
