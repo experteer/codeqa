@@ -27,6 +27,7 @@ describe Codeqa do
   context 'install' do
     let(:project_dir){ Codeqa.root.join('spec/fixtures/isolation/home/project') }
     before(:each) do
+      FileUtils.rm_rf(project_dir.join('.git'))
       FileUtils.mkdir_p(project_dir.join('.git', 'hooks'))
     end
     after(:each) do

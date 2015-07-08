@@ -29,16 +29,18 @@ module Codeqa
       Codeqa.root.join('lib', 'templates').join(*args)
     end
 
+    # return true if installation succeeded
+    # return false if either no git repo or hook already present
     def install_codeqa_git_hook
       git_root = app_path.join('.git')
       pre_commit_path = git_root.join 'hooks', 'pre-commit'
 
       return false unless File.exist?(git_root)
       return false if File.exist?(pre_commit_path)
-
-      FileUtils.mv(pre_commit_path,
-                   git_root.join('hooks', 'pre-commit.bkp'),
-                   :force => true)
+      # an alternative would be to backup the old hook
+      # FileUtils.mv(pre_commit_path,
+      #             git_root.join('hooks', 'pre-commit.bkp'),
+      #             :force => true)
       pre_commit_path.make_symlink('../../.codeqa/git_hook.rb') # relative path!
       true
     end
