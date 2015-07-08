@@ -25,8 +25,6 @@ module Codeqa
       @app_root.join(*args)
     end
 
-  private
-
     def template_path(*args)
       Codeqa.root.join('lib', 'templates').join(*args)
     end
