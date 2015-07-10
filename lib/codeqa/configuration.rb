@@ -47,7 +47,7 @@ module Codeqa
 
   private
 
-    DOTFILE = '.codeqa.rb'
+    DOTFILE = '.codeqa/config.rb'
 
     def home_dir
       @home_dir ||= Dir.home
@@ -79,7 +79,7 @@ module Codeqa
 
   class << self
     def configuration
-      @configuration ||=  Configuration.new
+      @configuration ||= Configuration.new
     end
 
     def configure

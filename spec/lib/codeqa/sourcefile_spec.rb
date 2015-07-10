@@ -29,5 +29,4 @@ describe Codeqa::Sourcefile do
     expect(source).to be_erb
     expect(source).to be_html
   end
-
 end

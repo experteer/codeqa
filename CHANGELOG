@@ -1,3 +1,6 @@
+0.5.0
+  * INCOMPATIBLE CHANGE: new config layout (now config has to be in .codeqa/config.rb)
+  * multiple hooks in any language is allowed (create scripts in .codeqa/hooks)
 0.2.1
   * fixing missing ERB error
 0.2.0

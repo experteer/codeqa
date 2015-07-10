@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# running codeqa checks on changes files
+
 def staged_files
   @staged_files ||= begin
     files = `git diff --cached --name-only --diff-filter=ACM`.split
@@ -30,9 +32,9 @@ rescue LoadError
 end
 
 files_to_check = staged_files.
-                  map{ |e| Pathname.new(e).realpath.to_s }.
-                  reject{ |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
-                  uniq
+                 map{ |e| Pathname.new(e).realpath.to_s }.
+                 reject{ |e| File.directory?(e) || Codeqa.configuration.excluded?(e) }.
+                 uniq
 
 print "Codeqa checking #{files_to_check.count} files"
 # fail fast

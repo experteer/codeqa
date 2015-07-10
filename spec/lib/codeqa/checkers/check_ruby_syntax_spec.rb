@@ -22,5 +22,4 @@ describe Codeqa::Checkers::CheckRubySyntax do
     checker = check_with(described_class, source)
     expect(checker).to be_success
   end
-
 end

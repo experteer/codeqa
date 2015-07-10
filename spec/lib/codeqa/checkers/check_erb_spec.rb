@@ -27,5 +27,4 @@ describe Codeqa::Checkers::CheckErb do
     checker = check_with(described_class, source)
     expect(checker.success?).to be true
   end
-
 end

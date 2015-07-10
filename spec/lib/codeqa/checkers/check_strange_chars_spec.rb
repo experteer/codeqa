@@ -27,5 +27,4 @@ describe Codeqa::Checkers::CheckStrangeChars do
       [[2, 1], 'FORM FEED x0C at line 2 column 1']
     ])
   end
-
 end

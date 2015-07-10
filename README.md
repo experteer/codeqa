@@ -33,9 +33,9 @@ Since Version 0.3 codeqa uses ruby for configuration, therefore the config file
 is now named `.codeqa.rb`. The loading of configuration files is still the same,
 meaning we have to following load order:
 
-1. Initialize with default settings (see `config/default..rb`)
-2. load `.codeqa.rb` from your home directory and merge it with the defaults.
-3. load `.codeqa.rb` placed in the project root, which is determined by finding
+1. Initialize with default settings (see `config/default.rb`)
+2. load `.codeqa/config.rb` from your home directory and merge it with the defaults.
+3. load `.codeqa/config.rb` placed in the project root, which is determined by finding
   the closest `.git` folder.
 
 Both the config in your home directory and the project config file are optional
@@ -89,6 +89,10 @@ end
 - yard
   - CheckYard (checks YARD for warnings)
 - CheckRubySyntax (runs file though `ruby -c`, use RubocopLint if possible)
+
+## Hooks
+Since version 0.5 it's possible to run any scripts which are placed at .codeqa/hooks . If they exit with code <> 0
+the commit is not allowed. The scripts have to be executable.
 
 ## Contributing
 

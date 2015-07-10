@@ -39,11 +39,11 @@ module Codeqa
 
       def stripped_html
         @stripped_html ||= ErbSanitizer.
-                            new(sourcefile.content).
-                            result.
-                            gsub(%r{<script[ >](.*?)</script>}m) do
-                              "<!-- script#{"\n" * $1.scan("\n").count} /script -->"
-                            end
+                           new(sourcefile.content).
+                           result.
+                           gsub(%r{<script[ >](.*?)</script>}m) do
+          "<!-- script#{"\n" * Regexp.last_match(1).scan("\n").count} /script -->"
+        end
       end
 
       def self.nokogiri?
